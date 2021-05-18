@@ -10,7 +10,7 @@ public class GameController : MonoBehaviour
     Character selected;
     GameObject CharHUD;
 
-    private Inventory inventory = new Inventory();
+    private Inventory inventory = new Inventory(15);
 
     public Inventory Inventory {
             get;
@@ -31,8 +31,10 @@ public class GameController : MonoBehaviour
         CharacterChanged += UIOverlayManager.Instance.RefreshSkills;
         CharacterChanged += UIOverlayManager.Instance.ShowCharacterInfo;
 
-        inventory.AddItem(new Weapon(WeaponType.LongSword));
-        inventory.AddItem(new Weapon(WeaponType.Saber));
+        inventory.AddItem(new Weapon(WeaponType.LongSword, 1000));
+        inventory.AddItem(new Weapon(WeaponType.Saber, 14000));
+        inventory.AddItem(new Consumable(ConsumableType.HealthPotion, 2, 30));
+        inventory.AddItem(new Consumable(ConsumableType.HealthPotion, 2, 30));
 
         UIOverlayManager.Instance.RefreshInventory(inventory);
     }

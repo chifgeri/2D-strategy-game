@@ -34,7 +34,6 @@ namespace Model {
     public abstract void CastSkill(Character caster, Character[] target);
 
     public Sprite GetIcon(){
-      Debug.Log(icon);
       return icon;
     }
   }

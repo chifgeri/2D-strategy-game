@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Model;
 using UnityEngine.UI;
+using TMPro;
 
 public class InventorySlot : MonoBehaviour
 {
@@ -11,10 +12,21 @@ public class InventorySlot : MonoBehaviour
 
     public void SetItem(Item i){
         item = i;
+        if(i != null){
+            SetImage(i.GetSprite());
+            SetAmount(i.Amount);
+        } else {
+            SetImage(null);
+            SetAmount(0);
+        }
     }
 
     private void Awake(){
         image = GetComponent<Image>();
+    }
+
+    public Item GetItem(){
+        return item;
     }
 
     public void SetImage(Sprite sprite){
@@ -26,6 +38,15 @@ public class InventorySlot : MonoBehaviour
     }
 
     public void SetAmount(int amount){
+        var textfield = this.gameObject.GetComponentInChildren<TextMeshProUGUI>();
 
+        if(textfield != null){
+            if(amount > 1){
+                textfield.text = amount.ToString();
+            } else {
+                textfield.text = "";
+            }
+        }
     }
+
 }

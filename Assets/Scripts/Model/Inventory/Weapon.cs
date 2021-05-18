@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ public class Weapon : Item
 
         // Buffs
 
-        public Weapon(WeaponType _type){
+        public Weapon(WeaponType _type, int _price): base(_price, 1, false){
             this.type = _type;
             this.damage = (int)Mathf.Round(UnityEngine.Random.Range(5.0f, 15.0f));
         }
@@ -47,6 +48,12 @@ public class Weapon : Item
                     return null;
             }
         }
+
+    public override Enum GetItemType()
+    {
+      return type;
+    }
+
     }
 
 }

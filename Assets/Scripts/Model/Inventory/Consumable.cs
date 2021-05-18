@@ -14,7 +14,7 @@ namespace Model {
         private ConsumableType type;
 
         
-        public Consumable(ConsumableType _type){
+        public Consumable(ConsumableType _type, int _amount, int _price): base(_price, _amount, true) {
             type = _type;
         }
 
@@ -24,7 +24,19 @@ namespace Model {
         }
         public override Sprite GetSprite()
         {
-             throw new System.NotImplementedException();
+            switch(type){
+                case ConsumableType.HealthPotion: 
+                    return ConsumableSprites.Instance.healthPotion;
+                case ConsumableType.DodgeBuff:
+                    return ConsumableSprites.Instance.buffPotion;
+                default:
+                     return ConsumableSprites.Instance.healthPotion;
+            }
+        }
+
+         public override System.Enum GetItemType()
+        {
+            return type;
         }
 
     }

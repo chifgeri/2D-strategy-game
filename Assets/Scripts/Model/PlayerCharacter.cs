@@ -7,6 +7,23 @@ namespace Model {
     {
         private int experience;
 
+        private Armor armor;
+
+        private Weapon weapon;
+
+        public void EquipWeapon(Item i){
+            if(i is Weapon){
+                weapon = (Weapon)i;
+            }
+        }
+
+        public void EquipArmor(Item i){
+            if(i is Armor){
+                armor = (Armor)i;
+            }
+        }
+
+
         public int Experience {
             get { return experience; }
             set {

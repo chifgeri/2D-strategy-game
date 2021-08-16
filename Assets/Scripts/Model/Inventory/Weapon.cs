@@ -54,6 +54,10 @@ public class Weapon : Item
       return type;
     }
 
+    public override Item Clone(int amount){
+            return new Weapon(this.type, this.Price);
+        }
+
     }
 
 }

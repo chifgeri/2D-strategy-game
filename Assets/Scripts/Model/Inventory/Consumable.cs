@@ -39,6 +39,10 @@ namespace Model {
             return type;
         }
 
+        public override Item Clone(int amount){
+            return new Consumable(this.type, amount, this.Price);
+        }
+
     }
 
 }

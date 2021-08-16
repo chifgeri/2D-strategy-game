@@ -23,8 +23,6 @@ public class Group {
         }
     }
 
-    private Character selectedCharacter;
-
     public Character SelectedCharacer {
         get;
         set;

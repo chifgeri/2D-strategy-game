@@ -88,20 +88,45 @@ public class InventoryPanel : MonoBehaviour
       var img = mouseObject.AddComponent<Image>();
       img.sprite = slot.GetItem().GetSprite();
       img.raycastTarget = false;
-    }
-
-    
+    }    
   }
+
   private void OnDragEnd(InventorySlot slot){
     if( hoveredSlot != null && !hoveredSlot.Equals(slot)){
       var item = slot.GetItem();
-      slot.SetItem(hoveredSlot.GetItem());
-      hoveredSlot.SetItem(item);
+      var hoveredItem = hoveredSlot.GetItem();
+      if(item.Stackable && !Input.GetKey(KeyCode.LeftControl)){
+        if( hoveredItem == null && item != null){
+             if(item.Amount > 1){
+            slot.SetItem(item.Clone(item.Amount-1));
+          } else {
+            slot.SetItem(null);
+          }
+          hoveredSlot.SetItem(item.Clone(1));
+        } else {
+          if(hoveredItem.GetItemType().Equals(item.GetItemType()) && item != null){
+            if(item.Amount > 1){
+              slot.SetItem(item.Clone(item.Amount-1));
+            } else {
+              slot.SetItem(null);
+            }
+            hoveredSlot.SetItem(hoveredItem.Clone(hoveredItem.Amount+1));
+          }
+          else {
+            slot.SetItem(hoveredSlot.GetItem());
+            hoveredSlot.SetItem(item);
+          }
+        }
+      } else {
+        slot.SetItem(hoveredSlot.GetItem());
+        hoveredSlot.SetItem(item);
+      }
     }
 
     Destroy(mouseObject);
     mouseObject = null;
   }
+
   private void OnDrag(InventorySlot slot){
     if(mouseObject != null){
       mouseObject.gameObject.GetComponent<RectTransform>().position = Input.mousePosition;

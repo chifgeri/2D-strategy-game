@@ -42,5 +42,6 @@ public abstract class Item
 
         public abstract System.Enum GetItemType();
 
+        public abstract Item Clone(int amount);
     }
 }

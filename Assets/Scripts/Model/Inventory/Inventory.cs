@@ -22,7 +22,7 @@ namespace Model {
                         return item.GetItemType().Equals(i.GetItemType());
                     });
                     if(index >= 0){
-                        items[index].Amount++;
+                        items[index].Amount+=i.Amount;
                         return;
                     }
                 }

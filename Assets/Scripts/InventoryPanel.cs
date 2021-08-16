@@ -6,6 +6,7 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+public delegate bool ItemDraggedOutsideHandler(Vector2 mousePosition, Item item);
 
 public class InventoryPanel : MonoBehaviour
 {
@@ -21,8 +22,12 @@ public class InventoryPanel : MonoBehaviour
 
   static int SLOT_WIDTH = 80;
 
+  public event ItemDraggedOutsideHandler ItemDraggedOutside;
+
   private void Awake() {
     slots = new List<InventorySlot>();
+
+    ItemDraggedOutside += WeaponSlot.Instance.HandleMouseDrag;
 
     var rectTrans = this.gameObject.GetComponent<RectTransform>();
     for(int i=0; i<15; i++){
@@ -92,10 +97,17 @@ public class InventoryPanel : MonoBehaviour
   }
 
   private void OnDragEnd(InventorySlot slot){
+    var item = slot.GetItem();
+    if(item == null){
+      Debug.Log("[Error]: Dragged item is null");
+      return;
+    }
+
     if( hoveredSlot != null && !hoveredSlot.Equals(slot)){
-      var item = slot.GetItem();
       var hoveredItem = hoveredSlot.GetItem();
+      // With Left Ctrl the stackable items behave like not stackable
       if(item.Stackable && !Input.GetKey(KeyCode.LeftControl)){
+        // On an empty slot the stacked items only deposit one item not the whole stack
         if( hoveredItem == null && item != null){
              if(item.Amount > 1){
             slot.SetItem(item.Clone(item.Amount-1));
@@ -104,6 +116,7 @@ public class InventoryPanel : MonoBehaviour
           }
           hoveredSlot.SetItem(item.Clone(1));
         } else {
+          // Same type items can be stacked into each other
           if(hoveredItem.GetItemType().Equals(item.GetItemType()) && item != null){
             if(item.Amount > 1){
               slot.SetItem(item.Clone(item.Amount-1));
@@ -121,6 +134,18 @@ public class InventoryPanel : MonoBehaviour
         slot.SetItem(hoveredSlot.GetItem());
         hoveredSlot.SetItem(item);
       }
+    } else {
+        // Outside the panel we can eqip the items or something, else they are dropped (destroyed)
+
+        bool actionSuccessful = ItemDraggedOutside(Input.mousePosition, item);
+        if(!actionSuccessful){
+          Vector2 localMousePosition = this.GetComponent<RectTransform>().InverseTransformPoint(Input.mousePosition);
+            if (!this.GetComponent<RectTransform>().rect.Contains(localMousePosition))
+            {
+              slot.SetItem(null);
+          }
+        }
+
     }
 
     Destroy(mouseObject);

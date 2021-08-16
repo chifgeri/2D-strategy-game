@@ -14,13 +14,18 @@ namespace Model {
         private ConsumableType type;
 
         
-        public Consumable(ConsumableType _type, int _amount, int _price): base(_price, _amount, true) {
+        public Consumable(string _name, ConsumableType _type, int _amount, int _price): base(_name, _price, _amount, true) {
             type = _type;
         }
 
         public override void Use()
         {
             throw new System.NotImplementedException();
+        }
+
+         public override void Equip()
+        {
+            return;
         }
         public override Sprite GetSprite()
         {
@@ -40,7 +45,7 @@ namespace Model {
         }
 
         public override Item Clone(int amount){
-            return new Consumable(this.type, amount, this.Price);
+            return new Consumable(this.Name, this.type, amount, this.Price);
         }
 
     }

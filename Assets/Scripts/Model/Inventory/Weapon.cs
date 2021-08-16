@@ -22,15 +22,23 @@ public class Weapon : Item
             get;
         }
 
+        public event EquipWeaponHandler EquipWeapon;
+
         // Buffs
 
-        public Weapon(WeaponType _type, int _price): base(_price, 1, false){
+        public Weapon(string _name, WeaponType _type, int _price): base(_name, _price, 1, false){
             this.type = _type;
             this.damage = (int)Mathf.Round(UnityEngine.Random.Range(5.0f, 15.0f));
         }
 
+        override public void Equip(){
+            if(EquipWeapon != null){
+                EquipWeapon(this);
+            }
+        }
+
         override public void Use(){
-            // Equip weapon
+            return;
         }
 
         public override Sprite GetSprite()
@@ -54,8 +62,8 @@ public class Weapon : Item
       return type;
     }
 
-    public override Item Clone(int amount){
-            return new Weapon(this.type, this.Price);
+    public override Item Clone(int amount = 1){
+            return new Weapon(this.Name, this.type, this.Price);
         }
 
     }

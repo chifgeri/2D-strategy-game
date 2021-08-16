@@ -31,10 +31,12 @@ public class GameController : MonoBehaviour
         CharacterChanged += UIOverlayManager.Instance.RefreshSkills;
         CharacterChanged += UIOverlayManager.Instance.ShowCharacterInfo;
 
-        inventory.AddItem(new Weapon(WeaponType.LongSword, 1000));
-        inventory.AddItem(new Weapon(WeaponType.Saber, 14000));
-        inventory.AddItem(new Consumable(ConsumableType.HealthPotion, 2, 30));
-        inventory.AddItem(new Consumable(ConsumableType.HealthPotion, 2, 30));
+        inventory.AddItem(new Weapon("Éles hosszú kard", WeaponType.LongSword, 1000));
+        var saber = new Weapon("Szablya", WeaponType.Saber, 14000);
+        inventory.AddItem(saber);
+        saber.EquipWeapon += WeaponSlot.Instance.EquipWeapon;
+        inventory.AddItem(new Consumable("Kis életerő ital", ConsumableType.HealthPotion, 2, 30));
+        inventory.AddItem(new Consumable("Kis életerő ital", ConsumableType.HealthPotion, 2, 30));
 
         UIOverlayManager.Instance.RefreshInventory(inventory);
     }

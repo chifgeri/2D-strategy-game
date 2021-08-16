@@ -11,6 +11,13 @@ public abstract class Item
 
         private bool stackable;
 
+        private string name;
+
+        public string Name {
+            get;
+            set;
+        }
+
         public int Amount{
             get {
                 return amount;
@@ -30,13 +37,15 @@ public abstract class Item
             }
         }
 
-        protected Item(int _price, int _amount, bool _stackable){
+        protected Item(string _name, int _price, int _amount, bool _stackable){
+            name = _name;
             price = _price;
             amount = _amount;
             stackable = _stackable;
         }
         
         public abstract void Use();
+        public abstract void Equip();
 
         public abstract Sprite GetSprite();
 

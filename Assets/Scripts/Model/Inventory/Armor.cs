@@ -14,13 +14,13 @@ public class Armor : Item
 
         private ArmorType type;
 
-        public Armor(int _price, int _armor, ArmorType _type): base(_price, 1, false) {
+        public Armor(string _name, int _price, int _armor, ArmorType _type): base(_name, _price, 1, false) {
             armor = _armor;
             type = _type;
         }
 
           public override Item Clone(int amount){
-            return new Armor(this.Price, this.armor, this.type);
+            return new Armor(this.Name, this.Price, this.armor, this.type);
         }
         
         public override Enum GetItemType()
@@ -32,6 +32,11 @@ public class Armor : Item
         throw new NotImplementedException();
         }
         public override void Use()
+        {
+        throw new NotImplementedException();
+        }
+
+        public override void Equip()
         {
         throw new NotImplementedException();
         }

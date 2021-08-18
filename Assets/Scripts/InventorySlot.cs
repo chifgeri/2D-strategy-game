@@ -5,9 +5,16 @@ using Model;
 using UnityEngine.UI;
 using TMPro;
 
+namespace Model {
+
 public class InventorySlot : MonoBehaviour
 {
     private Item item;
+    
+    public int Index {
+        get;
+        set;
+    }
     private Image image;
 
     public void SetItem(Item i){
@@ -47,6 +54,6 @@ public class InventorySlot : MonoBehaviour
                 textfield.text = "";
             }
         }
+        }
     }
-
 }

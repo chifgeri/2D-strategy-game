@@ -11,8 +11,6 @@ public abstract class Item
 
         private bool stackable;
 
-        private string name;
-
         public string Name {
             get;
             set;
@@ -38,7 +36,7 @@ public abstract class Item
         }
 
         protected Item(string _name, int _price, int _amount, bool _stackable){
-            name = _name;
+            Name = _name;
             price = _price;
             amount = _amount;
             stackable = _stackable;

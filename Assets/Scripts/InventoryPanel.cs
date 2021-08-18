@@ -12,7 +12,7 @@ public class InventoryPanel : MonoBehaviour
 {
   public InventorySlot slotPrefab;
 
-  private List<InventorySlot> slots;
+  private Dictionary<int, InventorySlot> slots;
 
   private InventorySlot hoveredSlot;
 
@@ -25,13 +25,14 @@ public class InventoryPanel : MonoBehaviour
   public event ItemDraggedOutsideHandler ItemDraggedOutside;
 
   private void Awake() {
-    slots = new List<InventorySlot>();
+    slots = new Dictionary<int, InventorySlot>();
 
     ItemDraggedOutside += WeaponSlot.Instance.HandleMouseDrag;
 
     var rectTrans = this.gameObject.GetComponent<RectTransform>();
     for(int i=0; i<15; i++){
         var slot = Instantiate(slotPrefab,new Vector3(0,0,0), Quaternion.identity);
+        slot.Index = i;
 
         var slotRectTrans = slot.GetComponent<RectTransform>();
 
@@ -42,12 +43,12 @@ public class InventoryPanel : MonoBehaviour
                                         -(i/5 * (float) SLOT_HEIGHT) - SLOT_HEIGHT/2
                                         );
 
-        slots.Add(slot);
+        slots.Add(i, slot);
 
         AddEvent(slot, EventTriggerType.PointerEnter, delegate { OnEnter(slot); });
         AddEvent(slot, EventTriggerType.PointerExit, delegate { OnExit(slot); });
         AddEvent(slot, EventTriggerType.BeginDrag, delegate { OnDragStart(slot); });
-        AddEvent(slot, EventTriggerType.EndDrag, delegate { OnDragEnd(slot); });
+        AddEvent(slot, EventTriggerType.EndDrag, delegate { OnDragEnd(slot, GameController.Instance.Inventory); });
         AddEvent(slot, EventTriggerType.Drag, delegate { OnDrag(slot); });
     }
   }
@@ -60,8 +61,10 @@ public class InventoryPanel : MonoBehaviour
           break;
         }
         slots[i].SetItem(item);
-        slots[i].SetImage(item.GetSprite());
-        slots[i].SetAmount(item.Amount);
+        if(item != null){
+          slots[i].SetImage(item.GetSprite());
+          slots[i].SetAmount(item.Amount);
+        }
         i++;
     }
   }
@@ -73,7 +76,6 @@ public class InventoryPanel : MonoBehaviour
     eventTrigger.eventID = type;
     eventTrigger.callback.AddListener(action);
     trigger.triggers.Add(eventTrigger);
-
   }
 
   private void OnEnter(InventorySlot slot){
@@ -96,15 +98,21 @@ public class InventoryPanel : MonoBehaviour
     }    
   }
 
-  private void OnDragEnd(InventorySlot slot){
+  private void OnDragEnd(InventorySlot slot, Inventory inventory){
     var item = slot.GetItem();
     if(item == null){
       Debug.Log("[Error]: Dragged item is null");
       return;
     }
 
+    Destroy(mouseObject);
+    mouseObject = null;
+
+    Debug.Log(inventory);
+
     if( hoveredSlot != null && !hoveredSlot.Equals(slot)){
-      var hoveredItem = hoveredSlot.GetItem();
+      inventory.MoveItem(item, slot.Index, hoveredSlot.Index);
+    /*   var hoveredItem = hoveredSlot.GetItem();
       // With Left Ctrl the stackable items behave like not stackable
       if(item.Stackable && !Input.GetKey(KeyCode.LeftControl)){
         // On an empty slot the stacked items only deposit one item not the whole stack
@@ -115,6 +123,7 @@ public class InventoryPanel : MonoBehaviour
             slot.SetItem(null);
           }
           hoveredSlot.SetItem(item.Clone(1));
+          return;
         } else {
           // Same type items can be stacked into each other
           if(hoveredItem.GetItemType().Equals(item.GetItemType()) && item != null){
@@ -124,16 +133,13 @@ public class InventoryPanel : MonoBehaviour
               slot.SetItem(null);
             }
             hoveredSlot.SetItem(hoveredItem.Clone(hoveredItem.Amount+1));
-          }
-          else {
-            slot.SetItem(hoveredSlot.GetItem());
-            hoveredSlot.SetItem(item);
-          }
+            return;
+            }
+         }
         }
-      } else {
         slot.SetItem(hoveredSlot.GetItem());
-        hoveredSlot.SetItem(item);
-      }
+        hoveredSlot.SetItem(item); */
+      
     } else {
         // Outside the panel we can eqip the items or something, else they are dropped (destroyed)
 
@@ -147,9 +153,6 @@ public class InventoryPanel : MonoBehaviour
         }
 
     }
-
-    Destroy(mouseObject);
-    mouseObject = null;
   }
 
   private void OnDrag(InventorySlot slot){

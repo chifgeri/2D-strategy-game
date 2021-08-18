@@ -5,7 +5,7 @@ using Model;
 
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour
+public class GameController : Singleton<GameController>
 {
     Character selected;
     GameObject CharHUD;
@@ -13,8 +13,10 @@ public class GameController : MonoBehaviour
     private Inventory inventory = new Inventory(15);
 
     public Inventory Inventory {
-            get;
-        }
+            get {
+                return inventory;
+            }
+    }
 
     event CharacterChangedHandler CharacterChanged;
 

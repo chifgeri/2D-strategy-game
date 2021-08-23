@@ -8,10 +8,11 @@ namespace Model {
     public delegate void CharacterChangedHandler(Character c);
 
 
+
+
     public abstract class Character : MonoBehaviour
     {
         public Animator animator;
-
         public bool isSelected = false;
         private int health = 100;
         public int level;
@@ -70,8 +71,6 @@ namespace Model {
                      skills.Add(null);
                  }
             }
-
-            Debug.Log(skills.Count);
         }
 
         public void setSkill(SkillBase skill, int position){

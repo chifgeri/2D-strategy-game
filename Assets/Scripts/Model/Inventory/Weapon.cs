@@ -21,9 +21,6 @@ public class Weapon : Item
         public int Damage {
             get;
         }
-
-        public event EquipWeaponHandler EquipWeapon;
-
         // Buffs
 
         public Weapon(string _name, WeaponType _type, int _price): base(_name, _price, 1, false){
@@ -31,13 +28,11 @@ public class Weapon : Item
             this.damage = (int)Mathf.Round(UnityEngine.Random.Range(5.0f, 15.0f));
         }
 
-        override public void Equip(){
-            if(EquipWeapon != null){
-                EquipWeapon(this);
-            }
+        override public void Use(){
+            return;
         }
 
-        override public void Use(){
+        override public void Equip(){
             return;
         }
 

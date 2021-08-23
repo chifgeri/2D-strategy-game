@@ -10,13 +10,6 @@ public class GameController : Singleton<GameController>
     Character selected;
     GameObject CharHUD;
 
-    private Inventory inventory = new Inventory(15);
-
-    public Inventory Inventory {
-            get {
-                return inventory;
-            }
-    }
 
     event CharacterChangedHandler CharacterChanged;
 
@@ -32,15 +25,7 @@ public class GameController : Singleton<GameController>
 
         CharacterChanged += UIOverlayManager.Instance.RefreshSkills;
         CharacterChanged += UIOverlayManager.Instance.ShowCharacterInfo;
-
-        inventory.AddItem(new Weapon("Éles hosszú kard", WeaponType.LongSword, 1000));
-        var saber = new Weapon("Szablya", WeaponType.Saber, 14000);
-        inventory.AddItem(saber);
-        saber.EquipWeapon += WeaponSlot.Instance.EquipWeapon;
-        inventory.AddItem(new Consumable("Kis életerő ital", ConsumableType.HealthPotion, 2, 30));
-        inventory.AddItem(new Consumable("Kis életerő ital", ConsumableType.HealthPotion, 2, 30));
-
-        UIOverlayManager.Instance.RefreshInventory(inventory);
+        CharacterChanged += InventoryController.Instance.CharacterChanged;
     }
 
     // Update is called once per frame

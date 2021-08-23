@@ -27,8 +27,6 @@ public class InventoryPanel : MonoBehaviour
   private void Awake() {
     slots = new Dictionary<int, InventorySlot>();
 
-    ItemDraggedOutside += WeaponSlot.Instance.HandleMouseDrag;
-
     var rectTrans = this.gameObject.GetComponent<RectTransform>();
     for(int i=0; i<15; i++){
         var slot = Instantiate(slotPrefab,new Vector3(0,0,0), Quaternion.identity);
@@ -48,7 +46,7 @@ public class InventoryPanel : MonoBehaviour
         AddEvent(slot, EventTriggerType.PointerEnter, delegate { OnEnter(slot); });
         AddEvent(slot, EventTriggerType.PointerExit, delegate { OnExit(slot); });
         AddEvent(slot, EventTriggerType.BeginDrag, delegate { OnDragStart(slot); });
-        AddEvent(slot, EventTriggerType.EndDrag, delegate { OnDragEnd(slot, GameController.Instance.Inventory); });
+        AddEvent(slot, EventTriggerType.EndDrag, delegate { OnDragEnd(slot, InventoryController.Instance.Inventory); });
         AddEvent(slot, EventTriggerType.Drag, delegate { OnDrag(slot); });
     }
   }
@@ -108,38 +106,8 @@ public class InventoryPanel : MonoBehaviour
     Destroy(mouseObject);
     mouseObject = null;
 
-    Debug.Log(inventory);
-
     if( hoveredSlot != null && !hoveredSlot.Equals(slot)){
-      inventory.MoveItem(item, slot.Index, hoveredSlot.Index);
-    /*   var hoveredItem = hoveredSlot.GetItem();
-      // With Left Ctrl the stackable items behave like not stackable
-      if(item.Stackable && !Input.GetKey(KeyCode.LeftControl)){
-        // On an empty slot the stacked items only deposit one item not the whole stack
-        if( hoveredItem == null && item != null){
-             if(item.Amount > 1){
-            slot.SetItem(item.Clone(item.Amount-1));
-          } else {
-            slot.SetItem(null);
-          }
-          hoveredSlot.SetItem(item.Clone(1));
-          return;
-        } else {
-          // Same type items can be stacked into each other
-          if(hoveredItem.GetItemType().Equals(item.GetItemType()) && item != null){
-            if(item.Amount > 1){
-              slot.SetItem(item.Clone(item.Amount-1));
-            } else {
-              slot.SetItem(null);
-            }
-            hoveredSlot.SetItem(hoveredItem.Clone(hoveredItem.Amount+1));
-            return;
-            }
-         }
-        }
-        slot.SetItem(hoveredSlot.GetItem());
-        hoveredSlot.SetItem(item); */
-      
+      inventory.MoveItem(item, slot.Index, hoveredSlot.Index, Input.GetKey(KeyCode.LeftControl));      
     } else {
         // Outside the panel we can eqip the items or something, else they are dropped (destroyed)
 
@@ -148,7 +116,7 @@ public class InventoryPanel : MonoBehaviour
           Vector2 localMousePosition = this.GetComponent<RectTransform>().InverseTransformPoint(Input.mousePosition);
             if (!this.GetComponent<RectTransform>().rect.Contains(localMousePosition))
             {
-              slot.SetItem(null);
+              inventory.RemoveItem(item, Input.GetKey(KeyCode.LeftControl));
           }
         }
 

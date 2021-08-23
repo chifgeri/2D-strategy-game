@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Model;
 
-public delegate void EquipWeaponHandler(Weapon weapon);
-
-public class WeaponSlot : Singleton<WeaponSlot>
+public class WeaponSlot : MonoBehaviour
 {
     public void EquipWeapon(Weapon item) {
         Debug.Log(item.Name + "equipped");
+    }
+
+    public void UnequipWeapon() {
+        Debug.Log("Unequipped");
     }
 
     public bool HandleMouseDrag(Vector2 mousePosition, Item item){
@@ -17,7 +19,7 @@ public class WeaponSlot : Singleton<WeaponSlot>
            try
            {
                Weapon w = (Weapon)item;
-               EquipWeapon(w);
+              InventoryController.Instance.EquipWeapon(w);
            }
            catch (System.InvalidCastException)
            {

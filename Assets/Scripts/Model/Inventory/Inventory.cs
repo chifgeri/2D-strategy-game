@@ -12,6 +12,7 @@ namespace Model {
         public Inventory(int _size){
             size = _size;
             items = new List<Item>(_size);
+            // Prefill with nulls
             for(int i = 0; i<=size; i++){
                 items.Add(null);
             }
@@ -47,17 +48,22 @@ namespace Model {
             UIOverlayManager.Instance.RefreshInventory(this);
         }
 
-        public void MoveItem(Item item, int from, int to){
+        public void MoveItem(Item item, int from, int to, bool preventUnstack){
             if(to >= size || from < 0){
                 return;
             }
             if(items.ElementAtOrDefault(to) != null){
                 if(item.GetItemType().Equals(items[to].GetItemType()) && item.Stackable){
-                    items[to].Amount++;
-                    if(items[from].Amount > 1){
-                        items[from].Amount--;
-                    } else {
+                    if(preventUnstack){
+                        items[to].Amount+= item.Amount;
                         items[from] = null;
+                    } else {
+                        items[to].Amount++;
+                        if(items[from].Amount > 1){
+                            items[from].Amount--;
+                        } else {
+                            items[from] = null;
+                        }
                     }
                 } else {
                     items[from] = items[to];
@@ -66,7 +72,7 @@ namespace Model {
                 }
             } else {
                 // Destination is free
-                if(item.Stackable && item.Amount > 1){
+                if(item.Stackable && item.Amount > 1 && !preventUnstack){
                     items[from].Amount--;
                     items[to] = item.Clone(1);
                 } else {
@@ -75,10 +81,36 @@ namespace Model {
                 }
 
             }
-            Debug.Log("hooray");
             UIOverlayManager.Instance.RefreshInventory(this);
         }
 
+        public void RemoveItem(Item item, bool preventUnstack){
+            int indx = items.FindIndex(delegate (Item i) {
+                if(i != null){
+                    return i.Equals(item);
+                }
+                return false;
+            });
+            if(indx < 0 || indx > size ){
+                return;
+            }
+            if(item.Amount > 1 && !preventUnstack){
+                items[indx].Amount--;
+            } else {
+                items[indx] = null;
+            }
+
+            UIOverlayManager.Instance.RefreshInventory(this);
+        }
+
+        public bool isFull(){
+            foreach(Item i in items){
+                if(i == null){
+                    return false;
+                }
+            }
+            return true;
+        }
     }
 
 }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponSprites : Singleton<WeaponSprites>
+public class WeaponSlotSprites : Singleton<WeaponSlotSprites>
 {
     public Sprite longSword;
     public Sprite curvedSword;

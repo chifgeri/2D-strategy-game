@@ -27,6 +27,11 @@ namespace Model {
             weapon = null;
         }
 
+         public void UnequipArmor(){
+            armor = null;
+        }
+
+
 
         public int Experience {
             get { return experience; }

@@ -6,7 +6,9 @@ using UnityEngine;
 namespace Model {
 
 public enum ArmorType {
-    BasicArmor
+    BasicArmor,
+    KnightArmor,
+    KnightArmor2
 }
 public class Armor : Item
     {
@@ -25,11 +27,18 @@ public class Armor : Item
         
         public override Enum GetItemType()
         {
-        throw new NotImplementedException();
+            return type;
         }
         public override Sprite GetSprite()
         {
-        throw new NotImplementedException();
+            switch(type){
+                case ArmorType.KnightArmor:
+                    return ArmorSprites.Instance.knightArmor;
+                case ArmorType.KnightArmor2:
+                    return ArmorSprites.Instance.knightArmor2;
+                default:
+                    return ArmorSprites.Instance.knightArmor;
+            }
         }
         public override void Use()
         {

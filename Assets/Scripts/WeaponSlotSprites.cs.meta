@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 466d6c32f3600c446928fdc7eb651d8b
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - longSword: {fileID: 21300000, guid: 76c31cec44969dd4f8b50a992cd5f42d, type: 3}
+  - curvedSword: {fileID: 21300000, guid: f3be20781c87b1d499dd8317ce6ffaa9, type: 3}
+  - Saber: {fileID: 21300000, guid: b645dcf97211e0443aec1b82869964a7, type: 3}
+  - KnightSword: {fileID: 21300000, guid: 0e30df14a886ca4439edfb2cba5895dc, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

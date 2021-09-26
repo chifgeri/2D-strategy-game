@@ -6,39 +6,43 @@ namespace Model {
 
     
     public delegate void CharacterChangedHandler(Character c);
-
-
-
+    public delegate void CharacterUsedSpellDelegate(Character c);
 
     public abstract class Character : MonoBehaviour
     {
+        public event CharacterUsedSpellDelegate CharacterUsedSpellEvent;
+
         public Animator animator;
-        public bool isSelected = false;
-        private int health = 100;
-        public int level;
-
-        private int speed;
-
-        public int Speed;
-
-        private int baseDamage;
-
-        private int baseCrit;
-
-        private int baseStunResist;
-
-        private int dodgeChance;
-
-        private int armorValue;
-
-/*         public bool IsSelected {
-            get;
-        } */
-
-
         public SkillBase[] skillPrefabs = new SkillBase[4];
-
         private List<SkillBase> skills;
+
+
+        private bool isSelected = false;
+        private int health = 100;
+        private int speed;
+        private int level;
+        private int baseDamage;
+        private float baseCrit;
+        private float baseStunResist;
+        private float dodgeChance;
+
+        public int Speed { get; set; }
+        public int BaseDamage { get; set; }
+        public float BaseCrit { get; }
+        public float BaseStunResist { get; }
+        public float DodgeChance { get;  }
+        public int ArmorValue { get; }
+
+        public bool IsSelected {
+            get { return isSelected; }
+        } 
+        
+        public bool IsNext
+        {
+            get;
+            set;
+        }
+
 
         public int Health {
             get { return health; }
@@ -86,6 +90,7 @@ namespace Model {
             }
 
             skills[position].CastSkill(this, targets);
+            CharacterUsedSpellEvent(this);
         }
 
         public abstract void Die();

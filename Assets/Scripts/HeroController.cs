@@ -24,10 +24,9 @@ public class HeroController : Model.PlayerCharacter
                     0 ),
                  Quaternion.identity);
     }
-    // Start is called before the first frame update
      private void Update() {
 
-        if(this.isSelected){
+        if(this.IsSelected){
             if (Input.GetKeyDown(KeyCode.E))
                 {
                 if(animator != null)

@@ -28,7 +28,7 @@ namespace Model {
             set;
         }
 
-        protected void Awake() {
+        public Group() {
             characters = new List<Character>(4);
         }
 

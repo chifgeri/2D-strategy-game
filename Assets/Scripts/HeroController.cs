@@ -6,8 +6,9 @@ using Model;
 public class HeroController : Model.PlayerCharacter
 {
     public HealthBar HBPrefab;
-
+    public NextMarker IsNextPrefab;
     HealthBar healthBar;
+    NextMarker isNextMarker;
 
 
     protected override void Awake() {
@@ -20,7 +21,7 @@ public class HeroController : Model.PlayerCharacter
                 HBPrefab, 
                 new Vector3(
                     transform.position.x,
-                    transform.position.y + HBPrefab.GetComponent<RectTransform>().rect.height*2,
+                    transform.position.y + HBPrefab.GetComponent<RectTransform>().rect.height*2 + 0.15f,
                     0 ),
                  Quaternion.identity);
     }
@@ -46,6 +47,25 @@ public class HeroController : Model.PlayerCharacter
                     } 
                 }
             }
+        }
+
+        if (this.IsNext)
+        {
+            if(isNextMarker == null)
+            {
+                isNextMarker = Instantiate<NextMarker>(
+                IsNextPrefab,
+                new Vector3(
+                    transform.position.x,
+                    transform.position.y + HBPrefab.GetComponent<RectTransform>().rect.height * 2 + 0.5f,
+                    0.5f),
+                 Quaternion.identity);
+            }
+            isNextMarker.gameObject.SetActive(true);
+        }
+        if (!this.IsNext && isNextMarker != null)
+        {
+            isNextMarker.gameObject.SetActive(false);
         }
         
      }

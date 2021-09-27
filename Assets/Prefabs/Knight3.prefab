@@ -47,6 +47,7 @@ SpriteRenderer:
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -191,4 +192,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71087c7f20a8bbb488016a179fac86c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 0
+  animator: {fileID: 0}
+  skillPrefabs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  HBPrefab: {fileID: 1843311493819773617, guid: ab635689d2b4056418d352f17767d457, type: 3}
+  IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}

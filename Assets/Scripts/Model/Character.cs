@@ -16,7 +16,6 @@ namespace Model {
         public SkillBase[] skillPrefabs = new SkillBase[4];
         private List<SkillBase> skills;
 
-
         private bool isSelected = false;
         private int health = 100;
         private int speed;
@@ -32,6 +31,8 @@ namespace Model {
         public float BaseStunResist { get; }
         public float DodgeChance { get;  }
         public int ArmorValue { get; }
+        public SkillBase SelectedSkill { get; set; }
+
 
         public bool IsSelected {
             get { return isSelected; }
@@ -71,9 +72,34 @@ namespace Model {
                  if(skillPref != null){
                     SkillBase skill = Instantiate(skillPref);
                     skills.Add(skill);
+                    // Notify the character when the skill selected
+                    skill.SkillSelected += this.SelectSkill;
                  } else {
                      skills.Add(null);
                  }
+            }
+        }
+
+        public void CastSkill(Character[] targets)
+        {
+            if (SelectedSkill)
+            {
+                Debug.Log("Character used spell");
+                SelectedSkill.CastSkill(this, targets);
+                SelectedSkill = null;
+                CharacterUsedSpellEvent(this);
+            }
+            else
+            {
+                Debug.LogError("Selected skill is Null");
+            }
+        }
+
+        public void SelectSkill(SkillBase skill)
+        {
+            if (IsNext)
+            {
+               SelectedSkill = skill;
             }
         }
 
@@ -82,15 +108,6 @@ namespace Model {
                 throw new System.Exception("Wrong position given!");
             }
             skills[position] = skill;
-        }
-
-        public void useSkill(int position, Character[] targets){
-            if(position < 0 && position > 3){
-                throw new System.Exception("Wrong position given!");
-            }
-
-            skills[position].CastSkill(this, targets);
-            CharacterUsedSpellEvent(this);
         }
 
         public abstract void Die();
@@ -106,7 +123,5 @@ namespace Model {
         public List<SkillBase> GetSkills(){
             return skills;
         }
-        
-
     }
 }

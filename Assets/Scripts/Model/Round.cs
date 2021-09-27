@@ -27,41 +27,47 @@ namespace Model {
 
         private Queue<Character> characterOrder;
 
-
-        Round(Group players, Group enemies) {
+        public Round(Group players, Group enemies) {
             playerGroup = players;
             enemyGroup = enemies;
+
+            characterOrder = new Queue<Character>();
         }
 
         private void calculateOrder() {
             // First comes the playable characters then the enemies
             List<Character> characters = new List<Character>();
             characters.AddRange(playerGroup.Characters);
-            characters.Sort(delegate (Character a, Character b) {
-                return a.Speed <= b.Speed ? -1 : 1;
-            });
-
-            foreach (var item in characters) {
-                characterOrder.Enqueue(item);
-            }
-
-            characters = new List<Character>();
             characters.AddRange(enemyGroup.Characters);
+            
             characters.Sort(delegate (Character a, Character b) {
-                return a.Speed <= b.Speed ? -1 : 1;
+                if(a == null)
+                {
+                    return -1;
+                }
+                if (b == null)
+                {
+                    return 1;
+                }
+                return -a.Speed.CompareTo(b.Speed);
             });
+
+            Debug.Log(characters[0]);
 
             foreach (var item in characters) {
                 characterOrder.Enqueue(item);
             }
-
-
         }
 
         public void InitRound()
         {
             calculateOrder();
+            foreach(Character c in characterOrder)
+            {
+                c.CharacterUsedSpellEvent += CharacterActionDone;
+            }
             Character current = characterOrder.Dequeue();
+            Debug.Log(current.Speed);
             current.IsNext = true;
         }
 

@@ -5,16 +5,25 @@ using Model;
 
 using UnityEngine.UI;
 
+public delegate void SkillCastedDelegate(SkillBase skill);
+
 public class SkillSlot : MonoBehaviour
 {
     private SkillBase skill;
 
     private Image skillIcon;
 
+    private Button button;
+
     private void Awake() {
         // There can be 2 Images, the Background and the Icon
         Image[] images = this.gameObject.GetComponentsInChildren<Image>();
         Image slotImage = this.gameObject.GetComponent<Image>();
+        button = this.gameObject.GetComponent<Button>();
+        if (button != null)
+        {
+            button.onClick.AddListener(() => clickHandler());
+        }
         Image iconSlot = null;
 
         foreach(Image i in images){
@@ -28,8 +37,12 @@ public class SkillSlot : MonoBehaviour
         
     }
 
-    private void OnClick(){
-        // TODO: implement click handler
+    private void clickHandler(){
+        if(this.skill != null)
+        {
+            Debug.Log("SkillSlot clicked!");
+            this.skill.SelectSkill();
+        }
     }
 
     public void SetSkill(SkillBase sk){

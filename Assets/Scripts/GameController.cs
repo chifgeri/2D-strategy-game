@@ -11,11 +11,13 @@ public class GameController : Singleton<GameController>
     public HeroController knightPrefab1;
     public HeroController knightPrefab2;
     public HeroController knightPrefab3;
+    public TargetMarker targetPrefab;
 
     Character selected;
     Group playableHeroes = new Group();
     Group enemyGroup = new Group();
     Round round;
+    List<TargetMarker> targets = new List<TargetMarker>();
 
     event CharacterChangedHandler CharacterChanged;
 
@@ -52,6 +54,8 @@ public class GameController : Singleton<GameController>
 
         round = new Round(playableHeroes, playableHeroes);
         round.InitRound();
+
+
     }
 
     // Update is called once per frame
@@ -86,9 +90,53 @@ public class GameController : Singleton<GameController>
         if(selected != null && selected.SelectedSkill != null)
         {
             // Display marker under valid targets
-        } else
+            if (targets.Count <= 0)
+            {
+                foreach (int target in selected.SelectedSkill.validTargetsInTeam)
+                {
+                    if (playableHeroes.Characters.Count >= target)
+                    {
+                        var heroTransform = playableHeroes.Characters[target].gameObject.transform;
+
+                        targets.Add(
+                         Instantiate<TargetMarker>(
+                         targetPrefab,
+                         new Vector3(
+                             heroTransform.position.x,
+                             heroTransform.position.y + 0.5f,
+                             0.5f),
+                          Quaternion.identity)
+                         );
+                    }
+                }
+
+                foreach (int target in selected.SelectedSkill.validTargetsInEnemy)
+                {
+                    if (playableHeroes.Characters.Count >= target)
+                    {
+                        var heroTransform = enemyGroup.Characters[target].gameObject.transform;
+
+                        targets.Add(
+                         Instantiate<TargetMarker>(
+                         targetPrefab,
+                         new Vector3(
+                             heroTransform.position.x,
+                             heroTransform.position.y - 0f,
+                             0),
+                          Quaternion.identity)
+                         );
+                    }
+                }
+            }
+        }
+            else
         {
             // Remove markers and events
+            foreach(TargetMarker marker in targets)
+            { 
+                Destroy(marker.gameObject);
+            }
+            targets = new List<TargetMarker>();
         }
     }
 }

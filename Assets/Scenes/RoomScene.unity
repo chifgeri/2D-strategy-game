@@ -601,6 +601,7 @@ MonoBehaviour:
   knightPrefab1: {fileID: 344505430, guid: 3145e3d80c64ede4cb3098a2c8907851, type: 3}
   knightPrefab2: {fileID: 4843102199257798354, guid: 29cf89db19c793e44b0b44363bad78c6, type: 3}
   knightPrefab3: {fileID: 905553252, guid: ebb1fc1594b40d94ab23f5c61de45df4, type: 3}
+  targetPrefab: {fileID: -4876283289352502600, guid: a689bc837c96af94b8962952570e2b63, type: 3}
 --- !u!4 &420372194
 Transform:
   m_ObjectHideFlags: 0

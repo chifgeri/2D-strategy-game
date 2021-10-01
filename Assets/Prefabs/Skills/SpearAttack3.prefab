@@ -48,4 +48,4 @@ MonoBehaviour:
   description: 
   disabled: 1
   validTargetsInTeam: 
-  validTargetsInEnemy: 
+  validTargetsInEnemy: 0100000002000000

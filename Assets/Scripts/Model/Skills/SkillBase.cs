@@ -26,19 +26,37 @@ namespace Model {
         // Effekt, ha van
         // public Effect effect;
 
-    public bool CalculateMiss(Character caster, Character target){
-      // TODO:  Implement miss calculation
-      return false;
+    public bool CalculateMiss(Character caster){
+            if (Random.value <= 0.2 - (0.1 * caster.Level / 10.0f))
+            {
+                return true;
+            }
+            return false;
     }
 
-    public bool CalculateDodge(Character caster, Character target){
-      // TODO:  Implement dodge calculation
-      return false;
+    public bool CalculateDodge(Character caster, Character target, float skillModifier)
+    {
+          float dodgeChance = target.DodgeChance * 0.5f *target.Level / 10.0f;
+          float casterAccuracy = caster.BaseAccuracy + 0.5f * caster.Level / 10.0f * skillModifier;
+
+            var possibility = dodgeChance * 1 - casterAccuracy;
+            if(Random.value <= possibility)
+            {
+                return true;
+            }
+
+          return false;
     }
 
-    public void SelectSkill() {
-         SkillSelected(this);
-     }
+        public int CalculateDamage(Character caster, Character target, float skillModifier)
+        {
+            var dmg = (caster.BaseDamage * caster.Level - target.ArmorValue)*skillModifier;
+            return Mathf.FloorToInt(dmg);
+        }
+
+        public void SelectSkill() {
+            SkillSelected(this);
+         }
     
     public abstract void CastSkill(Character caster, Character[] target);
 

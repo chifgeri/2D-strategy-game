@@ -40,7 +40,6 @@ public class SkillSlot : MonoBehaviour
     private void clickHandler(){
         if(this.skill != null)
         {
-            Debug.Log("SkillSlot clicked!");
             this.skill.SelectSkill();
         }
     }

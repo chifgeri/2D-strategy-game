@@ -12,25 +12,23 @@ namespace Model {
     {
         public event CharacterUsedSpellDelegate CharacterUsedSpellEvent;
 
+        public HealthBar HBPrefab;
+        public NextMarker IsNextPrefab;
+        protected HealthBar healthBar;
+        protected NextMarker isNextMarker;
         public Animator animator;
         public SkillBase[] skillPrefabs = new SkillBase[4];
         private List<SkillBase> skills;
 
         private bool isSelected = false;
         private int health = 100;
-        private int speed;
-        private int level;
-        private int baseDamage;
-        private float baseCrit;
-        private float baseStunResist;
-        private float dodgeChance;
+        public int defaultSpeed;
+        public int defaultLevel;
+        public int baseDamage;
+        public float baseCrit;
+        public float baseStunResist;
+        public float baseDodgeChance;
 
-        public int Speed { get; set; }
-        public int BaseDamage { get; set; }
-        public float BaseCrit { get; }
-        public float BaseStunResist { get; }
-        public float DodgeChance { get;  }
-        public int ArmorValue { get; }
         public SkillBase SelectedSkill { get; set; }
 
 
@@ -44,7 +42,6 @@ namespace Model {
             set;
         }
 
-
         public int Health {
             get { return health; }
             set {
@@ -55,16 +52,26 @@ namespace Model {
         }
 
         public int Level{
-            get { return level; }
+            get { return defaultLevel; }
             set {
-                if(value >= 0 && value <= 100){
-                    level = value;
+                if(value >= 0 && value <= 10){
+                    defaultLevel = value;
                 }
             }
         }
 
         protected virtual void Awake() {
             skills = new List<SkillBase>(4);
+
+            var transform = this.GetComponent<Transform>();
+
+            healthBar = Instantiate<HealthBar>(
+                    HBPrefab,
+                    new Vector3(
+                        transform.position.x,
+                        transform.position.y + HBPrefab.GetComponent<RectTransform>().rect.height * 2 + 0.15f,
+                        0),
+                     Quaternion.identity);
         }
 
         protected virtual void Start() {
@@ -77,6 +84,51 @@ namespace Model {
                  } else {
                      skills.Add(null);
                  }
+            }
+        }
+
+        protected virtual void Update()
+        {
+            if (this.IsNext)
+            {
+                if (isNextMarker == null)
+                {
+                    isNextMarker = Instantiate(
+                    IsNextPrefab,
+                    new Vector3(
+                        transform.position.x,
+                        transform.position.y + HBPrefab.GetComponent<RectTransform>().rect.height * 2 + 0.5f,
+                        0.5f),
+                     Quaternion.identity);
+                }
+                isNextMarker.gameObject.SetActive(true);
+            }
+            if (!this.IsNext && isNextMarker != null)
+            {
+                isNextMarker.gameObject.SetActive(false);
+            }
+
+            healthBar.SetValue(Health / 100);
+        }
+
+        public void Hit(int damage)
+        {
+            // TODO: Show information to user
+            Health -= damage;
+            if(Health < 0)
+            {
+                Health = 0;
+                Die();
+            }
+        }
+
+        public void Heal(int amount)
+        {
+            // TODO: Show information to user
+            Health += amount;
+            if(Health > 100)
+            {
+                Health = 100;
             }
         }
 

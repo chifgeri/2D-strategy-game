@@ -41,9 +41,5 @@ namespace Model {
                 }
             }
         }
-
-        override public void Die(){
-            // TODO implement
-        }
     }
 }

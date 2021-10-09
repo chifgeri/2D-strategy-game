@@ -166,14 +166,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71087c7f20a8bbb488016a179fac86c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HBPrefab: {fileID: 1843311493819773617, guid: ab635689d2b4056418d352f17767d457, type: 3}
+  IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}
   animator: {fileID: 0}
   skillPrefabs:
   - {fileID: 790083604669615711, guid: 08087f7a905f78c4e9d7f70c0d1f11ce, type: 3}
   - {fileID: 4738607029244005308, guid: a6df0fd9fdf04a74fbf5868e908bb87b, type: 3}
   - {fileID: 5031127043677339938, guid: 90847b928f35a334c84e43cf3ddcb395, type: 3}
   - {fileID: 2036242083410338518, guid: bc25ccea9733d4044b6bcba33516febc, type: 3}
-  HBPrefab: {fileID: 1843311493819773617, guid: ab635689d2b4056418d352f17767d457, type: 3}
-  IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}
+  speed: 7
+  defaultLevel: 1
+  baseDamage: 30
+  baseArmor: 20
+  baseCrit: 0.6
+  baseStunResist: 0.1
+  baseDodgeChance: 0.2
+  baseAccuracy: 0.8
 --- !u!61 &599225690
 BoxCollider2D:
   m_ObjectHideFlags: 0

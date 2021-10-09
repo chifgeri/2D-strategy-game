@@ -45,15 +45,20 @@ public class GameController : Singleton<GameController>
         var hero2 = Instantiate<HeroController>(knightPrefab2, new Vector3(-2.5f, 0, 0), Quaternion.identity);
         var hero3 = Instantiate<HeroController>(knightPrefab3, new Vector3(0, 0, 0), Quaternion.identity);
 
-        hero1.Speed = 4;
-        hero2.Speed = 7;
-        hero3.Speed = 2;
+        hero1.speed = 4;
+        hero2.speed = 7;
+        hero3.speed = 2;
+
 
         playableHeroes.AddCharacter(hero1);
         playableHeroes.AddCharacter(hero2);
         enemyGroup.AddCharacter(hero3);      
 
         round = new Round(playableHeroes, playableHeroes);
+        foreach(var hero in playableHeroes.Characters)
+        {
+            hero.CharacterNewSpellEvent += this.characterChangedSpell;
+        }
         round.InitRound();
     }
 
@@ -104,7 +109,7 @@ public class GameController : Singleton<GameController>
          // Display marker under valid targets   
           foreach (int target in selected.SelectedSkill.validTargetsInTeam)
           {
-              if (playableHeroes.Characters.Count >= target)
+              if (playableHeroes.Characters.Count >= target+1)
               {
                   var heroTransform = playableHeroes.Characters[target].gameObject.transform;
     
@@ -124,7 +129,7 @@ public class GameController : Singleton<GameController>
     
           foreach (int target in selected.SelectedSkill.validTargetsInEnemy)
           {
-              if (enemyGroup.Characters.Count >= target)
+              if (enemyGroup.Characters.Count >= target+1)
               {
                   var heroTransform = enemyGroup.Characters[target].gameObject.transform;
     
@@ -189,5 +194,10 @@ public class GameController : Singleton<GameController>
             return targets.Contains(character);
         }
         return false;
+    }
+
+    private void characterChangedSpell(Character c)
+    {
+        RemoveTargetMarkers();
     }
 }

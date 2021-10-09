@@ -5,9 +5,6 @@ using Model;
 
 public class HeroController : Model.PlayerCharacter
 {
-  
-
-
     protected override void Awake() {
         base.Awake();
         animator = GetComponent<Animator>();

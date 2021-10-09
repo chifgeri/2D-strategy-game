@@ -23,17 +23,17 @@ namespace Model {
             }
         }
 
-        public Character SelectedCharacer {
-            get;
-            set;
-        }
-
         public Group() {
             characters = new List<Character>(4);
         }
 
         public void AddCharacter(Character character){
             characters.Add(character);
+        }
+
+        public void RemoveCharacter(Character character)
+        {
+            characters.Remove(character);
         }
     }
 

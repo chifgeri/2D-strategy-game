@@ -6,7 +6,8 @@ namespace Model {
     public class EnemyCharacter : Character
     {
         override public void Die(){
-            // TODO implement
+            base.Die();
+            // Drop items and money
         }
     }
 }

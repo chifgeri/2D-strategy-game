@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3238783193429452647
+--- !u!1 &325084668603212461
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,47 +8,47 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5210988841309996354}
-  - component: {fileID: 4738607029244005308}
+  - component: {fileID: 8374753578879694946}
+  - component: {fileID: 2731825515746962063}
   m_Layer: 0
-  m_Name: SpearAttack2
+  m_Name: AxeSkill1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5210988841309996354
+--- !u!4 &8374753578879694946
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3238783193429452647}
+  m_GameObject: {fileID: 325084668603212461}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.68605, y: 1.1398301, z: 0}
+  m_LocalPosition: {x: -0.92592764, y: -0.12134522, z: -3.9607034}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4738607029244005308
+--- !u!114 &2731825515746962063
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3238783193429452647}
+  m_GameObject: {fileID: 325084668603212461}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 16df6e6e1fcf50044995c5d70824f3d1, type: 3}
+  m_Script: {fileID: 11500000, guid: 726d22d32fecb0047a65119d3912e5e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 21300000, guid: 4fc664c91f145b34092a14f4fb143924, type: 3}
-  damage: 0
-  damageModifier: 1
+  icon: {fileID: 21300000, guid: c0c1cd73054937643aeb25fc5b06d54a, type: 3}
+  damage: 10
+  damageModifier: 1.1
   healModifier: 1
   dodgeModifier: 1
-  description: 
+  description: Swinging attack for multiple targets
   disabled: 1
   validTargetsInTeam: 
-  validTargetsInEnemy: 0000000001000000
+  validTargetsInEnemy: 00000000010000000200000003000000

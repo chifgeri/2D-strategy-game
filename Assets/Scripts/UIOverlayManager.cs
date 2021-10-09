@@ -26,7 +26,6 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
     }
 
     public void RefreshSkills(Character c){
-        Debug.Log(c.GetSkills());
         if(c.GetSkills().Count == 4 ){
             var skillList = c.GetSkills();
             for(int i = 0; i<4; i++ ){

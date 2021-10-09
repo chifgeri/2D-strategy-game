@@ -7,10 +7,15 @@ namespace Model {
     
     public delegate void CharacterChangedHandler(Character c);
     public delegate void CharacterUsedSpellDelegate(Character c);
+    public delegate void CharacterNewSpellDelegate(Character c);
+    public delegate void CharacterDieDelegate(Character c);
+
 
     public abstract class Character : MonoBehaviour
     {
         public event CharacterUsedSpellDelegate CharacterUsedSpellEvent;
+        public event CharacterNewSpellDelegate CharacterNewSpellEvent;
+        public event CharacterDieDelegate CharacterDieEvent;
 
         public HealthBar HBPrefab;
         public NextMarker IsNextPrefab;
@@ -22,12 +27,14 @@ namespace Model {
 
         private bool isSelected = false;
         private int health = 100;
-        public int defaultSpeed;
+        public int speed;
         public int defaultLevel;
         public int baseDamage;
+        public int baseArmor;
         public float baseCrit;
         public float baseStunResist;
         public float baseDodgeChance;
+        public float baseAccuracy;
 
         public SkillBase SelectedSkill { get; set; }
 
@@ -45,7 +52,15 @@ namespace Model {
         public int Health {
             get { return health; }
             set {
-                if(value >= 0 && value <= 100){
+                if(value <= 0)
+                {
+                    health = 0;
+                }
+                if(value >= 100)
+                {
+                    health = 100;
+                }
+                 if( value > 0 && value < 100){
                     health = value;
                 }
             }
@@ -108,16 +123,15 @@ namespace Model {
                 isNextMarker.gameObject.SetActive(false);
             }
 
-            healthBar.SetValue(Health / 100);
+            healthBar.SetValue(Health / 100.0f);
         }
 
         public void Hit(int damage)
         {
             // TODO: Show information to user
             Health -= damage;
-            if(Health < 0)
+            if(Health <= 0)
             {
-                Health = 0;
                 Die();
             }
         }
@@ -126,17 +140,12 @@ namespace Model {
         {
             // TODO: Show information to user
             Health += amount;
-            if(Health > 100)
-            {
-                Health = 100;
-            }
         }
 
         public void CastSkill(Character[] targets)
         {
             if (SelectedSkill)
             {
-                Debug.Log("Character used spell");
                 SelectedSkill.CastSkill(this, targets);
                 SelectedSkill = null;
                 CharacterUsedSpellEvent(this);
@@ -152,6 +161,7 @@ namespace Model {
             if (IsNext)
             {
                SelectedSkill = skill;
+               CharacterNewSpellEvent(this);
             }
         }
 
@@ -162,7 +172,23 @@ namespace Model {
             skills[position] = skill;
         }
 
-        public abstract void Die();
+        public virtual void Die()
+        {
+            if (CharacterDieEvent != null) {
+                CharacterDieEvent(this);
+            } else
+            {
+                Debug.Log($"Event is: {CharacterDieEvent}");
+            }
+            if (isNextMarker != null)
+            {
+                Destroy(isNextMarker.gameObject);
+            }
+            if (healthBar != null) {
+                Destroy(healthBar.gameObject);
+            }
+            Destroy(this.gameObject);
+        }
 
         public void Select(){
             isSelected = true;

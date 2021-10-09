@@ -5,11 +5,7 @@ using UnityEngine.UI;
 
 namespace Model {
 
-    public class SpearAttack3 : SkillBase
+    public class SpearAttack3 : AttackSkill
     {
-        public override void CastSkill(Character caster, Character[]  target)
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

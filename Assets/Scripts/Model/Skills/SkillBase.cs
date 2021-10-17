@@ -30,6 +30,7 @@ namespace Model {
     public bool CalculateMiss(Character caster){
             if (Random.value <= 0.2 - (0.1 * caster.Level / 10.0f))
             {
+                Debug.Log("Missed");
                 return true;
             }
             return false;

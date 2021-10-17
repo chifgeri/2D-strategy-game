@@ -34,7 +34,21 @@ public class SkillSlot : MonoBehaviour
         if(iconSlot != null){
             skillIcon = iconSlot;
         }
-        
+    }
+
+    private void Update()
+    {
+        if (skill != null)
+        {
+            if (skill.disabled)
+            {
+                skillIcon.color = new Color(255, 255, 255, 0.5f);
+            }
+            else
+            {
+                skillIcon.color = new Color(255, 255, 255, 1);
+            }
+        }
     }
 
     private void clickHandler(){

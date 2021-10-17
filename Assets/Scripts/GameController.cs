@@ -54,7 +54,7 @@ public class GameController : Singleton<GameController>
         playableHeroes.AddCharacter(hero2);
         enemyGroup.AddCharacter(hero3);      
 
-        round = new Round(playableHeroes, playableHeroes);
+        round = new Round(playableHeroes, enemyGroup);
         foreach(var hero in playableHeroes.Characters)
         {
             hero.CharacterNewSpellEvent += this.characterChangedSpell;

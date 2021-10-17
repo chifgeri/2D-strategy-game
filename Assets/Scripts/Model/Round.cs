@@ -10,7 +10,6 @@ namespace Model {
     {
         private Group playerGroup;
         private Group enemyGroup;
-
         public Group PlayerGroup {
             get;
         }
@@ -63,17 +62,48 @@ namespace Model {
             foreach(Character c in characterOrder)
             {
                 c.CharacterUsedSpellEvent += CharacterActionDone;
-                c.CharacterDieEvent += OnCharacterDied;
+
+                c.CharacterDieEvent += OnCharacterDied; 
             }
+            SetNext();
+        }
+
+        private void SetNext()
+        {
             Character current = characterOrder.Dequeue();
             current.IsNext = true;
+            current.EnableSkills();
+        }
+
+        private void OnCharacterDied(Character c)
+        {
+            if (playerGroup.Characters.Contains(c))
+            {
+                playerGroup.RemoveCharacter(c);
+            }
+            if (enemyGroup.Characters.Contains(c))
+            {
+                enemyGroup.RemoveCharacter(c);
+            }
+            if (characterOrder.Contains(c))
+            {
+                var queue = new Queue<Character>();
+                while (characterOrder.Count < 1)
+                {
+                    var temp = characterOrder.Dequeue();
+                    if (!temp.Equals(c))
+                    {
+                        queue.Enqueue(temp);
+                    }
+                }
+                characterOrder = queue;
+            }
         }
 
         public void ResetRound()
         {
             calculateOrder();
-            Character current = characterOrder.Dequeue();
-            current.IsNext = true;
+            SetNext();
         }
 
         public void CharacterActionDone(Character c)
@@ -96,38 +126,12 @@ namespace Model {
 
             if (characterOrder.Count > 0)
             {
-                Character current = characterOrder.Dequeue();
-                current.IsNext = true;
+                SetNext();
             }
             else
             {
                 roundNumber++;
                 ResetRound();
-            }
-        }
-
-        private void OnCharacterDied(Character c)
-        {
-            if (playerGroup.Characters.Contains(c))
-            {
-                playerGroup.RemoveCharacter(c);
-            }
-            if (enemyGroup.Characters.Contains(c))
-            {
-                enemyGroup.RemoveCharacter(c);
-            }
-            if (characterOrder.Contains(c))
-            {
-                var queue = new Queue<Character>();
-                while(characterOrder.Count < 1)
-                {
-                    var temp = characterOrder.Dequeue();
-                    if (!temp.Equals(c))
-                    {
-                        queue.Enqueue(temp);
-                    }
-                }
-                characterOrder = queue;
             }
         }
     }

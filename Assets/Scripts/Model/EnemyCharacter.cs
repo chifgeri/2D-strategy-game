@@ -5,9 +5,5 @@ using UnityEngine;
 namespace Model {
     public class EnemyCharacter : Character
     {
-        override public void Die(){
-            base.Die();
-            // Drop items and money
-        }
     }
 }

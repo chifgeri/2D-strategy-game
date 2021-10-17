@@ -3,19 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model {
-
-    
     public delegate void CharacterChangedHandler(Character c);
     public delegate void CharacterUsedSpellDelegate(Character c);
     public delegate void CharacterNewSpellDelegate(Character c);
-    public delegate void CharacterDieDelegate(Character c);
-
 
     public abstract class Character : MonoBehaviour
     {
         public event CharacterUsedSpellDelegate CharacterUsedSpellEvent;
         public event CharacterNewSpellDelegate CharacterNewSpellEvent;
-        public event CharacterDieDelegate CharacterDieEvent;
+        public event CharacterNewSpellDelegate CharacterDieEvent;
 
         public HealthBar HBPrefab;
         public NextMarker IsNextPrefab;
@@ -87,18 +83,20 @@ namespace Model {
                         transform.position.y + HBPrefab.GetComponent<RectTransform>().rect.height * 2 + 0.15f,
                         0),
                      Quaternion.identity);
-        }
 
-        protected virtual void Start() {
-             foreach(SkillBase skillPref in skillPrefabs){
-                 if(skillPref != null){
+            foreach (SkillBase skillPref in skillPrefabs)
+            {
+                if (skillPref != null)
+                {
                     SkillBase skill = Instantiate(skillPref);
                     skills.Add(skill);
                     // Notify the character when the skill selected
                     skill.SkillSelected += this.SelectSkill;
-                 } else {
-                     skills.Add(null);
-                 }
+                }
+                else
+                {
+                    skills.Add(null);
+                }
             }
         }
 
@@ -149,10 +147,11 @@ namespace Model {
                 SelectedSkill.CastSkill(this, targets);
                 SelectedSkill = null;
                 CharacterUsedSpellEvent(this);
+                DisableSkills();
             }
             else
             {
-                Debug.LogError("Selected skill is Null");
+                Debug.LogError("Selected skill is null");
             }
         }
 
@@ -174,12 +173,9 @@ namespace Model {
 
         public virtual void Die()
         {
-            if (CharacterDieEvent != null) {
-                CharacterDieEvent(this);
-            } else
-            {
-                Debug.Log($"Event is: {CharacterDieEvent}");
-            }
+
+            CharacterDieEvent(this);
+
             if (isNextMarker != null)
             {
                 Destroy(isNextMarker.gameObject);
@@ -200,6 +196,22 @@ namespace Model {
 
         public List<SkillBase> GetSkills(){
             return skills;
+        }
+
+        public void EnableSkills()
+        {
+            foreach (var skill in skills)
+            {
+                skill.disabled = false;
+            }
+        }
+
+        public void DisableSkills()
+        {
+            foreach (var skill in skills)
+            {
+                skill.disabled = true;
+            }
         }
     }
 }

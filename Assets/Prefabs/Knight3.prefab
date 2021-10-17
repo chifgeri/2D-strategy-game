@@ -192,11 +192,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71087c7f20a8bbb488016a179fac86c1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
-  skillPrefabs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   HBPrefab: {fileID: 1843311493819773617, guid: ab635689d2b4056418d352f17767d457, type: 3}
   IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}
+  animator: {fileID: 0}
+  skillPrefabs:
+  - {fileID: -1865025287589211731, guid: 9520de260765ddd4089fee6e5f6407ee, type: 3}
+  - {fileID: 4738607029244005308, guid: a6df0fd9fdf04a74fbf5868e908bb87b, type: 3}
+  - {fileID: 5031127043677339938, guid: 90847b928f35a334c84e43cf3ddcb395, type: 3}
+  - {fileID: 4147555713690438608, guid: 5b602eaa8ba69e04094d0b45f0fcb010, type: 3}
+  speed: 3
+  defaultLevel: 1
+  baseDamage: 20
+  baseArmor: 10
+  baseCrit: 0.1
+  baseStunResist: 0
+  baseDodgeChance: 0.1
+  baseAccuracy: 0.2

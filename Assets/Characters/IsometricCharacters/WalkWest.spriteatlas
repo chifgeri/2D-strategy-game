@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WalkWest
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings: []
+    packingSettings:
+      serializedVersion: 2
+      padding: 4
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 9a115119049deb04798816eb7fab0d95, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: 25660ed1c446e6142832642bf5871796, type: 3}
+  - {fileID: 21300000, guid: 8a5cd0a23ccb9e940be90a7c816eea39, type: 3}
+  - {fileID: 21300000, guid: dd6f12a2933625841bdda3835c9d01d7, type: 3}
+  - {fileID: 21300000, guid: 1f843ba4806c5c445a211798d7db171c, type: 3}
+  - {fileID: 21300000, guid: 5df03b55de5316a4798d622353c1d122, type: 3}
+  - {fileID: 21300000, guid: 0b122498369d6c34e8e162e699a8f906, type: 3}
+  - {fileID: 21300000, guid: 34407309d90cb1846a56d4534e6f040a, type: 3}
+  - {fileID: 21300000, guid: 89244c0c03987684fa60bb8d0a9ea181, type: 3}
+  - {fileID: 21300000, guid: aad4cf1c8b177374f927804bc67a0ae6, type: 3}
+  - {fileID: 21300000, guid: fcb2a75cd2f174d41aaf9a4ffb61e2f6, type: 3}
+  - {fileID: 21300000, guid: f9eb646cfbbcfce45ab99aca0aa59656, type: 3}
+  - {fileID: 21300000, guid: 8dc7f88cfd0bf5642afd99097dbb1430, type: 3}
+  - {fileID: 21300000, guid: 5ff472fd2fb8f9a49bef96dede3b0185, type: 3}
+  - {fileID: 21300000, guid: 1f85ba2f8e9c0e344b5d02bebe02e850, type: 3}
+  - {fileID: 21300000, guid: 5ee7c9cfd496b374faf4804ee7acb3e5, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - crusader_walk_60011
+  - crusader_walk_60006
+  - crusader_walk_60001
+  - crusader_walk_60007
+  - crusader_walk_60002
+  - crusader_walk_60012
+  - crusader_walk_60000
+  - crusader_walk_60008
+  - crusader_walk_60013
+  - crusader_walk_60005
+  - crusader_walk_60004
+  - crusader_walk_60009
+  - crusader_walk_60003
+  - crusader_walk_60014
+  - crusader_walk_60010
+  m_RenderDataMap: {}
+  m_Tag: WalkWest
+  m_IsVariant: 0

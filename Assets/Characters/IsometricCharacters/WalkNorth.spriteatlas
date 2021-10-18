@@ -1,0 +1,85 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!687078895 &4343727234628468602
+SpriteAtlas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: WalkNorth
+  m_EditorData:
+    serializedVersion: 2
+    textureSettings:
+      serializedVersion: 2
+      anisoLevel: 1
+      compressionQuality: 50
+      maxTextureSize: 2048
+      textureCompression: 0
+      filterMode: 1
+      generateMipMaps: 0
+      readable: 0
+      crunchedCompression: 0
+      sRGB: 1
+    platformSettings:
+    - serializedVersion: 3
+      m_BuildTarget: DefaultTexturePlatform
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: -1
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 0
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
+    packingSettings:
+      serializedVersion: 2
+      padding: 2
+      blockOffset: 1
+      allowAlphaSplitting: 0
+      enableRotation: 0
+      enableTightPacking: 0
+    secondaryTextureSettings: {}
+    variantMultiplier: 1
+    packables:
+    - {fileID: 102900000, guid: 35a600264e43890429766e524ca299c7, type: 3}
+    bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
+  m_MasterAtlas: {fileID: 0}
+  m_PackedSprites:
+  - {fileID: 21300000, guid: c6684750b7daa014b975bb54954f770e, type: 3}
+  - {fileID: 21300000, guid: b152b3a10ffe0d34c80426e65e934c1f, type: 3}
+  - {fileID: 21300000, guid: 5a4cdee3dbc155d49ac09250e5a24ba1, type: 3}
+  - {fileID: 21300000, guid: 0f08693407bc4804b86a76c1abf3b11a, type: 3}
+  - {fileID: 21300000, guid: 96a33ca4edbc80b4fa308fa5fabf05c8, type: 3}
+  - {fileID: 21300000, guid: 74b925160bcb17d4ab027d4de549e2b7, type: 3}
+  - {fileID: 21300000, guid: adf30be9e5dc1dd4aaebda3f493388f2, type: 3}
+  - {fileID: 21300000, guid: 089ac75ab782e2848bacab2677493e24, type: 3}
+  - {fileID: 21300000, guid: d12c2dbadfd92f945aaad42e9f02e272, type: 3}
+  - {fileID: 21300000, guid: 36f40ffafe9978547b0930ce6728be79, type: 3}
+  - {fileID: 21300000, guid: 13bac98e7f970764b9c4e9dec9f31002, type: 3}
+  - {fileID: 21300000, guid: b016cb1f03dbd874d85539ea0cc08b24, type: 3}
+  - {fileID: 21300000, guid: 5c28048f518c91f47ac3b5b11ea3797c, type: 3}
+  - {fileID: 21300000, guid: beab458f035f64a48ac6a4a0b2c69a13, type: 3}
+  - {fileID: 21300000, guid: ef93bfef7f36ae342af7b5d2565003ad, type: 3}
+  m_PackedSpriteNamesToIndex:
+  - crusader_walk_40011
+  - crusader_walk_40012
+  - crusader_walk_40002
+  - crusader_walk_40007
+  - crusader_walk_40009
+  - crusader_walk_40003
+  - crusader_walk_40008
+  - crusader_walk_40014
+  - crusader_walk_40013
+  - crusader_walk_40006
+  - crusader_walk_40004
+  - crusader_walk_40000
+  - crusader_walk_40001
+  - crusader_walk_40005
+  - crusader_walk_40010
+  m_RenderDataMap: {}
+  m_Tag: WalkNorth
+  m_IsVariant: 0

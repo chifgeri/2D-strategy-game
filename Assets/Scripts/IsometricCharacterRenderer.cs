@@ -29,8 +29,6 @@ public class IsometricCharacterRenderer : MonoBehaviour
             lastDirection = DirectionToIndex(direction, 8);
         }
         var dir = directionArray[lastDirection];
-        Debug.Log(lastDirection);
-        Debug.Log(dir);
          animator.Play(dir);
     }
 

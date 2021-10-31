@@ -9,28 +9,38 @@ namespace Model
     public class Map
     {
         [SerializeField]
-        private string LevelName;
+        private string levelName;
         [SerializeField]
-        private string LevelId;
+        private string levelId;
+        [SerializeField]
+        private int width;
+        [SerializeField]
+        private int height;
         // The group position at the map instance
         [SerializeField]
         private Vector2 groupPosition;
-
-        // 0 - ground, 1 - wall, 2 - door, 3 - chest variation, 4 - barrel variation
         [SerializeField]
-        private List<int> mapModel;
+        private List<string> mapModel;
+        [SerializeField]
+        private List<Room> rooms;
 
-        // private List<Rooms> rooms;
-        // Room: Enemies, Loot, Cleared, Number - ID, 
-
-
-        public Map(string name, string levelId, List<int> model, Vector2 position)
+        public Map(string name, string id, List<string> model, Vector2 position, int width, int height, List<Room> rooms = null)
         {
-           LevelName = name;
-           LevelId = levelId;
-           mapModel = model;
-           groupPosition = position;
+            levelName = name;
+            levelId = id;
+            mapModel = model;
+            groupPosition = position;
+            this.width = width;
+            this.height = height;
+            this.rooms = rooms;
         }
-       // public List<int> MapModel { get => mapModel; set => mapModel = value; }
+
+        public string LevelName { get => levelName; set => levelName = value; }
+        public string LevelId { get => levelId; set => levelId = value; }
+        public Vector2 GroupPosition { get => groupPosition; set => groupPosition = value; }
+        public List<string> MapModel { get => mapModel; set => mapModel = value; }
+        public int Width { get => width; set => width = value; }
+        public int Height { get => height; set => height = value; }
+        public List<Room> Rooms { get => rooms; set => rooms = value; }
     }
 }

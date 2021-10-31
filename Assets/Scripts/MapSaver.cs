@@ -9,12 +9,12 @@ public class MapSaver : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        var list = new List<int>()
+        var list = new List<string>()
         {
-            1, 2, 3, 4, 1, 1, 1, 1,
-            2, 2, 2, 3, 2, 4, 5, 6,
+            "N", "N","G", "G", "G", "G", "HW", "HW",
+            "G", "G", "G", "G", "HW", "HW", "CW", "HW"
         };
-        var map = new Map("TestMap", "TEST", list, new Vector2(0, 0));
+        var map = new Map("TestMap", "TEST", list, new Vector2(0, 0), width: 8, height: 2);
         string json = JsonUtility.ToJson(map);
         Debug.Log(json);
         WriteData(json);

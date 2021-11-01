@@ -9,43 +9,26 @@ public static class TileTypes {
     public static readonly string VerticalWall = "VW";
     public static readonly string HorizontalWall = "HW";
     public static readonly string CornerWall = "CW";
-    public static readonly string Ground = "G";
+    public static readonly string Ground1 = "G1";
+    public static readonly string Ground2 = "G2";
+    public static readonly string Ground3 = "G3";
+    public static readonly string Ground4 = "G4";
     public static readonly string Potion = "P";
-    public static readonly string Treasure = "T";
+    public static readonly string TreasureLeft = "TL";
+    public static readonly string TreasureRight = "TR";
+    public static readonly string Barrel = "B";
     public static readonly string VerticalDoor = "VD";
     public static readonly string HorizontalDoor = "HD";
     public static readonly string NonTile = "N";
 }
 
 
-public class BuildTilemaps : MonoBehaviour
-{
-    // Multi layer tilemap
-    // With 4 layers
-    // 1 = Ground
-    // 2 = Walls
-    // 3 = Objects
-    // 4 = Doors (Rooms)
-    private Tilemap[] tilemaps;
-    private Map level;
-
-    public Tile groundTile;
-    public Tile horizontalWallTile;
-    public Tile verticalWallTile;
-    public Tile cornerTile;
-    public Tile verticalDoorTile;
-    public Tile horizontalDoorTile;
-
-    private async void Awake()
+public static class BuildTilemaps {
+    public static void SetUpTileMaps(Tilemap[] tilemaps, Map level)
     {
-       tilemaps = GetComponentsInChildren<Tilemap>();
-        level = await MapLoader.LoadData("/test.json");
-        SetUpTileMaps();
-    }
-
-    private void SetUpTileMaps()
-    {
+        // Tilemap index
         int i = 0;
+        // Start building from the center
         Vector3Int origin = new Vector3Int(0, 0, 0);
 
         foreach (var tilemap in tilemaps) { 
@@ -59,55 +42,122 @@ public class BuildTilemaps : MonoBehaviour
                 for (var w = 0; w < width; w++)
                 {
                     // Ground layer
-                    if(i == 0)
+                    if (i == 0)
                     {
-                       SetGroundTile(tilemap, currentCellPosition, w, h);
+                        SetGroundTile(tilemap, level, currentCellPosition, w, h);
                     }
-                    if(i == 1)
+                    // Wall layer
+                    if (i == 1)
                     {
-                       SetWallTile(tilemap, currentCellPosition, w, h);
+                        SetWallTile(tilemap, level, currentCellPosition, w, h);
                     }
+                    // Object layer
                     if (i == 2)
                     {
-                       // SetObjectTile(tilemap, currentCellPosition, w, h);
+                        SetObjectTile(tilemap, level, currentCellPosition, w, h);
                     }
-                    if(i == 3)
+                    // Door layer
+                    if (i == 3)
                     {
-                       // SetDoorTile(tilemap, currentCellPosition, w, h);
+                       SetDoorTile(tilemap, level, currentCellPosition, w, h);
                     }
                     currentCellPosition = new Vector3Int(
                         (int)(cellSize.x + currentCellPosition.x),
                         currentCellPosition.y, origin.z);
                 }
-                currentCellPosition = new Vector3Int(origin.x, (currentCellPosition.y-1), origin.z);
+                currentCellPosition = new Vector3Int(origin.x, (currentCellPosition.y+1), origin.z);
             }
-            //tilemap.CompressBounds();
+            tilemap.CompressBounds();
+            // increment tilemap index
             i++;
         }
     }
 
-    private void SetGroundTile(Tilemap tilemap, Vector3Int cellPosition, int x, int y)
+    private static void SetGroundTile(Tilemap tilemap, Map level, Vector3Int cellPosition, int x, int y)
     {
-        if (!level.MapModel[y*level.Width + x].Equals(TileTypes.NonTile)) {
-            // TODO: Randomize ground tiles
-            tilemap.SetTile(cellPosition, groundTile);
+        string tile = level.MapModel[y * level.Width + x];
+        if (!tile.Equals(TileTypes.NonTile)) {
+            if (tile.Equals(TileTypes.HorizontalWall))
+            {
+                if (
+                    (y < level.Height - 1 && level.MapModel[(y + 1) * level.Width + x].Equals(TileTypes.NonTile))
+                    || y == level.Height-1 )
+                {
+                    return;
+                }
+            }
+            if (tile.Equals(TileTypes.VerticalWall))
+            {
+                if(x < level.Width - 1 && level.MapModel[y * level.Width + (x + 1)].Equals(TileTypes.NonTile)
+                    || x == level.Width - 1)
+                {
+                    return;
+                }
+            }
+            tilemap.SetTile(cellPosition, TileReferences.Instance.ground1);
+            if (tile.Equals(TileTypes.Ground2))
+            {
+                tilemap.SetTile(cellPosition, TileReferences.Instance.ground2);
+            }
+            if (tile.Equals(TileTypes.Ground3))
+            {
+                tilemap.SetTile(cellPosition, TileReferences.Instance.ground3);
+            }
+            if (tile.Equals(TileTypes.Ground4))
+            {
+                tilemap.SetTile(cellPosition, TileReferences.Instance.ground4);
+            }
         }
     }
 
-    private void SetWallTile(Tilemap tilemap, Vector3Int cellPosition, int x, int y)
+    private static void SetWallTile(Tilemap tilemap, Map level,Vector3Int cellPosition, int x, int y)
     {
         cellPosition.z = 2;
         if (level.MapModel[y * level.Width + x].Equals(TileTypes.CornerWall))
         {
-            tilemap.SetTile(cellPosition, cornerTile);
+            tilemap.SetTile(cellPosition, TileReferences.Instance.cornerWall);
         }
         if (level.MapModel[y * level.Width + x].Equals(TileTypes.VerticalWall))
         {
-            tilemap.SetTile(cellPosition, verticalWallTile);
+            tilemap.SetTile(cellPosition, TileReferences.Instance.verticalWall);
         }
         if (level.MapModel[y * level.Width + x].Equals(TileTypes.HorizontalWall))
         {
-            tilemap.SetTile(cellPosition, horizontalWallTile);
+            tilemap.SetTile(cellPosition, TileReferences.Instance.horizontalWall);
+        }
+    }
+
+    private static void SetObjectTile(Tilemap tilemap, Map level, Vector3Int cellPosition, int x, int y)
+    {
+        cellPosition.z = 2;
+        if (level.MapModel[y * level.Width + x].Equals(TileTypes.Potion))
+        {
+           tilemap.SetTile(cellPosition, TileReferences.Instance.potion);
+        }
+        if (level.MapModel[y * level.Width + x].Equals(TileTypes.Barrel))
+        {
+            tilemap.SetTile(cellPosition, TileReferences.Instance.barrel);
+        }
+        if (level.MapModel[y * level.Width + x].Equals(TileTypes.TreasureLeft))
+        {
+           tilemap.SetTile(cellPosition, TileReferences.Instance.leftChestFull);
+        }
+        if (level.MapModel[y * level.Width + x].Equals(TileTypes.TreasureRight))
+        {
+           tilemap.SetTile(cellPosition, TileReferences.Instance.rightChestFull);
+        }
+    }
+
+    private static void SetDoorTile(Tilemap tilemap, Map level, Vector3Int cellPosition, int x, int y)
+    {
+        cellPosition.z = 2;
+        if (level.MapModel[y * level.Width + x].Equals(TileTypes.VerticalDoor))
+        {
+            tilemap.SetTile(cellPosition, TileReferences.Instance.verticalDoor);
+        }
+        if (level.MapModel[y * level.Width + x].Equals(TileTypes.HorizontalDoor))
+        {
+            tilemap.SetTile(cellPosition, TileReferences.Instance.horizontalDoor);
         }
     }
 }

@@ -6,9 +6,9 @@ using System.IO;
 
 public static class MapSaver
 {
-    public static async void WriteData(string jsonData)
+    public static async void WriteData(string jsonData, string filePath)
     {
-        FileStream fs = new FileStream(Application.persistentDataPath +"/test.json", FileMode.Create, FileAccess.Write);
+        FileStream fs = new FileStream(filePath, FileMode.Create, FileAccess.Write);
         StreamWriter sw = new StreamWriter(fs);
 
         await sw.WriteAsync(jsonData);

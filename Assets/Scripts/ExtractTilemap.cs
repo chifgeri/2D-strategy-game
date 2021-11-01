@@ -37,7 +37,7 @@ public static class ExtractTilemap
                         tile = tilemap.GetTile(new Vector3Int(j, i, 2));
                     }
                     // Check for indexing error
-                    if ((Mathf.Abs(ymin)+i) * (Mathf.Abs(xmin)+ymax) < tilenames.Length)
+                    if ((Mathf.Abs(ymin)+i) * (Mathf.Abs(xmin)+j) < tilenames.Length)
                     {
                         if (tile != null)
                         {
@@ -54,7 +54,7 @@ public static class ExtractTilemap
                     }
                     else
                     {
-                        Debug.LogError(index);
+                        Debug.LogError((Mathf.Abs(ymin) + i) * (Mathf.Abs(xmin) + ymax));
                         Debug.LogError("Tile out of bounds");
                     }
                     index++;

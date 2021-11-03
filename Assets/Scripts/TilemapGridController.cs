@@ -4,37 +4,33 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using TMPro;
+using System;
 
-public class TilemapGridController : MonoBehaviour
+public class TilemapGridController : Singleton<TilemapGridController>
 {
+    Map level;
     Tilemap[] tilemaps;
     public TMP_InputField input;
+    public TMP_InputField minLvlInput;
 
-    private void Awake()
+    public Map Level { get => level; }
+
+   protected override void Awake()
     {
+        base.Awake();
         tilemaps = GetComponentsInChildren<Tilemap>();
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        //  SaveLevel();
-        // LoadLevel();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void SaveLevel()
     {
         var tiles = ExtractTilemap.ExtractTilemapData(tilemaps);
 
-        var map = new Map("TESZT", "123", new List<string>(tiles), new Vector2Int(0, 0), tilemaps[0].size.x, tilemaps[0].size.y);
         var text = input.text;
-        if (text != null)
+        var minLvl = minLvlInput.text;
+        Int32.TryParse(minLvl, out int minLevel);
+        if (text != null && minLevel != 0)
         {
+            var map = new Map("TESZT", new List<string>(tiles), new Vector2Int(0, 0), tilemaps[0].size.x, tilemaps[0].size.y, minLevel);
             MapSaver.WriteData(JsonUtility.ToJson(map), Application.dataPath + $"/{text}.json");
         }
     }
@@ -44,8 +40,68 @@ public class TilemapGridController : MonoBehaviour
         var text = input.text;
         if (text != null)
         {
-            Map level = await MapLoader.LoadData(Application.dataPath + $"/{text}.json");
+            level = await MapLoader.LoadData(Application.dataPath + $"/{text}.json");
             BuildTilemaps.SetUpTileMaps(tilemaps, level);
+
+            List<Vector2Int> doorPos = new List<Vector2Int>();
+
+            if (level.Rooms.Count == 0)
+            {
+                var bounds = tilemaps[3].cellBounds;
+
+                var xmin = bounds.xMin;
+                var xmax = bounds.xMax;
+                var ymin = bounds.yMin;
+                var ymax = bounds.yMax;
+
+                // Go through the layer's tiles and save the corresponding Type strings
+                for (int i = ymin; i < ymax; i++)
+                {
+                    for (int j = xmin; j < xmax; j++)
+                    {
+                        var tile = tilemaps[3].GetTile(new Vector3Int(i, j, 2));
+
+                        if (tile != null && (tile.name == TileReferences.Instance.verticalDoor.name || tile.name == TileReferences.Instance.horizontalDoor.name))
+                        {
+                            doorPos.Add(new Vector2Int(i, j));
+                        }
+                    }
+                }
+
+                FillMapWithRooms(level, doorPos);
+                MapSaver.WriteData(JsonUtility.ToJson(level), Application.dataPath + $"/{text}.json");
+            }
         }
+    }
+
+    private void FillMapWithRooms(Map map, List<Vector2Int> doorPos)
+    {
+        List<string> enemyTypes = new List<string>()
+        {
+            EnemyTypes.Golem,
+            EnemyTypes.Orc,
+            EnemyTypes.Knight,
+            EnemyTypes.Skeleton,
+            EnemyTypes.Zombie
+        };
+        int minLvl = map.LevelRequirement - 2 < 1 ? 1 : map.LevelRequirement - 2;
+        int maxLvl = map.LevelRequirement + 1;
+
+        List<Room> rooms = new List<Room>();
+        int id = 0;
+
+        foreach (var pos in doorPos)
+        {
+            int enemyCount = UnityEngine.Random.Range(2, 4);
+            List<EnemyData> enemies = new List<EnemyData>();
+            for (int i = 0; i < enemyCount; i++)
+            {
+                enemies.Add(new EnemyData(enemyTypes[UnityEngine.Random.Range(0, enemyTypes.Count - 1)], UnityEngine.Random.Range(minLvl, maxLvl), 100));
+            }
+            rooms.Add(new Room(id, enemies, new List<Item>(), UnityEngine.Random.Range(100, map.LevelRequirement * 1000), pos, false));
+
+            id++;
+        }
+        map.Rooms = rooms;
     }
 }

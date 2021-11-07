@@ -26,7 +26,7 @@ public static class ExtractTilemap
                 for (int j = xmin; j < xmax; j++)
                 {
                     TileBase tile;
-                    // Only on the ground layer there is tiles on the 0 z positin
+                    // Only on the ground layer has is tiles on the 0 z positin
                     if (tilemapId == 0)
                     {
                         tile = tilemap.GetTile(new Vector3Int(j, i, 0));

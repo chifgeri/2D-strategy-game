@@ -38,8 +38,8 @@ namespace Model {
 
     public bool CalculateDodge(Character caster, Character target)
     {
-          float dodgeChance = target.baseDodgeChance * 0.5f *target.Level / 10.0f;
-          float casterAccuracy = caster.baseAccuracy + 0.5f * caster.Level / 10.0f * dodgeModifier;
+          float dodgeChance = target.BaseDodgeChance * 0.5f *target.Level / 10.0f;
+          float casterAccuracy = caster.BaseAccuracy + 0.5f * caster.Level / 10.0f * dodgeModifier;
 
             var possibility = dodgeChance * (1 - casterAccuracy);
             float rand = Random.value;
@@ -55,7 +55,7 @@ namespace Model {
 
         public int CalculateDamage(Character caster, Character target)
         {
-            var dmg = (caster.baseDamage * caster.Level + this.damage - target.baseArmor) * damageModifier;
+            var dmg = (caster.BaseDamage * caster.Level + this.damage - target.BaseArmor) * damageModifier;
             if(dmg < 0)
             {
                 dmg = 0;
@@ -66,7 +66,7 @@ namespace Model {
 
         public int CalculateHealing(Character caster)
         {
-            return (caster.baseDamage * caster.Level) + this.damage;
+            return (caster.BaseDamage * caster.Level) + this.damage;
         }
 
         public void SelectSkill() {

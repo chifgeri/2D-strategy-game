@@ -23,14 +23,22 @@ namespace Model {
 
         private bool isSelected = false;
         private int health = 100;
-        public int speed;
-        public int defaultLevel;
-        public int baseDamage;
-        public int baseArmor;
-        public float baseCrit;
-        public float baseStunResist;
-        public float baseDodgeChance;
-        public float baseAccuracy;
+        [SerializeField]
+        private int speed;
+        [SerializeField]
+        private int defaultLevel;
+        [SerializeField]
+        private int baseDamage;
+        [SerializeField]
+        private int baseArmor;
+        [SerializeField]
+        private float baseCrit;
+        [SerializeField]
+        private float baseStunResist;
+        [SerializeField]
+        private float baseDodgeChance;
+        [SerializeField]
+        private float baseAccuracy;
 
         public SkillBase SelectedSkill { get; set; }
 
@@ -70,6 +78,15 @@ namespace Model {
                 }
             }
         }
+
+        public int Speed { get => speed; set => speed = value; }
+        public int DefaultLevel { get => defaultLevel; set => defaultLevel = value; }
+        public int BaseDamage { get => baseDamage; set => baseDamage = value; }
+        public int BaseArmor { get => baseArmor; set => baseArmor = value; }
+        public float BaseCrit { get => baseCrit; set => baseCrit = value; }
+        public float BaseStunResist { get => baseStunResist; set => baseStunResist = value; }
+        public float BaseDodgeChance { get => baseDodgeChance; set => baseDodgeChance = value; }
+        public float BaseAccuracy { get => baseAccuracy; set => baseAccuracy = value; }
 
         protected virtual void Awake() {
             skills = new List<SkillBase>(4);

@@ -21,6 +21,18 @@ public class TilemapGridController : Singleton<TilemapGridController>
         tilemaps = GetComponentsInChildren<Tilemap>();
     }
 
+    private void Start()
+    {
+        if (MainStateManager.IsInitialized)
+        {
+            level = MainStateManager.Instance.GameState.CurrentLevel;
+            BuildTilemaps.SetUpTileMaps(tilemaps, MainStateManager.Instance.GameState.CurrentLevel);
+            MainStateManager.Instance.GameState.IsInMap = true;
+            MainStateManager.Instance.GameState.IsInFight = false;
+
+        }
+    }
+
     public void SaveLevel()
     {
         var tiles = ExtractTilemap.ExtractTilemapData(tilemaps);
@@ -30,7 +42,7 @@ public class TilemapGridController : Singleton<TilemapGridController>
         Int32.TryParse(minLvl, out int minLevel);
         if (text != null && minLevel != 0)
         {
-            var map = new Map("TESZT", new List<string>(tiles), new Vector2Int(0, 0), tilemaps[0].size.x, tilemaps[0].size.y, minLevel);
+            var map = new Map("TESZT", new List<string>(tiles), new Vector2Int(0, 0), tilemaps[0].size.x, tilemaps[0].size.y, minLevel, null, 1);
             MapSaver.WriteData(JsonUtility.ToJson(map), Application.dataPath + $"/{text}.json");
         }
     }
@@ -59,16 +71,17 @@ public class TilemapGridController : Singleton<TilemapGridController>
                 {
                     for (int j = xmin; j < xmax; j++)
                     {
-                        var tile = tilemaps[3].GetTile(new Vector3Int(i, j, 2));
+                        var tile = tilemaps[3].GetTile(new Vector3Int(j, i, 2));
 
                         if (tile != null && (tile.name == TileReferences.Instance.verticalDoor.name || tile.name == TileReferences.Instance.horizontalDoor.name))
                         {
-                            doorPos.Add(new Vector2Int(i, j));
+                            doorPos.Add(new Vector2Int(j, i));
                         }
                     }
                 }
 
                 FillMapWithRooms(level, doorPos);
+
                 MapSaver.WriteData(JsonUtility.ToJson(level), Application.dataPath + $"/{text}.json");
             }
         }
@@ -92,11 +105,11 @@ public class TilemapGridController : Singleton<TilemapGridController>
 
         foreach (var pos in doorPos)
         {
-            int enemyCount = UnityEngine.Random.Range(2, 4);
+            int enemyCount = UnityEngine.Random.Range(2, 5);
             List<EnemyData> enemies = new List<EnemyData>();
             for (int i = 0; i < enemyCount; i++)
             {
-                enemies.Add(new EnemyData(enemyTypes[UnityEngine.Random.Range(0, enemyTypes.Count - 1)], UnityEngine.Random.Range(minLvl, maxLvl), 100));
+                enemies.Add(new EnemyData(enemyTypes[UnityEngine.Random.Range(0, enemyTypes.Count - 1)], UnityEngine.Random.Range(minLvl, maxLvl+1), 100));
             }
             rooms.Add(new Room(id, enemies, new List<Item>(), UnityEngine.Random.Range(100, map.LevelRequirement * 1000), pos, false));
 
@@ -104,4 +117,5 @@ public class TilemapGridController : Singleton<TilemapGridController>
         }
         map.Rooms = rooms;
     }
+
 }

@@ -1,14 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 
 namespace Model {
-
+    [Serializable]
     public class Round
     {
+        [SerializeField]
         private Group playerGroup;
+        [SerializeField]
         private Group enemyGroup;
         public Group PlayerGroup {
             get;
@@ -17,13 +20,14 @@ namespace Model {
         public Group EnemyGroup {
             get;
         }
-
+        [SerializeField]
         private int roundNumber;
 
         public int RoundNumber {
             get;
         }
 
+        [SerializeField]
         private Queue<Character> characterOrder;
 
         public Round(Group players, Group enemies) {
@@ -48,7 +52,7 @@ namespace Model {
                 {
                     return 1;
                 }
-                return -a.speed.CompareTo(b.speed);
+                return -a.Speed.CompareTo(b.Speed);
             });
 
             foreach (var item in characters) {

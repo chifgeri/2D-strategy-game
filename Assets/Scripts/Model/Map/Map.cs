@@ -11,6 +11,8 @@ namespace Model
         [SerializeField]
         private string levelName;
         [SerializeField]
+        private int levelOrder;
+        [SerializeField]
         private int width;
         [SerializeField]
         private int height;
@@ -24,7 +26,7 @@ namespace Model
         [SerializeField]
         private List<Room> rooms;
 
-        public Map(string name, List<string> model, Vector2 position, int width, int height, int levelRequirement, List<Room> rooms = null)
+        public Map(string name, List<string> model, Vector2 position, int width, int height, int levelRequirement, List<Room> rooms = null, int levelOrder = 0)
         {
             levelName = name;
             mapModel = model;
@@ -33,6 +35,7 @@ namespace Model
             this.height = height;
             this.rooms = rooms;
             this.levelRequirement = levelRequirement;
+            this.levelOrder = levelOrder;
         }
 
         public string LevelName { get => levelName; set => levelName = value; }
@@ -42,5 +45,6 @@ namespace Model
         public int Height { get => height; set => height = value; }
         public List<Room> Rooms { get => rooms; set => rooms = value; }
         public int LevelRequirement { get => levelRequirement; set => levelRequirement = value; }
+        public int LevelOrder { get => levelOrder; set => levelOrder = value; }
     }
 }

@@ -22,6 +22,22 @@ public class GameController : Singleton<GameController>
 
     event CharacterChangedHandler CharacterChanged;
 
+    private void Awake()
+    {
+        if(MainStateManager.Instance.GameState != null)
+        {
+            var state = MainStateManager.Instance.GameState;
+            playableHeroes.Characters.AddRange(state.PlayableCharacters);
+            // enemyGroup.Characters.AddRange([]);
+            if(state.CurrentRound == null)
+            {
+                state.CurrentRound = new Round(playableHeroes, enemyGroup);
+            }
+            round = state.CurrentRound;
+            round.InitRound();
+        }
+    }
+
     // Start is called before the first frame update
 
     void Start()
@@ -37,29 +53,30 @@ public class GameController : Singleton<GameController>
         CharacterChanged += InventoryController.Instance.CharacterChanged;
 
         initScene();
+
     }
 
     void initScene()
     {
-        var hero1 = Instantiate<HeroController>(knightPrefab1, new Vector3(-5, 0, 0), Quaternion.identity);
-        var hero2 = Instantiate<HeroController>(knightPrefab2, new Vector3(-2.5f, 0, 0), Quaternion.identity);
-        var hero3 = Instantiate<HeroController>(knightPrefab3, new Vector3(0, 0, 0), Quaternion.identity);
+        //var hero1 = Instantiate<HeroController>(knightPrefab1, new Vector3(-5, 0, 0), Quaternion.identity);
+        //var hero2 = Instantiate<HeroController>(knightPrefab2, new Vector3(-2.5f, 0, 0), Quaternion.identity);
+        //var hero3 = Instantiate<HeroController>(knightPrefab3, new Vector3(0, 0, 0), Quaternion.identity);
 
-        hero1.speed = 4;
-        hero2.speed = 7;
-        hero3.speed = 2;
+        //hero1.speed = 4;
+        //hero2.speed = 7;
+        //hero3.speed = 2;
 
 
-        playableHeroes.AddCharacter(hero1);
-        playableHeroes.AddCharacter(hero2);
-        enemyGroup.AddCharacter(hero3);      
+        //playableHeroes.AddCharacter(hero1);
+        //playableHeroes.AddCharacter(hero2);
+        //enemyGroup.AddCharacter(hero3);      
 
-        round = new Round(playableHeroes, enemyGroup);
+        //round = new Round(playableHeroes, enemyGroup);
         foreach(var hero in playableHeroes.Characters)
         {
             hero.CharacterNewSpellEvent += this.characterChangedSpell;
         }
-        round.InitRound();
+        
     }
 
     // Update is called once per frame

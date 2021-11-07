@@ -14,6 +14,18 @@ public class IsometricMovementController : MonoBehaviour
         isoRenderer = GetComponentInChildren<IsometricCharacterRenderer>();
     }
 
+    private void Start()
+    {
+        if(MainStateManager.IsInitialized && MainStateManager.Instance.GameState != null)
+        {
+            var pos = MainStateManager.Instance.GameState.CurrentLevel?.GroupPosition;
+            if(pos != null)
+            {
+                transform.SetPositionAndRotation(new Vector3(pos.Value.x, pos.Value.y, 3), Quaternion.identity);
+            }
+        }
+    }
+
     void FixedUpdate() {
         Vector2 currentPos = rbody.position;
         float horizontalInput = Input.GetAxis("Horizontal");

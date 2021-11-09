@@ -24,17 +24,28 @@ namespace Model {
         private int roundNumber;
 
         public int RoundNumber {
-            get;
+            get => roundNumber;
         }
 
         [SerializeField]
         private Queue<Character> characterOrder;
+        private Dictionary<int, Character> characters;
+        private Dictionary<int, Character> enemyCharacters;
+        private Queue<Character> queue;
 
         public Round(Group players, Group enemies) {
             playerGroup = players;
             enemyGroup = enemies;
 
             characterOrder = new Queue<Character>();
+        }
+
+        public Round(Dictionary<int, Character> characters, Dictionary<int, Character> enemyCharacters, Queue<Character> queue, int roundNumber)
+        {
+            this.characters = characters;
+            this.enemyCharacters = enemyCharacters;
+            this.queue = queue;
+            this.roundNumber = roundNumber;
         }
 
         private void calculateOrder() {

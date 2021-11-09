@@ -34,8 +34,8 @@ public class WeaponSlot : MonoBehaviour
     }
 
     public void RefreshSlot(PlayerCharacter c){
-        if(c.weapon != null){
-            EquipWeapon(c.weapon);
+        if(c.Weapon != null){
+            EquipWeapon(c.Weapon);
         } else {
             UnequipWeapon();
         }

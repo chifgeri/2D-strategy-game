@@ -13,7 +13,10 @@ public class MainStateManager : Singleton<MainStateManager>
 
     private List<Map> levels = new List<Map>();
 
+    private Round currentRound;
+
     public GameState GameState { get => gameState; set => gameState = value; }
+    public Round CurrentRound { get => currentRound; set => currentRound = value; }
 
     // Start is called before the first frame update
     protected override void Awake()
@@ -33,7 +36,7 @@ public class MainStateManager : Singleton<MainStateManager>
         {
             await LoadLevels();
         }
-        gameState = new GameState(levels[0], new List<Character>(), null, false, true, new Vector3(0, 0, 0));
+        gameState = new GameState(levels[0], new List<PlayableData>(), null, false, true, new Vector3(0, 0, 0));
     
         SceneManager.LoadSceneAsync("MapScene");
     }
@@ -50,6 +53,12 @@ public class MainStateManager : Singleton<MainStateManager>
 
     public async Task  SaveGameState(string fileName)
     {
+        if (gameState.IsInFight)
+        {
+          // TODO: save fight state
+          //   gameState.FightData = new RoomState()
+        }
+
         var jsonData = JsonUtility.ToJson(gameState);
         FileStream fs = new FileStream(Application.persistentDataPath+"/"+fileName, FileMode.Create, FileAccess.Write);
         StreamWriter sw = new StreamWriter(fs);
@@ -84,7 +93,4 @@ public class MainStateManager : Singleton<MainStateManager>
             }
         }
     }
-
-
-
 }

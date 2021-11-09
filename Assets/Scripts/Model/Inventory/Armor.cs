@@ -10,10 +10,12 @@ public enum ArmorType {
     KnightArmor,
     KnightArmor2
 }
+[Serializable]
 public class Armor : Item
     {
+        [SerializeField]
         private int armor;
-
+        [SerializeField]
         private ArmorType type;
 
         public Armor(string _name, int _price, int _armor, ArmorType _type): base(_name, _price, 1, false) {

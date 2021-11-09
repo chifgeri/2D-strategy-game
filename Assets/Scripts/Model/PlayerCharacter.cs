@@ -7,9 +7,9 @@ namespace Model {
     {
         private int experience;
 
-        public Armor armor;
+        private Armor armor;
 
-        public Weapon weapon;
+        private Weapon weapon;
 
         public void EquipWeapon(Item i){
             if(i is Weapon){
@@ -31,8 +31,6 @@ namespace Model {
             armor = null;
         }
 
-
-
         public int Experience {
             get { return experience; }
             set {
@@ -41,5 +39,8 @@ namespace Model {
                 }
             }
         }
+
+        public Armor Armor { get => armor; }
+        public Weapon Weapon { get => weapon; }
     }
 }

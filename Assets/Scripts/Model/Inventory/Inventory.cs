@@ -2,11 +2,15 @@
 using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 namespace Model {
+    [Serializable]
     public class Inventory
     {
+        [SerializeField]
         private int size;
+        [SerializeField]
         private List<Item> items;
 
         public Inventory(int _size){

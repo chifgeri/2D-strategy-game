@@ -76,8 +76,8 @@ public class InventoryController : Singleton<InventoryController>
     }
 
     public bool UnequipWeapon(){
-        if(selectedCharacter.weapon != null && !inventory.isFull()){
-            Weapon temp = selectedCharacter.weapon;
+        if(selectedCharacter.Weapon != null && !inventory.isFull()){
+            Weapon temp = selectedCharacter.Weapon;
             selectedCharacter.UnequipWeapon();
             inventory.AddItem(temp);
         } else {
@@ -91,14 +91,14 @@ public class InventoryController : Singleton<InventoryController>
          if(selectedCharacter == null){
              Debug.Log("Nincs karakter kijelölve.");
          } else {
-            if(selectedCharacter.weapon != null){
+            if(selectedCharacter.Weapon != null){
                 bool success = UnequipWeapon();
                 if(success){
                     inventory.RemoveItem(weapon, false);
                     WeaponEquipped(weapon);
                 } else {
                     inventory.RemoveItem(weapon, false);
-                    inventory.AddItem(selectedCharacter.weapon);
+                    inventory.AddItem(selectedCharacter.Weapon);
                     WeaponEquipped(weapon);
                 }
             } else {
@@ -109,8 +109,8 @@ public class InventoryController : Singleton<InventoryController>
     }
 
      public bool UnequipArmor(){
-        if(selectedCharacter.armor != null && !inventory.isFull()){
-            Armor temp = selectedCharacter.armor;
+        if(selectedCharacter.Armor != null && !inventory.isFull()){
+            Armor temp = selectedCharacter.Armor;
             selectedCharacter.UnequipArmor();
             inventory.AddItem(temp);
         } else {
@@ -124,14 +124,14 @@ public class InventoryController : Singleton<InventoryController>
          if(selectedCharacter == null){
              Debug.Log("Nincs karakter kijelölve.");
          } else {
-            if(selectedCharacter.armor != null){
+            if(selectedCharacter.Armor != null){
                 bool success = UnequipArmor();
                 if(success){
                     inventory.RemoveItem(armor, false);
                     ArmorEquipped(armor);
                 } else {
                     inventory.RemoveItem(armor, false);
-                    inventory.AddItem(selectedCharacter.armor);
+                    inventory.AddItem(selectedCharacter.Armor);
                     ArmorEquipped(armor);
                 }
             } else {

@@ -31,8 +31,8 @@ public class ArmorSlot : MonoBehaviour
     }
 
     public void RefreshSlot(PlayerCharacter c){
-        if(c.armor != null){
-            EquipArmor(c.armor);
+        if(c.Armor != null){
+            EquipArmor(c.Armor);
         } else {
             UnequipArmor();
         }

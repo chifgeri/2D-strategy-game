@@ -11,9 +11,11 @@ namespace Model
         [SerializeField]
         private Map currentLevel;
         [SerializeField]
-        private List<Character> playableCharacters;
+        private List<PlayableData> playableCharacters;
         [SerializeField]
-        private Round currentRound;
+        private RoomState fightData;
+        [SerializeField]
+        private int? currentRoomId;
         [SerializeField]
         private bool isInFight;
         [SerializeField]
@@ -21,21 +23,23 @@ namespace Model
         [SerializeField]
         private Vector3 lastPosition;
 
-        public GameState(Map currentLevel, List<Character> playableCharacters, Round round, bool isInFight, bool isInMap, Vector3 lastPosition)
+        public GameState(Map currentLevel, List<PlayableData> playableCharacters, RoomState fightData, bool isInFight, bool isInMap, Vector3 lastPosition, int? currentRoomId = null)
         {
             this.currentLevel = currentLevel;
             this.playableCharacters = playableCharacters;
-            currentRound = round;
+            this.fightData = fightData;
             this.isInFight = isInFight;
             this.isInMap = isInMap;
             this.lastPosition = lastPosition;
+            this.currentRoomId = currentRoomId;
         }
 
-        public List<Character> PlayableCharacters { get => playableCharacters; set => playableCharacters = value; }
+        public List<PlayableData> PlayableCharacters { get => playableCharacters; set => playableCharacters = value; }
         public Map CurrentLevel { get => currentLevel; set => currentLevel = value; }
-        public Round CurrentRound { get => currentRound; set => currentRound = value; }
+        public RoomState FightData { get => fightData; set => fightData = value; }
         public bool IsInFight { get => isInFight; set => isInFight = value; }
         public bool IsInMap { get => isInMap; set => isInMap = value; }
         public Vector3 LastPosition { get => lastPosition; set => lastPosition = value; }
+        public int? CurrentRoomId { get => currentRoomId; set => currentRoomId = value; }
     }
 }

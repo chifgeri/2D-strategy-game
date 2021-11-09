@@ -89,7 +89,7 @@ public class TilemapGridController : Singleton<TilemapGridController>
 
     private void FillMapWithRooms(Map map, List<Vector2Int> doorPos)
     {
-        List<string> enemyTypes = new List<string>()
+        List<EnemyTypes> enemyTypes = new List<EnemyTypes>()
         {
             EnemyTypes.Golem,
             EnemyTypes.Orc,
@@ -109,7 +109,7 @@ public class TilemapGridController : Singleton<TilemapGridController>
             List<EnemyData> enemies = new List<EnemyData>();
             for (int i = 0; i < enemyCount; i++)
             {
-                enemies.Add(new EnemyData(enemyTypes[UnityEngine.Random.Range(0, enemyTypes.Count - 1)], UnityEngine.Random.Range(minLvl, maxLvl+1), 100));
+                enemies.Add(new EnemyData(UnityEngine.Random.Range(0, 1000000000), enemyTypes[UnityEngine.Random.Range(0, enemyTypes.Count - 1)], UnityEngine.Random.Range(minLvl, maxLvl+1), 100));
             }
             rooms.Add(new Room(id, enemies, new List<Item>(), UnityEngine.Random.Range(100, map.LevelRequirement * 1000), pos, false));
 

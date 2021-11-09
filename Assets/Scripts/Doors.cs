@@ -24,6 +24,8 @@ public class Doors : MonoBehaviour
                 if (!room.Cleared)
                 {
                     sceneIsLoading = true;
+                    MainStateManager.Instance.GameState.CurrentRoomId = room.RoomId;
+                    MainStateManager.Instance.GameState.IsInMap = false;
                     MainStateManager.Instance.GameState.IsInFight = true;
                     SceneManager.LoadSceneAsync("RoomScene");
                 }
@@ -46,6 +48,7 @@ public class Doors : MonoBehaviour
                 if (!room.Cleared)
                 {
                     sceneIsLoading = true;
+                    MainStateManager.Instance.GameState.CurrentRoomId = room.RoomId;
                     MainStateManager.Instance.GameState.IsInMap = false;
                     MainStateManager.Instance.GameState.IsInFight = true;
                     SceneManager.LoadSceneAsync("RoomScene");

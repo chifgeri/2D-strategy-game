@@ -51,7 +51,7 @@ public class MainStateManager : Singleton<MainStateManager>
         levels.OrderBy(l => l.LevelOrder);
     }
 
-    public async Task  SaveGameState(string fileName)
+    public async Task SaveGameState(string fileName)
     {
         if (gameState.IsInFight)
         {

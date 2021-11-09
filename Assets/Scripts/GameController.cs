@@ -21,82 +21,89 @@ public class GameController : Singleton<GameController>
 
     event CharacterChangedHandler CharacterChanged;
 
-    private void Awake()
+    private void InitScene()
     {
-        if(MainStateManager.Instance.CurrentRound != null)
+        MainStateManager.Instance.GameState.IsInFight = true;
+        MainStateManager.Instance.GameState.IsInMap = false;
+
+        var room = MainStateManager.Instance.CurrentRound;
+        var state = MainStateManager.Instance.GameState;
+
+        Dictionary<int, Character> characters = new Dictionary<int, Character>();
+        Dictionary<int, Character> enemyCharacters = new Dictionary<int, Character>();
+
+        if (state.FightData == null)
         {
-            var room = MainStateManager.Instance.CurrentRound;
-            var state = MainStateManager.Instance.GameState;
-
-            Dictionary<int, Character> characters = new Dictionary<int, Character>();
-            Dictionary<int, Character> enemyCharacters = new Dictionary<int, Character>();
-
-            if(state.FightData == null)
+            foreach (var playerChar in state.PlayableCharacters)
             {
-                foreach (var playerChar in state.PlayableCharacters)
-                {
-                    var hero = CreatePlayerHero(playerChar);
-                    characters[playerChar.Id] = hero;
-                }
-                playableHeroes.Characters.AddRange(characters.Values);
-
-                var roomData = state.CurrentLevel.Rooms.FirstOrDefault(r => r.RoomId == state.CurrentRoomId);
-                foreach (var enemy in roomData.Enemies)
-                {
-                    var hero = CreateEnemyHero(enemy);
-                    enemyCharacters[enemy.Id] = hero;
-                }
-                enemyGroup.Characters.AddRange(enemyCharacters.Values);
-                room = new Round(playableHeroes, enemyGroup);
-                round = room;
-                round.InitRound();
-            } else
-            {
-
-                foreach (var playerChar in state.FightData.PlayerCharacters)
-                {
-                    var hero = CreatePlayerHero(playerChar);
-                    characters[playerChar.Id] = hero;
-                }
-                playableHeroes.Characters.AddRange(characters.Values);
-
-                var roomData = state.CurrentLevel.Rooms.FirstOrDefault(r => r.RoomId == state.CurrentRoomId);
-                foreach (var enemy in state.FightData.EnemyCharacters)
-                {
-                    var hero = CreateEnemyHero(enemy);
-                    enemyCharacters[enemy.Id] = hero;
-                }
-                enemyGroup.Characters.AddRange(enemyCharacters.Values);
-
-                Queue<Character> queue = new Queue<Character>();
-                while (state.FightData.OrderId.Count > 0) {
-                    int id = state.FightData.OrderId.Dequeue();
-
-                    characters.TryGetValue(id, out var hero);
-                    if (hero != null) {
-                        queue.Enqueue(hero);
-                    }
-                    enemyCharacters.TryGetValue(id, out var enemy);
-                    if (enemy != null)
-                    {
-                        queue.Enqueue(enemy);
-                    }
-                }
-                int current = state.FightData.CurrentId;
-                characters.TryGetValue(current, out var currentHero);
-                enemyCharacters.TryGetValue(current, out var currentEnemy);
-                if (currentHero != null)
-                {
-                    currentHero.IsNext = true;
-                }
-                if (currentEnemy != null)
-                {
-                    currentEnemy.IsNext = true;
-                }
-                room = new Round(characters, enemyCharacters, queue, state.FightData.RoundNumber);
-                round = room;
+                var hero = CreatePlayerHero(playerChar);
+                characters[playerChar.Id] = hero;
             }
-           
+            playableHeroes.Characters.AddRange(characters.Values);
+
+            var roomData = state.CurrentLevel.Rooms.FirstOrDefault(r => r.RoomId == state.CurrentRoomId);
+            foreach (var enemy in roomData.Enemies)
+            {
+                var hero = CreateEnemyHero(enemy);
+                enemyCharacters[enemy.Id] = hero;
+            }
+            enemyGroup.Characters.AddRange(enemyCharacters.Values);
+            room = new Round(playableHeroes, enemyGroup);
+            round = room;
+            round.InitRound();
+        }
+        else
+        {
+
+            foreach (var playerChar in state.FightData.PlayerCharacters)
+            {
+                var hero = CreatePlayerHero(playerChar);
+                characters[playerChar.Id] = hero;
+            }
+            playableHeroes.Characters.AddRange(characters.Values);
+
+            var roomData = state.CurrentLevel.Rooms.FirstOrDefault(r => r.RoomId == state.CurrentRoomId);
+            foreach (var enemy in state.FightData.EnemyCharacters)
+            {
+                var hero = CreateEnemyHero(enemy);
+                enemyCharacters[enemy.Id] = hero;
+            }
+            enemyGroup.Characters.AddRange(enemyCharacters.Values);
+
+            Queue<Character> queue = new Queue<Character>();
+            while (state.FightData.OrderId.Count > 0)
+            {
+                int id = state.FightData.OrderId.Dequeue();
+
+                characters.TryGetValue(id, out var hero);
+                if (hero != null)
+                {
+                    queue.Enqueue(hero);
+                }
+                enemyCharacters.TryGetValue(id, out var enemy);
+                if (enemy != null)
+                {
+                    queue.Enqueue(enemy);
+                }
+            }
+            int current = state.FightData.CurrentId;
+            characters.TryGetValue(current, out var currentHero);
+            enemyCharacters.TryGetValue(current, out var currentEnemy);
+            if (currentHero != null)
+            {
+                currentHero.IsNext = true;
+            }
+            if (currentEnemy != null)
+            {
+                currentEnemy.IsNext = true;
+            }
+            room = new Round(characters, enemyCharacters, queue, state.FightData.RoundNumber);
+            round = room;
+        }
+
+        foreach (var hero in playableHeroes.Characters)
+        {
+            hero.CharacterNewSpellEvent += this.characterChangedSpell;
         }
     }
 
@@ -127,6 +134,7 @@ public class GameController : Singleton<GameController>
 
     void Start()
     {
+        InitScene();
          GameObject hudObject = GameObject.Find("CharacterHUD");
          if(hudObject != null){
             CharHUD = hudObject;
@@ -136,19 +144,6 @@ public class GameController : Singleton<GameController>
         CharacterChanged += UIOverlayManager.Instance.RefreshSkills;
         CharacterChanged += UIOverlayManager.Instance.ShowCharacterInfo;
         CharacterChanged += InventoryController.Instance.CharacterChanged;
-
-        initScene();
-
-    }
-
-    void initScene()
-    {
-
-        foreach(var hero in playableHeroes.Characters)
-        {
-            hero.CharacterNewSpellEvent += this.characterChangedSpell;
-        }
-        
     }
 
     // Update is called once per frame

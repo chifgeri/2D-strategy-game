@@ -28,7 +28,7 @@ namespace Model
         [SerializeField]
         private int health;
 
-        public EnemyData(int id, string enemyType, int level, int health)
+        public EnemyData(int id, EnemyTypes enemyType, int level, int health)
         {
             this.id = id;
             this.enemyType = enemyType;

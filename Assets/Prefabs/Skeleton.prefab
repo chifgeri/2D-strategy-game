@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1189677756436146363}
   - component: {fileID: 2900462486334625794}
-  - component: {fileID: 1330841350216380780}
   - component: {fileID: 34539186479198064}
+  - component: {fileID: -2108921988924590868}
+  - component: {fileID: 1005761156266516495}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Untagged
@@ -84,34 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &1330841350216380780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2138666218989398587}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71087c7f20a8bbb488016a179fac86c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HBPrefab: {fileID: 1843311493819773617, guid: ab635689d2b4056418d352f17767d457, type: 3}
-  IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}
-  animator: {fileID: 0}
-  skillPrefabs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  speed: 0
-  defaultLevel: 0
-  baseDamage: 0
-  baseArmor: 0
-  baseCrit: 0
-  baseStunResist: 0
-  baseDodgeChance: 0
-  baseAccuracy: 0
 --- !u!95 &34539186479198064
 Animator:
   serializedVersion: 3
@@ -131,3 +104,52 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-2108921988924590868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138666218989398587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab90addf62468c241b759f888381b413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HBPrefab: {fileID: 6249955110512657900, guid: ab635689d2b4056418d352f17767d457, type: 3}
+  IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}
+  animator: {fileID: 0}
+  speed: 0
+  defaultLevel: 0
+  baseDamage: 0
+  baseArmor: 0
+  baseCrit: 0
+  baseStunResist: 0
+  baseDodgeChance: 0
+  baseAccuracy: 0
+--- !u!61 &1005761156266516495
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138666218989398587}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.8978764, y: 4.2331047}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5122741, y: 0.06224355}
+    oldSize: {x: 9.58, y: 9.67}
+    newSize: {x: 9.58, y: 9.67}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.773404, y: 9.67}
+  m_EdgeRadius: 0

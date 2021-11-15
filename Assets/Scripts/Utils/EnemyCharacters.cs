@@ -9,13 +9,13 @@ namespace Utils
 {
     public class EnemyCharacters : Singleton<EnemyCharacters>
     {
-        public HeroController knightPrefab;
-        public HeroController golemPrefab;
-        public HeroController orcPrefab;
-        public HeroController skeletonPrefab;
-        public HeroController zombiePrefab;
+        public EnemyController knightPrefab;
+        public EnemyController golemPrefab;
+        public EnemyController orcPrefab;
+        public EnemyController skeletonPrefab;
+        public EnemyController zombiePrefab;
 
-        public HeroController EnemyTypeToPrefab(EnemyTypes playableType)
+        public EnemyController EnemyTypeToPrefab(EnemyTypes playableType)
         {
             switch (playableType)
             {

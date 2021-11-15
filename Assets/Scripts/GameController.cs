@@ -12,9 +12,9 @@ public class GameController : Singleton<GameController>
     GameObject CharHUD;   
     public TargetMarker targetPrefab;
 
-    private Character selected;
-    private Group playableHeroes = new Group();
-    private Group enemyGroup = new Group();
+    private PlayerCharacter selected;
+    private Group<PlayerCharacter> playableHeroes = new Group<PlayerCharacter>();
+    private Group<EnemyCharacter> enemyHeroes = new Group<EnemyCharacter>();
     private Round round;
     private List<TargetMarker> targetMarkers = new List<TargetMarker>();
     private List<Character> targets = new List<Character>();
@@ -29,46 +29,53 @@ public class GameController : Singleton<GameController>
         var room = MainStateManager.Instance.CurrentRound;
         var state = MainStateManager.Instance.GameState;
 
-        Dictionary<int, Character> characters = new Dictionary<int, Character>();
-        Dictionary<int, Character> enemyCharacters = new Dictionary<int, Character>();
+        Dictionary<int, PlayerCharacter> characters = new Dictionary<int, PlayerCharacter>();
+        Dictionary<int, EnemyCharacter> enemyCharacters = new Dictionary<int, EnemyCharacter>();
+
+        float heroPositionX = -2.5f;
+        float enemyPositionX = 2.5f;
 
         if (state.FightData == null)
         {
             foreach (var playerChar in state.PlayableCharacters)
             {
-                var hero = CreatePlayerHero(playerChar);
+                var hero = CreatePlayerHero(playerChar, heroPositionX);
                 characters[playerChar.Id] = hero;
+                heroPositionX += -2.0f;
             }
             playableHeroes.Characters.AddRange(characters.Values);
 
             var roomData = state.CurrentLevel.Rooms.FirstOrDefault(r => r.RoomId == state.CurrentRoomId);
             foreach (var enemy in roomData.Enemies)
             {
-                var hero = CreateEnemyHero(enemy);
+                var hero = CreateEnemyHero(enemy, enemyPositionX);
                 enemyCharacters[enemy.Id] = hero;
+                enemyPositionX += 2f;
             }
-            enemyGroup.Characters.AddRange(enemyCharacters.Values);
-            room = new Round(playableHeroes, enemyGroup);
+            enemyHeroes.Characters.AddRange(enemyCharacters.Values);
+            room = new Round(playableHeroes, enemyHeroes);
             round = room;
             round.InitRound();
         }
         else
         {
-
+            
             foreach (var playerChar in state.FightData.PlayerCharacters)
             {
-                var hero = CreatePlayerHero(playerChar);
+                var hero = CreatePlayerHero(playerChar, heroPositionX);
                 characters[playerChar.Id] = hero;
+                heroPositionX += -2.0f;
             }
             playableHeroes.Characters.AddRange(characters.Values);
-
+            
             var roomData = state.CurrentLevel.Rooms.FirstOrDefault(r => r.RoomId == state.CurrentRoomId);
             foreach (var enemy in state.FightData.EnemyCharacters)
             {
-                var hero = CreateEnemyHero(enemy);
+                var hero = CreateEnemyHero(enemy, enemyPositionX);
                 enemyCharacters[enemy.Id] = hero;
+                enemyPositionX += 2f;
             }
-            enemyGroup.Characters.AddRange(enemyCharacters.Values);
+            enemyHeroes.Characters.AddRange(enemyCharacters.Values);
 
             Queue<Character> queue = new Queue<Character>();
             while (state.FightData.OrderId.Count > 0)
@@ -97,20 +104,22 @@ public class GameController : Singleton<GameController>
             {
                 currentEnemy.IsNext = true;
             }
-            room = new Round(characters, enemyCharacters, queue, state.FightData.RoundNumber);
+            room = new Round(playableHeroes, enemyHeroes, queue, state.FightData.RoundNumber);
             round = room;
         }
 
+        
         foreach (var hero in playableHeroes.Characters)
         {
             hero.CharacterNewSpellEvent += this.characterChangedSpell;
         }
+
     }
 
-    private Character CreatePlayerHero(PlayableData data)
+    private PlayerCharacter CreatePlayerHero(PlayableData data, float xPos)
     {
         var prefab = PlayerCharacters.Instance.PlayerTypeToPrefab(data.PlayableType);
-        var hero = Instantiate<HeroController>(prefab, new Vector3(-5, 0, 0), Quaternion.identity);
+        var hero = Instantiate<HeroController>(prefab, new Vector3(xPos, 0, 0), Quaternion.identity);
         hero.Health = data.Health;
         hero.Level = data.Level;
         hero.Experience = data.Experience;
@@ -120,10 +129,10 @@ public class GameController : Singleton<GameController>
         return hero;
     }
 
-    private Character CreateEnemyHero(EnemyData data)
+    private EnemyCharacter CreateEnemyHero(EnemyData data, float xPos)
     {
         var prefab = EnemyCharacters.Instance.EnemyTypeToPrefab(data.EnemyType);
-        var hero = Instantiate<HeroController>(prefab, new Vector3(-5, 0, 0), Quaternion.identity);
+        var hero = Instantiate<EnemyController>(prefab, new Vector3(xPos, 0, 0), Quaternion.identity);
         hero.Health = data.Health;
         hero.Level = data.Level;
 
@@ -134,7 +143,7 @@ public class GameController : Singleton<GameController>
 
     void Start()
     {
-        InitScene();
+         InitScene();
          GameObject hudObject = GameObject.Find("CharacterHUD");
          if(hudObject != null){
             CharHUD = hudObject;
@@ -160,11 +169,14 @@ public class GameController : Singleton<GameController>
                     {
                         var chars = new Character[1];
                         chars[0] = character;
-                        selected.CastSkill(chars);
+                        selected.AttackAction(chars);
                     } 
                     else
                     {
-                        SelectCharacter(character);
+                        if (character is PlayerCharacter)
+                        {
+                            SelectCharacter((PlayerCharacter)character);
+                        }
                     }
                 }        
             } 
@@ -213,11 +225,11 @@ public class GameController : Singleton<GameController>
     
           foreach (int target in selected.SelectedSkill.validTargetsInEnemy)
           {
-              if (enemyGroup.Characters.Count >= target+1)
+              if (enemyHeroes.Characters.Count >= target+1)
               {
-                  var heroTransform = enemyGroup.Characters[target].gameObject.transform;
+                  var heroTransform = enemyHeroes.Characters[target].gameObject.transform;
     
-                  targets.Add(enemyGroup.Characters[target]);
+                  targets.Add(enemyHeroes.Characters[target]);
     
     
                targetMarkers.Add(
@@ -245,7 +257,7 @@ public class GameController : Singleton<GameController>
         targets = new List<Character>();
     }
 
-    public void SelectCharacter(Character target)
+    public void SelectCharacter(PlayerCharacter target)
     {
         if (selected != null)
         {

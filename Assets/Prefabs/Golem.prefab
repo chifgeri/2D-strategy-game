@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7194082784899878065}
   - component: {fileID: 6945869472071207591}
-  - component: {fileID: 4334938975473524599}
   - component: {fileID: 1820066643958730885}
+  - component: {fileID: 1741058752684929261}
+  - component: {fileID: 217177824379661383}
   m_Layer: 0
   m_Name: Golem
   m_TagString: Untagged
@@ -27,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3464356119396580958}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.89, y: -0.75, z: 0}
+  m_LocalPosition: {x: 6.77, y: -0.698, z: 0}
   m_LocalScale: {x: 0.5110475, y: 0.5110475, z: 0.5110475}
   m_Children: []
   m_Father: {fileID: 0}
@@ -84,34 +85,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4334938975473524599
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3464356119396580958}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71087c7f20a8bbb488016a179fac86c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HBPrefab: {fileID: 1843311493819773617, guid: ab635689d2b4056418d352f17767d457, type: 3}
-  IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}
-  animator: {fileID: 0}
-  skillPrefabs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  speed: 0
-  defaultLevel: 0
-  baseDamage: 0
-  baseArmor: 0
-  baseCrit: 0
-  baseStunResist: 0
-  baseDodgeChance: 0
-  baseAccuracy: 0
 --- !u!95 &1820066643958730885
 Animator:
   serializedVersion: 3
@@ -131,3 +104,52 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1741058752684929261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464356119396580958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab90addf62468c241b759f888381b413, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HBPrefab: {fileID: 6249955110512657900, guid: ab635689d2b4056418d352f17767d457, type: 3}
+  IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}
+  animator: {fileID: 0}
+  speed: 0
+  defaultLevel: 0
+  baseDamage: 0
+  baseArmor: 0
+  baseCrit: 0
+  baseStunResist: 0
+  baseDodgeChance: 0
+  baseAccuracy: 0
+--- !u!61 &217177824379661383
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464356119396580958}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.36519504, y: 2.5128703}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5692779, y: 0.02317451}
+    oldSize: {x: 6.96, y: 5.27}
+    newSize: {x: 6.96, y: 5.27}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 3.3504024, y: 5.2699995}
+  m_EdgeRadius: 0

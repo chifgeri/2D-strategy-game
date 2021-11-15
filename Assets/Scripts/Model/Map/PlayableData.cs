@@ -10,9 +10,8 @@ namespace Model
 
     public enum PlayableTypes
     {
-      Knight1,
-      Knight2,
-      Knight3,
+      Axeman,
+      Paladin,
       Archer,
       Wizard,
       Medic

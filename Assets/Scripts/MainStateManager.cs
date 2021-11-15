@@ -36,7 +36,10 @@ public class MainStateManager : Singleton<MainStateManager>
         {
             await LoadLevels();
         }
-        gameState = new GameState(levels[0], new List<PlayableData>(), null, false, true, new Vector3(0, 0, 0));
+        gameState = new GameState(levels[0], new List<PlayableData>()
+        { new PlayableData(1, PlayableTypes.Axeman, 1, 100, 100, null, null),
+          new PlayableData(2, PlayableTypes.Paladin, 1, 100, 100, null, null),
+        }, null, false, true, new Vector3(0, 0, 0));
     
         SceneManager.LoadSceneAsync("MapScene");
     }

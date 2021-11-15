@@ -9,9 +9,8 @@ namespace Utils
 {
     public class PlayerCharacters : Singleton<PlayerCharacters>
     {
-        public HeroController knightPrefab1;
-        public HeroController knightPrefab2;
-        public HeroController knightPrefab3;
+        public HeroController axemanPrefab;
+        public HeroController paldinPrefab;
         public HeroController archerPrefab;
         public HeroController wizardPrefab;
         public HeroController medicPrefab;
@@ -20,12 +19,10 @@ namespace Utils
         {
             switch (playableType)
             {
-                case PlayableTypes.Knight1:
-                    return knightPrefab1;
-                case PlayableTypes.Knight2:
-                    return knightPrefab2;
-                case PlayableTypes.Knight3:
-                    return knightPrefab3;
+                case PlayableTypes.Axeman:
+                    return axemanPrefab;
+                case PlayableTypes.Paladin:
+                    return paldinPrefab;
                 case PlayableTypes.Archer:
                     return archerPrefab;
                 case PlayableTypes.Medic:

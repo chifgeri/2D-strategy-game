@@ -10,14 +10,14 @@ namespace Model {
     public class Round
     {
         [SerializeField]
-        private Group playerGroup;
+        private Group<PlayerCharacter> playerGroup;
         [SerializeField]
-        private Group enemyGroup;
-        public Group PlayerGroup {
+        private Group<EnemyCharacter> enemyGroup;
+        public Group<PlayerCharacter> PlayerGroup
+        {
             get;
         }
-
-        public Group EnemyGroup {
+        public Group<EnemyCharacter> EnemyGroup {
             get;
         }
         [SerializeField]
@@ -29,22 +29,20 @@ namespace Model {
 
         [SerializeField]
         private Queue<Character> characterOrder;
-        private Dictionary<int, Character> characters;
-        private Dictionary<int, Character> enemyCharacters;
-        private Queue<Character> queue;
 
-        public Round(Group players, Group enemies) {
+        public Round(Group<PlayerCharacter> players, Group<EnemyCharacter> enemies) {
             playerGroup = players;
             enemyGroup = enemies;
 
             characterOrder = new Queue<Character>();
         }
 
-        public Round(Dictionary<int, Character> characters, Dictionary<int, Character> enemyCharacters, Queue<Character> queue, int roundNumber)
+        public Round(Group<PlayerCharacter> players , Group<EnemyCharacter> enemies, Queue<Character> queue, int roundNumber)
         {
-            this.characters = characters;
-            this.enemyCharacters = enemyCharacters;
-            this.queue = queue;
+            playerGroup = players;
+            enemyGroup = enemies;
+
+            this.characterOrder = queue;
             this.roundNumber = roundNumber;
         }
 
@@ -74,11 +72,17 @@ namespace Model {
         public void InitRound()
         {
             calculateOrder();
-            foreach(Character c in characterOrder)
+            foreach(PlayerCharacter c in playerGroup.Characters)
             {
-                c.CharacterUsedSpellEvent += CharacterActionDone;
+                c.CharacterActionDone += CharacterActionDone;
 
                 c.CharacterDieEvent += OnCharacterDied; 
+            }
+            foreach (EnemyCharacter c in enemyGroup.Characters)
+            {
+                c.CharacterActionDone += CharacterActionDone;
+
+                c.CharacterDieEvent += OnCharacterDied;
             }
             SetNext();
         }
@@ -86,20 +90,19 @@ namespace Model {
         private void SetNext()
         {
             Character current = characterOrder.Dequeue();
-            current.IsNext = true;
-            current.EnableSkills();
+            current.SetNext();
         }
 
         private void OnCharacterDied(Character c)
         {
-            if (playerGroup.Characters.Contains(c))
-            {
-                playerGroup.RemoveCharacter(c);
-            }
-            if (enemyGroup.Characters.Contains(c))
-            {
-                enemyGroup.RemoveCharacter(c);
-            }
+            //if (playerGroup.Characters.Contains(c))
+            //{
+            //    playerGroup.RemoveCharacter(c);
+            //}
+            //if (enemyGroup.Characters.Contains(c))
+            //{
+            //    enemyGroup.RemoveCharacter(c);
+            //}
             if (characterOrder.Contains(c))
             {
                 var queue = new Queue<Character>();

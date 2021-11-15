@@ -611,7 +611,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &451563766
 GameObject:
@@ -713,7 +713,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &497158009
 GameObject:
@@ -884,7 +884,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &608510475
 GameObject:
@@ -998,7 +998,6 @@ GameObject:
   - component: {fileID: 765609144}
   - component: {fileID: 765609143}
   - component: {fileID: 765609146}
-  - component: {fileID: 765609145}
   m_Layer: 0
   m_Name: Background
   m_TagString: Untagged
@@ -1069,36 +1068,8 @@ Transform:
   m_LocalScale: {x: 0.59973454, y: 0.46304178, z: 0.46304178}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &765609145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 765609142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71087c7f20a8bbb488016a179fac86c1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  HBPrefab: {fileID: 0}
-  IsNextPrefab: {fileID: 0}
-  animator: {fileID: 0}
-  skillPrefabs:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  speed: 0
-  defaultLevel: 0
-  baseDamage: 0
-  baseArmor: 0
-  baseCrit: 0
-  baseStunResist: 0
-  baseDodgeChance: 0
-  baseAccuracy: 0
 --- !u!95 &765609146
 Animator:
   serializedVersion: 3
@@ -1118,6 +1089,54 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!1 &912573539
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 912573541}
+  - component: {fileID: 912573540}
+  m_Layer: 0
+  m_Name: PlayerSprites
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &912573540
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912573539}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c504244ff62dc364282e2de04263427c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  axemanPrefab: {fileID: 344505430, guid: 3145e3d80c64ede4cb3098a2c8907851, type: 3}
+  paldinPrefab: {fileID: 905553252, guid: ebb1fc1594b40d94ab23f5c61de45df4, type: 3}
+  archerPrefab: {fileID: 0}
+  wizardPrefab: {fileID: 0}
+  medicPrefab: {fileID: 0}
+--- !u!4 &912573541
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 912573539}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 13.225968, y: -2.7943, z: -747.54395}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &980219004
 GameObject:
   m_ObjectHideFlags: 0
@@ -1621,7 +1640,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1623259892
 GameObject:
@@ -1754,11 +1773,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 594a57c4631535d44b251758d7a8986d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knightPrefab: {fileID: 4843102199257798354, guid: 29cf89db19c793e44b0b44363bad78c6, type: 3}
-  golemPrefab: {fileID: 4334938975473524599, guid: 86f0eb75596a62541a828cd9f3eddcc5, type: 3}
-  orcPrefab: {fileID: 7059165646797935751, guid: f0cd48426b131d0489b6e28fb89f1bc6, type: 3}
-  skeletonPrefab: {fileID: 1330841350216380780, guid: 0d770db1eb23aa049a26133165f62a98, type: 3}
-  zombiePrefab: {fileID: 4973335599530720121, guid: 5c2286df332562a4087e44eb9d9342ca, type: 3}
+  knightPrefab: {fileID: 9099651794271548393, guid: 29cf89db19c793e44b0b44363bad78c6, type: 3}
+  golemPrefab: {fileID: 1741058752684929261, guid: 86f0eb75596a62541a828cd9f3eddcc5, type: 3}
+  orcPrefab: {fileID: 6285318487738290772, guid: f0cd48426b131d0489b6e28fb89f1bc6, type: 3}
+  skeletonPrefab: {fileID: -2108921988924590868, guid: 0d770db1eb23aa049a26133165f62a98, type: 3}
+  zombiePrefab: {fileID: 2005596410506622992, guid: 5c2286df332562a4087e44eb9d9342ca, type: 3}
 --- !u!1 &1661230721
 GameObject:
   m_ObjectHideFlags: 0
@@ -2125,7 +2144,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5116987133339301430, guid: 6eb5d8a520cb85a4aa82a31bc12c73d8, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5116987133339301430, guid: 6eb5d8a520cb85a4aa82a31bc12c73d8, type: 3}
       propertyPath: m_AnchorMax.x

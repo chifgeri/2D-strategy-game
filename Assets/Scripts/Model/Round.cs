@@ -13,6 +13,7 @@ namespace Model {
         private Group<PlayerCharacter> playerGroup;
         [SerializeField]
         private Group<EnemyCharacter> enemyGroup;
+        Character current;
 
         [SerializeField]
         private int roundNumber;
@@ -20,11 +21,13 @@ namespace Model {
         public int RoundNumber {
             get => roundNumber;
         }
-        public Group<PlayerCharacter> PlayerGroup { get => playerGroup; }
-        public Group<EnemyCharacter> EnemyGroup { get => enemyGroup; }
 
         [SerializeField]
         private Queue<Character> characterOrder;
+
+        public Group<PlayerCharacter> PlayerGroup { get => playerGroup; }
+        public Group<EnemyCharacter> EnemyGroup { get => enemyGroup; }
+        public Queue<Character> CharacterOrder { get => characterOrder; }
 
         public Round(Group<PlayerCharacter> players, Group<EnemyCharacter> enemies) {
             playerGroup = players;
@@ -68,11 +71,17 @@ namespace Model {
         public void InitRound()
         {
             calculateOrder();
-            foreach(PlayerCharacter c in playerGroup.Characters)
+            InitEvents();
+            SetNext();
+        }
+
+        public void InitEvents()
+        {
+            foreach (PlayerCharacter c in playerGroup.Characters)
             {
                 c.CharacterActionDone += CharacterActionDone;
 
-                c.CharacterDieEvent += OnCharacterDied; 
+                c.CharacterDieEvent += OnCharacterDied;
             }
             foreach (EnemyCharacter c in enemyGroup.Characters)
             {
@@ -80,12 +89,15 @@ namespace Model {
 
                 c.CharacterDieEvent += OnCharacterDied;
             }
-            SetNext();
         }
 
         private void SetNext()
         {
-            Character current = characterOrder.Dequeue();
+            if(current != null)
+            {
+                current.UnsetNext();
+            }
+            current = characterOrder.Dequeue();
             current.SetNext();
         }
 

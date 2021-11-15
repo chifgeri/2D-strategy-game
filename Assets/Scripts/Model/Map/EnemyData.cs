@@ -20,7 +20,7 @@ namespace Model
     public class EnemyData
     {
         [SerializeField]
-        private int id;
+        private string id;
         [SerializeField]
         private EnemyTypes enemyType;
         [SerializeField]
@@ -28,7 +28,7 @@ namespace Model
         [SerializeField]
         private int health;
 
-        public EnemyData(int id, EnemyTypes enemyType, int level, int health)
+        public EnemyData(string id, EnemyTypes enemyType, int level, int health)
         {
             this.id = id;
             this.enemyType = enemyType;
@@ -39,6 +39,6 @@ namespace Model
         public EnemyTypes EnemyType { get => enemyType; set => enemyType = value; }
         public int Level { get => level; set => level = value; }
         public int Health { get => health; set => health = value; }
-        public int Id { get => id; set => id = value; }
+        public string Id { get => id; set => id = value; }
     }
 }

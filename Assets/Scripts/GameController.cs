@@ -29,8 +29,8 @@ public class GameController : Singleton<GameController>
         var room = MainStateManager.Instance.CurrentRound;
         var state = MainStateManager.Instance.GameState;
 
-        Dictionary<int, PlayerCharacter> characters = new Dictionary<int, PlayerCharacter>();
-        Dictionary<int, EnemyCharacter> enemyCharacters = new Dictionary<int, EnemyCharacter>();
+        Dictionary<string, PlayerCharacter> characters = new Dictionary<string, PlayerCharacter>();
+        Dictionary<string, EnemyCharacter> enemyCharacters = new Dictionary<string, EnemyCharacter>();
 
         float heroPositionX = -2.5f;
         float enemyPositionX = 2.5f;
@@ -77,10 +77,8 @@ public class GameController : Singleton<GameController>
             enemyHeroes.Characters.AddRange(enemyCharacters.Values);
 
             Queue<Character> queue = new Queue<Character>();
-            while (state.FightData.OrderId.Count > 0)
+            foreach(var id in state.FightData.Order)
             {
-                int id = state.FightData.OrderId.Dequeue();
-
                 characters.TryGetValue(id, out var hero);
                 if (hero != null)
                 {
@@ -92,18 +90,19 @@ public class GameController : Singleton<GameController>
                     queue.Enqueue(enemy);
                 }
             }
-            int current = state.FightData.CurrentId;
+            string current = state.FightData.CurrentId;
             characters.TryGetValue(current, out var currentHero);
             enemyCharacters.TryGetValue(current, out var currentEnemy);
             if (currentHero != null)
             {
-                currentHero.IsNext = true;
+                currentHero.SetNext();
             }
             if (currentEnemy != null)
             {
-                currentEnemy.IsNext = true;
+                currentEnemy.SetNext();
             }
             round = new Round(playableHeroes, enemyHeroes, queue, state.FightData.RoundNumber);
+            round.InitEvents();
         }
 
         
@@ -120,6 +119,7 @@ public class GameController : Singleton<GameController>
     {
         var prefab = PlayerCharacters.Instance.PlayerTypeToPrefab(data.PlayableType);
         var hero = Instantiate<HeroController>(prefab, new Vector3(xPos, 0, 0), Quaternion.identity);
+        hero.Type = data.PlayableType;
         hero.Health = data.Health;
         hero.Level = data.Level;
         hero.Experience = data.Experience;
@@ -135,6 +135,7 @@ public class GameController : Singleton<GameController>
         var hero = Instantiate<EnemyController>(prefab, new Vector3(xPos, 0, 0), Quaternion.identity);
         hero.Health = data.Health;
         hero.Level = data.Level;
+        hero.Type = data.EnemyType;
 
         return hero;
     }

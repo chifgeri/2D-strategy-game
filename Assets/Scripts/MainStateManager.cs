@@ -37,8 +37,8 @@ public class MainStateManager : Singleton<MainStateManager>
             await LoadLevels();
         }
         gameState = new GameState(levels[0], new List<PlayableData>()
-        { new PlayableData(1, PlayableTypes.Axeman, 1, 100, 100, null, null),
-          new PlayableData(2, PlayableTypes.Paladin, 1, 100, 100, null, null),
+        { new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Axeman, 1, 100, 100, null, null),
+          new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Paladin, 1, 100, 100, null, null),
         }, null, false, true, new Vector3(0, 0, 0));
     
         SceneManager.LoadSceneAsync("MapScene");
@@ -58,8 +58,47 @@ public class MainStateManager : Singleton<MainStateManager>
     {
         if (gameState.IsInFight)
         {
-          // TODO: save fight state
-          //   gameState.FightData = new RoomState()
+            Dictionary<string, Character> dict = new Dictionary<string, Character>();
+            List<PlayableData> playables = new List<PlayableData>();
+            List<EnemyData> enemies = new List<EnemyData>();
+            string current = null;
+
+            // Get playable data
+            foreach (var player in CurrentRound.PlayerGroup.Characters)
+            {
+                var guid = System.Guid.NewGuid().ToString();
+                playables.Add(new PlayableData(guid, player.Type, player.Level, player.Health, player.Experience, player.Weapon, player.Armor));
+                dict[guid] = player;
+                if (player.IsNext)
+                {
+                    current = guid;
+                }
+            }
+            // Get enemies data
+            foreach (var enemy in CurrentRound.EnemyGroup.Characters)
+            {
+                var guid = System.Guid.NewGuid().ToString();
+                enemies.Add(new EnemyData(guid, enemy.Type, enemy.Level, enemy.Health));
+                dict[guid] = enemy;
+                if (enemy.IsNext)
+                {
+                    current = guid;
+                }
+            }
+            // Get current order
+            List<string> order = new List<string>();
+            while(CurrentRound.CharacterOrder.Count < 1)
+            {
+                var character = CurrentRound.CharacterOrder.Dequeue();
+                var value = dict.FirstOrDefault(x => x.Value.Equals(character)).Key ?? null;
+                if (value != null)
+                {
+                    order.Add(value);
+                }
+
+            }
+            gameState.FightData = new RoomState(playables, enemies, CurrentRound.RoundNumber, current, order);
+            gameState.PlayableCharacters = playables;
         }
 
         var jsonData = JsonUtility.ToJson(gameState);
@@ -79,6 +118,16 @@ public class MainStateManager : Singleton<MainStateManager>
         string json = await sr.ReadToEndAsync();
 
         gameState = JsonUtility.FromJson<GameState>(json);
+
+        if (gameState.IsInFight)
+        {
+            SceneManager.LoadScene("RoomScene");
+        }
+
+        if (gameState.IsInMap)
+        {
+            SceneManager.LoadScene("MapScene");
+        }
 
         sr.Close();
         fs.Close();

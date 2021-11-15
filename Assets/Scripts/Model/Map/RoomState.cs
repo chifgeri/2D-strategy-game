@@ -15,23 +15,23 @@ namespace Model
         [SerializeField]
         private int roundNumber;
         [SerializeField]
-        private int currentId;
+        private string currentId;
         [SerializeField]
-        private Queue<int> orderId;
+        private List<string> order;
 
-        public RoomState(List<PlayableData> playerCharacters, List<EnemyData> enemyCharacters, int roundNumber, int currentId, Queue<int> orderId)
+        public RoomState(List<PlayableData> playerCharacters, List<EnemyData> enemyCharacters, int roundNumber, string currentId, List<string> order)
         {
             this.playerCharacters = playerCharacters;
             this.enemyCharacters = enemyCharacters;
             this.roundNumber = roundNumber;
             this.currentId = currentId;
-            this.orderId = orderId;
+            this.order = order;
         }
 
         public List<PlayableData> PlayerCharacters { get => playerCharacters; set => playerCharacters = value; }
         public List<EnemyData> EnemyCharacters { get => enemyCharacters; set => enemyCharacters = value; }
         public int RoundNumber { get => roundNumber; set => roundNumber = value; }
-        public int CurrentId { get => currentId; set => currentId = value; }
-        public Queue<int> OrderId { get => orderId; set => orderId = value; }
+        public string CurrentId { get => currentId; set => currentId = value; }
+        public List<string> Order { get => order; set => order = value; }
     }
 }

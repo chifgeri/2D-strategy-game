@@ -6,6 +6,10 @@ using UnityEngine;
 namespace Model {
     public class EnemyCharacter : Character
     {
+        private EnemyTypes type;
+
+        public EnemyTypes Type { get => type; set => type = value; }
+
         public override void AttackAction(Character [] targets)
         {
             if (MainStateManager.Instance.CurrentRound != null) {

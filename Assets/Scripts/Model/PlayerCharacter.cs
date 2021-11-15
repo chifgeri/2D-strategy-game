@@ -18,6 +18,8 @@ namespace Model
 
         private Weapon weapon;
 
+        private PlayableTypes type;
+
         [SerializeField]
         private SkillBase[] skillPrefabs = new SkillBase[4];
 
@@ -65,6 +67,7 @@ namespace Model
 
         public Armor Armor { get => armor; }
         public Weapon Weapon { get => weapon; }
+        public PlayableTypes Type { get => type; set => type = value; }
 
         protected override void Awake()
         {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Assets.Scripts.Utils;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,21 +11,21 @@ namespace Model
     {
         public override void CastSkill(Character caster, Character[] targets)
         {
-            if (this.CalculateMiss(caster))
+            if (Calculations.CalculateMiss(caster))
             {
                 // Display miss animation, effect
                 // caster.Miss()
                 return;
             }
 
-            if (this.CalculateDodge(caster, targets[0]))
+            if (Calculations.CalculateDodge(caster, targets[0]))
             {
                 // Display dodge animation, effect
                 // target[0].Dodge()
                 return;
             }
 
-            int dmg = CalculateDamage(caster, targets[0]);
+            int dmg = Calculations.CalculateDamage(caster, targets[0]);
             // Call attack animation
             // caster.animator.SpearAttack1(targets[0]);
 

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Assets.Scripts.Behaviours
 {
-    interface IBaseBehaviour
+    public interface IBaseBehaviour
     {
         public void Action(EnemyCharacter enemy, PlayerCharacter[] players, EnemyCharacter[] enemyCharacters);
     }

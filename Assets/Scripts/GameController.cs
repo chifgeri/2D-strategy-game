@@ -53,8 +53,7 @@ public class GameController : Singleton<GameController>
                 enemyPositionX += 2f;
             }
             enemyHeroes.Characters.AddRange(enemyCharacters.Values);
-            room = new Round(playableHeroes, enemyHeroes);
-            round = room;
+            round = new Round(playableHeroes, enemyHeroes);
             round.InitRound();
         }
         else
@@ -104,8 +103,7 @@ public class GameController : Singleton<GameController>
             {
                 currentEnemy.IsNext = true;
             }
-            room = new Round(playableHeroes, enemyHeroes, queue, state.FightData.RoundNumber);
-            round = room;
+            round = new Round(playableHeroes, enemyHeroes, queue, state.FightData.RoundNumber);
         }
 
         
@@ -113,6 +111,8 @@ public class GameController : Singleton<GameController>
         {
             hero.CharacterNewSpellEvent += this.characterChangedSpell;
         }
+        MainStateManager.Instance.CurrentRound = round;
+        Debug.Log(MainStateManager.Instance.CurrentRound.RoundNumber);
 
     }
 

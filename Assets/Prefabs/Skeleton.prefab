@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 34539186479198064}
   - component: {fileID: -2108921988924590868}
   - component: {fileID: 1005761156266516495}
+  - component: {fileID: 764079956949681435}
+  - component: {fileID: 3364271241313323764}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Untagged
@@ -121,7 +123,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   speed: 0
   defaultLevel: 0
-  baseDamage: 0
+  baseDamage: 15
   baseArmor: 0
   baseCrit: 0
   baseStunResist: 0
@@ -153,3 +155,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 4.773404, y: 9.67}
   m_EdgeRadius: 0
+--- !u!114 &764079956949681435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138666218989398587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3617803563132674080b04da794a4d2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3364271241313323764
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138666218989398587}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7fc9221c6e905d499f86889db68c75e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

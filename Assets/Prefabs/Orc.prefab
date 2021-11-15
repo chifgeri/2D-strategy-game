@@ -121,7 +121,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   speed: 0
   defaultLevel: 0
-  baseDamage: 0
+  baseDamage: 25
   baseArmor: 0
   baseCrit: 0
   baseStunResist: 0

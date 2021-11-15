@@ -13,19 +13,15 @@ namespace Model {
         private Group<PlayerCharacter> playerGroup;
         [SerializeField]
         private Group<EnemyCharacter> enemyGroup;
-        public Group<PlayerCharacter> PlayerGroup
-        {
-            get;
-        }
-        public Group<EnemyCharacter> EnemyGroup {
-            get;
-        }
+
         [SerializeField]
         private int roundNumber;
 
         public int RoundNumber {
             get => roundNumber;
         }
+        public Group<PlayerCharacter> PlayerGroup { get => playerGroup; }
+        public Group<EnemyCharacter> EnemyGroup { get => enemyGroup; }
 
         [SerializeField]
         private Queue<Character> characterOrder;
@@ -95,14 +91,14 @@ namespace Model {
 
         private void OnCharacterDied(Character c)
         {
-            //if (playerGroup.Characters.Contains(c))
-            //{
-            //    playerGroup.RemoveCharacter(c);
-            //}
-            //if (enemyGroup.Characters.Contains(c))
-            //{
-            //    enemyGroup.RemoveCharacter(c);
-            //}
+            if (c is PlayerCharacter character && playerGroup.Characters.Contains(character))
+            {
+                playerGroup.RemoveCharacter(character);
+            }
+            if (c is EnemyCharacter character1 && enemyGroup.Characters.Contains(character1))
+            {
+                enemyGroup.RemoveCharacter(character1);
+            }
             if (characterOrder.Contains(c))
             {
                 var queue = new Queue<Character>();

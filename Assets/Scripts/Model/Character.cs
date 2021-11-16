@@ -23,7 +23,7 @@ namespace Model {
         [SerializeField]
         private int speed;
         [SerializeField]
-        private int defaultLevel;
+        private int level;
         [SerializeField]
         private int baseDamage;
         [SerializeField]
@@ -65,16 +65,15 @@ namespace Model {
         }
 
         public int Level{
-            get { return defaultLevel; }
+            get { return level; }
             set {
                 if(value >= 0 && value <= 10){
-                    defaultLevel = value;
+                    level = value;
                 }
             }
         }
 
         public int Speed { get => speed; set => speed = value; }
-        public int DefaultLevel { get => defaultLevel; set => defaultLevel = value; }
         public int BaseDamage { get => baseDamage; set => baseDamage = value; }
         public int BaseArmor { get => baseArmor; set => baseArmor = value; }
         public float BaseCrit { get => baseCrit; set => baseCrit = value; }
@@ -180,5 +179,14 @@ namespace Model {
 
         public abstract void AttackAction(Character[] targets);
 
+
+        private void OnMouseOver()
+        {
+            FightTextManager.Instance.ShowDetailToCharacter(this);
+        }
+
+        private void OnMouseExit() {
+            FightTextManager.Instance.DisableDetail();
+        }
     }
 }

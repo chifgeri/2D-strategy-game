@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Model;
+using UnityEngine.UIElements;
+using System;
 
 public enum TextType
 {
@@ -15,6 +18,9 @@ public class FightTextManager : Singleton<FightTextManager>
 {
     [SerializeField]
     private GameObject textObject;
+    [SerializeField]
+    private InfoPanel detailPanel;
+
     public void ShowText(string value, Vector3 position, TextType textType)
     {
         var textObject = Instantiate(this.textObject, position, Quaternion.identity);
@@ -42,6 +48,24 @@ public class FightTextManager : Singleton<FightTextManager>
          "TextAnimationLeft", "TextAnimationRight"
         };
         animator.Play(animations[UnityEngine.Random.Range(0, 2)]);
+    }
+
+    public void ShowDetailToCharacter(Character c)
+    {
+        if (!detailPanel.gameObject.activeInHierarchy)
+        {
+            detailPanel.gameObject.SetActive(true);
+            detailPanel.SetValues(c);
+        }
+    }
+
+
+    public void DisableDetail()
+    {
+        if (detailPanel.gameObject.activeInHierarchy)
+        {
+            detailPanel.gameObject.SetActive(false);
+        }
     }
 
 }

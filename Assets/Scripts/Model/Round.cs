@@ -1,36 +1,48 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
 
 namespace Model {
-
+    [Serializable]
     public class Round
     {
-        private Group playerGroup;
-        private Group enemyGroup;
-        public Group PlayerGroup {
-            get;
-        }
+        [SerializeField]
+        private Group<PlayerCharacter> playerGroup;
+        [SerializeField]
+        private Group<EnemyCharacter> enemyGroup;
+        Character current;
 
-        public Group EnemyGroup {
-            get;
-        }
-
+        [SerializeField]
         private int roundNumber;
 
         public int RoundNumber {
-            get;
+            get => roundNumber;
         }
 
+        [SerializeField]
         private Queue<Character> characterOrder;
 
-        public Round(Group players, Group enemies) {
+        public Group<PlayerCharacter> PlayerGroup { get => playerGroup; }
+        public Group<EnemyCharacter> EnemyGroup { get => enemyGroup; }
+        public Queue<Character> CharacterOrder { get => characterOrder; }
+
+        public Round(Group<PlayerCharacter> players, Group<EnemyCharacter> enemies) {
             playerGroup = players;
             enemyGroup = enemies;
 
             characterOrder = new Queue<Character>();
+        }
+
+        public Round(Group<PlayerCharacter> players , Group<EnemyCharacter> enemies, Queue<Character> queue, int roundNumber)
+        {
+            playerGroup = players;
+            enemyGroup = enemies;
+
+            this.characterOrder = queue;
+            this.roundNumber = roundNumber;
         }
 
         private void calculateOrder() {
@@ -48,7 +60,7 @@ namespace Model {
                 {
                     return 1;
                 }
-                return -a.speed.CompareTo(b.speed);
+                return -a.Speed.CompareTo(b.Speed);
             });
 
             foreach (var item in characters) {
@@ -59,31 +71,45 @@ namespace Model {
         public void InitRound()
         {
             calculateOrder();
-            foreach(Character c in characterOrder)
-            {
-                c.CharacterUsedSpellEvent += CharacterActionDone;
-
-                c.CharacterDieEvent += OnCharacterDied; 
-            }
+            InitEvents();
             SetNext();
+        }
+
+        public void InitEvents()
+        {
+            foreach (PlayerCharacter c in playerGroup.Characters)
+            {
+                c.CharacterActionDone += CharacterActionDone;
+
+                c.CharacterDieEvent += OnCharacterDied;
+            }
+            foreach (EnemyCharacter c in enemyGroup.Characters)
+            {
+                c.CharacterActionDone += CharacterActionDone;
+
+                c.CharacterDieEvent += OnCharacterDied;
+            }
         }
 
         private void SetNext()
         {
-            Character current = characterOrder.Dequeue();
-            current.IsNext = true;
-            current.EnableSkills();
+            if(current != null)
+            {
+                current.UnsetNext();
+            }
+            current = characterOrder.Dequeue();
+            current.SetNext();
         }
 
         private void OnCharacterDied(Character c)
         {
-            if (playerGroup.Characters.Contains(c))
+            if (c is PlayerCharacter character && playerGroup.Characters.Contains(character))
             {
-                playerGroup.RemoveCharacter(c);
+                playerGroup.RemoveCharacter(character);
             }
-            if (enemyGroup.Characters.Contains(c))
+            if (c is EnemyCharacter character1 && enemyGroup.Characters.Contains(character1))
             {
-                enemyGroup.RemoveCharacter(c);
+                enemyGroup.RemoveCharacter(character1);
             }
             if (characterOrder.Contains(c))
             {

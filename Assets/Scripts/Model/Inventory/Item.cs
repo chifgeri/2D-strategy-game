@@ -1,54 +1,58 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model {
-public abstract class Item
-    {
-        private int amount;
 
-        private int price;
+    [Serializable]
+    public abstract class Item
+        {
+            [SerializeField]
+            private int amount;
+            [SerializeField]
+            private int price;
+            [SerializeField]
+            private bool stackable;
+            [SerializeField]
+            private string name;
 
-        private bool stackable;
 
-        public string Name {
-            get;
-            set;
-        }
-
-        public int Amount{
-            get {
-                return amount;
+            public int Amount{
+                get {
+                    return amount;
+                }
+                set {
+                    amount = value;
+                }
             }
-            set {
-                amount = value;
+            public int Price {
+                get;
+                set;
             }
-        }
-        public int Price {
-            get;
-            set;
-        }
 
-        public bool Stackable {
-            get {
-                return stackable;
+            public bool Stackable {
+                get {
+                    return stackable;
+                }
             }
-        }
 
-        protected Item(string _name, int _price, int _amount, bool _stackable){
-            Name = _name;
-            price = _price;
-            amount = _amount;
-            stackable = _stackable;
-        }
+            public string Name { get => name; set => name = value; }
+
+            protected Item(string _name, int _price, int _amount, bool _stackable){
+                Name = _name;
+                price = _price;
+                amount = _amount;
+                stackable = _stackable;
+            }
         
-        public abstract void Use();
-        public abstract void Equip();
+            public abstract void Use();
+            public abstract void Equip();
 
-        public abstract Sprite GetSprite();
+            public abstract Sprite GetSprite();
 
-        public abstract System.Enum GetItemType();
+            public abstract System.Enum GetItemType();
 
-        public abstract Item Clone(int amount);
-    }
+            public abstract Item Clone(int amount);
+        }
 }

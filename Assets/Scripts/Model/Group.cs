@@ -9,10 +9,10 @@ namespace Model {
 * They move together and fight together
 **/
 
-    public class Group {
-        private List<Character> characters;
+    public class Group<T> where T : Character {
+        private List<T> characters;
 
-        public List<Character> Characters {
+        public List<T> Characters {
             get {
                 if(characters.Count > 4){
                     Debug.LogError("[Group] More characters than expected.");
@@ -24,14 +24,14 @@ namespace Model {
         }
 
         public Group() {
-            characters = new List<Character>(4);
+            characters = new List<T>(4);
         }
 
-        public void AddCharacter(Character character){
+        public void AddCharacter(T character){
             characters.Add(character);
         }
 
-        public void RemoveCharacter(Character character)
+        public void RemoveCharacter(T character)
         {
             characters.Remove(character);
         }

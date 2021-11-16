@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,8 +10,10 @@ namespace Model {
         DodgeBuff,
 
     }
+    [Serializable]
     public class Consumable : Item
     {
+        [SerializeField]
         private ConsumableType type;
 
         

@@ -3,37 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Model {
-    public delegate void CharacterChangedHandler(Character c);
-    public delegate void CharacterUsedSpellDelegate(Character c);
-    public delegate void CharacterNewSpellDelegate(Character c);
+
+    public delegate void CharacterActionDoneDelegate(Character c);
 
     public abstract class Character : MonoBehaviour
     {
-        public event CharacterUsedSpellDelegate CharacterUsedSpellEvent;
-        public event CharacterNewSpellDelegate CharacterNewSpellEvent;
         public event CharacterNewSpellDelegate CharacterDieEvent;
+        public event CharacterActionDoneDelegate CharacterActionDone;
 
-        public HealthBar HBPrefab;
+        public HealthBarController HBPrefab;
         public NextMarker IsNextPrefab;
-        protected HealthBar healthBar;
+
+        protected HealthBarController healthBar;
         protected NextMarker isNextMarker;
         public Animator animator;
-        public SkillBase[] skillPrefabs = new SkillBase[4];
-        private List<SkillBase> skills;
 
         private bool isSelected = false;
         private int health = 100;
-        public int speed;
-        public int defaultLevel;
-        public int baseDamage;
-        public int baseArmor;
-        public float baseCrit;
-        public float baseStunResist;
-        public float baseDodgeChance;
-        public float baseAccuracy;
-
-        public SkillBase SelectedSkill { get; set; }
-
+        [SerializeField]
+        private int speed;
+        [SerializeField]
+        private int defaultLevel;
+        [SerializeField]
+        private int baseDamage;
+        [SerializeField]
+        private int baseArmor;
+        [SerializeField]
+        private float baseCrit;
+        [SerializeField]
+        private float baseStunResist;
+        [SerializeField]
+        private float baseDodgeChance;
+        [SerializeField]
+        private float baseAccuracy;
 
         public bool IsSelected {
             get { return isSelected; }
@@ -71,32 +73,30 @@ namespace Model {
             }
         }
 
-        protected virtual void Awake() {
-            skills = new List<SkillBase>(4);
+        public int Speed { get => speed; set => speed = value; }
+        public int DefaultLevel { get => defaultLevel; set => defaultLevel = value; }
+        public int BaseDamage { get => baseDamage; set => baseDamage = value; }
+        public int BaseArmor { get => baseArmor; set => baseArmor = value; }
+        public float BaseCrit { get => baseCrit; set => baseCrit = value; }
+        public float BaseStunResist { get => baseStunResist; set => baseStunResist = value; }
+        public float BaseDodgeChance { get => baseDodgeChance; set => baseDodgeChance = value; }
+        public float BaseAccuracy { get => baseAccuracy; set => baseAccuracy = value; }
 
+        protected virtual void Awake() { 
             var transform = this.GetComponent<Transform>();
 
-            healthBar = Instantiate<HealthBar>(
-                    HBPrefab,
-                    new Vector3(
-                        transform.position.x,
-                        transform.position.y + HBPrefab.GetComponent<RectTransform>().rect.height * 2 + 0.15f,
-                        0),
-                     Quaternion.identity);
-
-            foreach (SkillBase skillPref in skillPrefabs)
+            if (HBPrefab != null)
             {
-                if (skillPref != null)
-                {
-                    SkillBase skill = Instantiate(skillPref);
-                    skills.Add(skill);
-                    // Notify the character when the skill selected
-                    skill.SkillSelected += this.SelectSkill;
-                }
-                else
-                {
-                    skills.Add(null);
-                }
+                healthBar = Instantiate<HealthBarController>(
+                        HBPrefab,
+                        new Vector3(
+                            transform.position.x,
+                            -0.15f,
+                            3),
+                         Quaternion.identity);
+            } else
+            {
+                Debug.Log($"HBPrefab is NULL on {gameObject.name}");
             }
         }
 
@@ -139,41 +139,13 @@ namespace Model {
             // TODO: Show information to user
             Health += amount;
         }
-
-        public void CastSkill(Character[] targets)
+        
+        protected void CharacterActionDoneInvoke()
         {
-            if (SelectedSkill)
-            {
-                SelectedSkill.CastSkill(this, targets);
-                SelectedSkill = null;
-                CharacterUsedSpellEvent(this);
-                DisableSkills();
-            }
-            else
-            {
-                Debug.LogError("Selected skill is null");
-            }
+            this.CharacterActionDone(this);
         }
-
-        public void SelectSkill(SkillBase skill)
-        {
-            if (IsNext)
-            {
-               SelectedSkill = skill;
-               CharacterNewSpellEvent(this);
-            }
-        }
-
-        public void setSkill(SkillBase skill, int position){
-            if(position < 0 && position > 3){
-                throw new System.Exception("Wrong position given!");
-            }
-            skills[position] = skill;
-        }
-
         public virtual void Die()
         {
-
             CharacterDieEvent(this);
 
             if (isNextMarker != null)
@@ -186,32 +158,25 @@ namespace Model {
             Destroy(this.gameObject);
         }
 
-        public void Select(){
+        public virtual void Select(){
             isSelected = true;
         }
 
-         public void UnSelect(){
+         public virtual void UnSelect(){
             isSelected = false;
         }
 
-        public List<SkillBase> GetSkills(){
-            return skills;
+        public virtual void SetNext()
+        {
+            IsNext = true;
         }
 
-        public void EnableSkills()
+        public virtual void UnsetNext()
         {
-            foreach (var skill in skills)
-            {
-                skill.disabled = false;
-            }
+            IsNext = false;
         }
 
-        public void DisableSkills()
-        {
-            foreach (var skill in skills)
-            {
-                skill.disabled = true;
-            }
-        }
+        public abstract void AttackAction(Character[] targets);
+
     }
 }

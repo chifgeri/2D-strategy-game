@@ -25,7 +25,7 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
         CreateSkillSlots();
     }
 
-    public void RefreshSkills(Character c){
+    public void RefreshSkills(PlayerCharacter c){
         if(c.GetSkills().Count == 4 ){
             var skillList = c.GetSkills();
             for(int i = 0; i<4; i++ ){

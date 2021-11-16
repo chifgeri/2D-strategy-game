@@ -87,7 +87,7 @@ public class MainStateManager : Singleton<MainStateManager>
             }
             // Get current order
             List<string> order = new List<string>();
-            while(CurrentRound.CharacterOrder.Count < 1)
+            while(CurrentRound.CharacterOrder.Count > 0)
             {
                 var character = CurrentRound.CharacterOrder.Dequeue();
                 var value = dict.FirstOrDefault(x => x.Value.Equals(character)).Key ?? null;

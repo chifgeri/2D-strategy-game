@@ -127,6 +127,7 @@ namespace Model {
         public void Hit(int damage)
         {
             // TODO: Show information to user
+            FightTextManager.Instance.ShowText(damage.ToString(), gameObject.transform.position, TextType.Damage);
             Health -= damage;
             if(Health <= 0)
             {
@@ -137,6 +138,7 @@ namespace Model {
         public void Heal(int amount)
         {
             // TODO: Show information to user
+            FightTextManager.Instance.ShowText(amount.ToString(), gameObject.transform.position, TextType.Heal);
             Health += amount;
         }
         

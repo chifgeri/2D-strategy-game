@@ -111,8 +111,6 @@ public class GameController : Singleton<GameController>
             hero.CharacterNewSpellEvent += this.characterChangedSpell;
         }
         MainStateManager.Instance.CurrentRound = round;
-        Debug.Log(MainStateManager.Instance.CurrentRound.RoundNumber);
-
     }
 
     private PlayerCharacter CreatePlayerHero(PlayableData data, float xPos)

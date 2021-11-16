@@ -70,6 +70,7 @@ namespace Model {
 
         public void InitRound()
         {
+            roundNumber = 1;
             calculateOrder();
             InitEvents();
             SetNext();

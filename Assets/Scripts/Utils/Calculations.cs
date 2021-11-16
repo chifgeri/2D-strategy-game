@@ -14,7 +14,7 @@ namespace Assets.Scripts.Utils
         {
             if (UnityEngine.Random.value <= 0.2 - (0.1 * caster.Level / 10.0f))
             {
-                Debug.Log("Missed");
+                FightTextManager.Instance.ShowText("Missed", caster.transform.position, TextType.Miss);
                 return true;
             }
             return false;
@@ -31,6 +31,7 @@ namespace Assets.Scripts.Utils
             Debug.Log($"Possibility: {possibility}");
             if (rand <= possibility)
             {
+                FightTextManager.Instance.ShowText("Dodge", target.transform.position, TextType.Dodge);
                 return true;
             }
 

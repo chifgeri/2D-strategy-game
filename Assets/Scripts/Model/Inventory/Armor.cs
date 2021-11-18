@@ -51,5 +51,32 @@ public class Armor : Item
         {
         throw new NotImplementedException();
         }
+
+        public override List<ItemAttribute> GetItemAttributes()
+        {
+            return new List<ItemAttribute>()
+            {
+                new ItemAttribute()
+                {
+                    AttributeName = "Name",
+                    ValueString = Name.ToString()
+                },
+                new ItemAttribute()
+                {
+                    AttributeName = "Armor",
+                    ValueString = armor.ToString()
+                },
+                new ItemAttribute()
+                {
+                    AttributeName = "Price",
+                    ValueString = Price.ToString()
+                },
+                new ItemAttribute()
+                {
+                    AttributeName = "Stackable",
+                    ValueString = Stackable ? "Yes" : "No"
+                }
+            };
+        }
     }
 }

@@ -17,10 +17,6 @@ public class HealthBarController : MonoBehaviour
                 mask = image;
             }
         }
-    }
-
-    void Start()
-    {
         originalSize = mask.rectTransform.rect.width;
     }
 

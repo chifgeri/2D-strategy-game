@@ -51,6 +51,27 @@ namespace Model {
             return new Consumable(this.Name, this.type, amount, this.Price);
         }
 
+        public override List<ItemAttribute> GetItemAttributes()
+        {
+            return new List<ItemAttribute>()
+            {
+                new ItemAttribute()
+                {
+                    AttributeName = "Name",
+                    ValueString = Name.ToString()
+                },
+                new ItemAttribute()
+                {
+                    AttributeName = "Price",
+                    ValueString = Price.ToString()
+                },
+                new ItemAttribute()
+                {
+                    AttributeName = "Stackable",
+                    ValueString = Stackable ? "Yes" : "No"
+                }
+            };
+        }
     }
 
 }

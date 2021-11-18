@@ -24,7 +24,7 @@ public class FightTextManager : Singleton<FightTextManager>
     public void ShowText(string value, Vector3 position, TextType textType)
     {
         var textObject = Instantiate(this.textObject, position, Quaternion.identity);
-        var text = textObject.GetComponentInChildren<TextMeshProUGUI>();
+        var text = textObject.GetComponentInChildren<TMP_Text>();
         var animator = textObject.GetComponent<Animator>();
 
         text.SetText(value);
@@ -32,22 +32,24 @@ public class FightTextManager : Singleton<FightTextManager>
         switch (textType)
         {
             case TextType.Damage:
-                text.color = new Color(190, 33, 33, 255);
+                text.color = new Color(190f/255f, 33f/255, 33f / 255, 255f / 255);
                 break;
             case TextType.Heal:
-                text.color = new Color(56, 204, 16, 255);
+                text.color = new Color(56f / 255, 204f / 255, 16f / 255, 255f / 255);
                 break;
             case TextType.Miss:
-                text.color = new Color(181, 181, 181, 255);
+                text.color = new Color(181f / 255, 181f / 255, 181f / 255, 255f / 255);
                 break;
             case TextType.Dodge:
-                text.color = new Color(121, 121, 121, 255);
+                text.color = new Color(121f / 255, 121f / 255, 121f / 255, 255f / 255);
                 break;
         }
         var animations = new[] {
          "TextAnimationLeft", "TextAnimationRight"
         };
         animator.Play(animations[UnityEngine.Random.Range(0, 2)]);
+
+        var color = text.color;
     }
 
     public void ShowDetailToCharacter(Character c)

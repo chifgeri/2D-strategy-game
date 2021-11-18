@@ -51,8 +51,11 @@ namespace Model {
 
             public abstract Sprite GetSprite();
 
+            // Attributes to display in item hint
+            public abstract List<ItemAttribute> GetItemAttributes();
+
             public abstract System.Enum GetItemType();
 
             public abstract Item Clone(int amount);
-        }
+    }
 }

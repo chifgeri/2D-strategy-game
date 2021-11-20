@@ -4,10 +4,11 @@ using UnityEngine;
 using Model;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 namespace Model {
 
-    public class InventorySlot : MonoBehaviour
+    public class InventorySlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         private Item item;
     
@@ -56,10 +57,18 @@ namespace Model {
             }
         }
 
-
-        void OnMouseOver()
+        public void OnPointerEnter(PointerEventData eventData)
         {
+            Debug.Log("Hovered");
+            if (item != null)
+            {
+                FightTextManager.Instance.ShowItemDetails(item);
+            }
+        }
 
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            FightTextManager.Instance.DisableItemDetails();
         }
     }
 }

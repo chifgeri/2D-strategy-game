@@ -4,10 +4,11 @@ using UnityEngine;
 using Model;
 
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public delegate void SkillCastedDelegate(SkillBase skill);
 
-public class SkillSlot : MonoBehaviour
+public class SkillSlot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     private SkillBase skill;
 
@@ -40,7 +41,7 @@ public class SkillSlot : MonoBehaviour
     {
         if (skill != null)
         {
-            if (skill.disabled)
+            if (skill.Disabled)
             {
                 skillIcon.color = new Color(255, 255, 255, 0.5f);
             }
@@ -71,6 +72,19 @@ public class SkillSlot : MonoBehaviour
     public void SetIcon(Sprite sprite){
         skillIcon.sprite = sprite;
         skillIcon.color = new Color(255,255,255, 1);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (skill != null)
+        {
+            FightTextManager.Instance.ShowSkillDetails(skill);
+        }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        FightTextManager.Instance.DisableSkillDetails();
     }
 
 }

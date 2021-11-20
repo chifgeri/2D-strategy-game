@@ -18,6 +18,8 @@ public class Armor : Item
         [SerializeField]
         private ArmorType type;
 
+        public int ArmorValue { get => armor; }
+
         public Armor(string _name, int _price, int _armor, ArmorType _type): base(_name, _price, 1, false) {
             armor = _armor;
             type = _type;
@@ -52,31 +54,13 @@ public class Armor : Item
         throw new NotImplementedException();
         }
 
-        public override List<ItemAttribute> GetItemAttributes()
+        public override ItemAttribute GetItemAttributes()
         {
-            return new List<ItemAttribute>()
-            {
-                new ItemAttribute()
-                {
-                    AttributeName = "Name",
-                    ValueString = Name.ToString()
-                },
-                new ItemAttribute()
+            return new ItemAttribute()
                 {
                     AttributeName = "Armor",
                     ValueString = armor.ToString()
-                },
-                new ItemAttribute()
-                {
-                    AttributeName = "Price",
-                    ValueString = Price.ToString()
-                },
-                new ItemAttribute()
-                {
-                    AttributeName = "Stackable",
-                    ValueString = Stackable ? "Yes" : "No"
-                }
-            };
+                };
         }
     }
 }

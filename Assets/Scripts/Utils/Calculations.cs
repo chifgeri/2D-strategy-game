@@ -20,10 +20,10 @@ namespace Assets.Scripts.Utils
             return false;
         }
 
-        public static bool CalculateDodge(Character caster, Character target, float dodgeModifier = 1.0f)
+        public static bool CalculateDodge(Character caster, Character target)
         {
             float dodgeChance = target.BaseDodgeChance * 0.5f * target.Level / 10.0f;
-            float casterAccuracy = caster.BaseAccuracy + 0.5f * caster.Level / 10.0f * dodgeModifier;
+            float casterAccuracy = caster.BaseAccuracy + 0.5f * caster.Level / 10.0f;
 
             var possibility = dodgeChance * (1 - casterAccuracy);
             float rand = UnityEngine.Random.value;

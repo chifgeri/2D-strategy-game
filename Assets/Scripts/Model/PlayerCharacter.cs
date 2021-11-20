@@ -131,7 +131,7 @@ namespace Model
         {
             foreach (var skill in skills)
             {
-                skill.disabled = false;
+                skill.Disabled = false;
             }
         }
 
@@ -139,7 +139,7 @@ namespace Model
         {
             foreach (var skill in skills)
             {
-                skill.disabled = true;
+                skill.Disabled = true;
             }
 
         }

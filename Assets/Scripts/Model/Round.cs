@@ -140,13 +140,14 @@ namespace Model {
             if(playerGroup.Characters.Count <= 0)
             {
                 // Players died its a lose
+                FightTextManager.Instance.ShowDefeatText();
                 // TODO: Scene váltás a main képernyóre
                 return;
             }
             if(enemyGroup.Characters.Count <= 0)
             {
                 // Enemies died its a win
-                Debug.Log("Win");
+                FightTextManager.Instance.ShowWinText();
                 // TODO: scene váltás, reward valalami
                 return;
             }

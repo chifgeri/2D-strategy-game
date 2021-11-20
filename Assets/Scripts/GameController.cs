@@ -202,7 +202,7 @@ public class GameController : Singleton<GameController>
     public void DisplayTargetMarkers()
     {
          // Display marker under valid targets   
-          foreach (int target in selected.SelectedSkill.validTargetsInTeam)
+          foreach (int target in selected.SelectedSkill.ValidTargetsInTeam)
           {
               if (playableHeroes.Characters.Count >= target+1)
               {
@@ -222,7 +222,7 @@ public class GameController : Singleton<GameController>
               }
           }
     
-          foreach (int target in selected.SelectedSkill.validTargetsInEnemy)
+          foreach (int target in selected.SelectedSkill.ValidTargetsInEnemy)
           {
               if (enemyHeroes.Characters.Count >= target+1)
               {

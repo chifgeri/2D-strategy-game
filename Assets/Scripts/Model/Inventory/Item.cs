@@ -26,10 +26,6 @@ namespace Model {
                     amount = value;
                 }
             }
-            public int Price {
-                get;
-                set;
-            }
 
             public bool Stackable {
                 get {
@@ -38,8 +34,9 @@ namespace Model {
             }
 
             public string Name { get => name; set => name = value; }
+        public int Price { get => price; set => price = value; }
 
-            protected Item(string _name, int _price, int _amount, bool _stackable){
+        protected Item(string _name, int _price, int _amount, bool _stackable){
                 Name = _name;
                 price = _price;
                 amount = _amount;
@@ -52,7 +49,7 @@ namespace Model {
             public abstract Sprite GetSprite();
 
             // Attributes to display in item hint
-            public abstract List<ItemAttribute> GetItemAttributes();
+            public abstract ItemAttribute GetItemAttributes();
 
             public abstract System.Enum GetItemType();
 

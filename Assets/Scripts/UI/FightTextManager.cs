@@ -20,6 +20,14 @@ public class FightTextManager : Singleton<FightTextManager>
     private GameObject textObject;
     [SerializeField]
     private InfoPanel detailPanel;
+    [SerializeField]
+    private GameObject winText;
+    [SerializeField]
+    private GameObject defeatText;
+    [SerializeField]
+    private ItemDetails itemDetails;
+    [SerializeField]
+    private SkillDetails skillDetails;
 
     public void ShowText(string value, Vector3 position, TextType textType)
     {
@@ -68,6 +76,52 @@ public class FightTextManager : Singleton<FightTextManager>
         {
             detailPanel.gameObject.SetActive(false);
         }
+    }
+
+    public void ShowItemDetails(Item i)
+    {
+        if (!itemDetails.gameObject.activeInHierarchy)
+        {
+            itemDetails.gameObject.SetActive(true);
+            itemDetails.SetValues(i);
+        }
+    }
+
+
+    public void DisableItemDetails()
+    {
+        if (itemDetails.gameObject.activeInHierarchy)
+        {
+            itemDetails.gameObject.SetActive(false);
+        }
+    }
+
+    public void ShowSkillDetails(SkillBase s)
+    {
+        if (!skillDetails.gameObject.activeInHierarchy)
+        {
+            skillDetails.gameObject.SetActive(true);
+            skillDetails.SetValues(s);
+        }
+    }
+
+
+    public void DisableSkillDetails()
+    {
+        if (skillDetails.gameObject.activeInHierarchy)
+        {
+            skillDetails.gameObject.SetActive(false);
+        }
+    }
+
+    public void ShowWinText()
+    {
+        winText.SetActive(true);
+    }
+
+    public void ShowDefeatText()
+    {
+        defeatText.SetActive(true);
     }
 
 }

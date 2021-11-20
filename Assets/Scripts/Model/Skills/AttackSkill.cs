@@ -25,7 +25,7 @@ namespace Model
                 return;
             }
 
-            int dmg = Calculations.CalculateDamage(caster, targets[0]);
+            int dmg = Calculations.CalculateDamage(caster, targets[0], this.Damage, this.DamageModifier);
             // Call attack animation
             // caster.animator.SpearAttack1(targets[0]);
 

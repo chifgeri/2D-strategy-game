@@ -22,7 +22,7 @@ namespace Model {
             private int damage;
 
             public int Damage {
-                get;
+                get => damage;
             }
             // Buffs
 
@@ -64,32 +64,13 @@ namespace Model {
                 return new Weapon(this.Name, this.type, this.Price);
             }
 
-        public override List<ItemAttribute> GetItemAttributes()
+        public override ItemAttribute GetItemAttributes()
         {
-            return new List<ItemAttribute>()
-            {
-                new ItemAttribute()
+            return new ItemAttribute()
                 {
                     AttributeName = "Damage",
                     ValueString = Damage.ToString()
-                },
-                new ItemAttribute()
-                {
-                    AttributeName = "Name",
-                    ValueString = Name.ToString()
-                },
-                new ItemAttribute()
-                {
-                    AttributeName = "Price",
-                    ValueString = Price.ToString()
-                },
-                new ItemAttribute()
-                {
-                    AttributeName = "Stackable",
-                    ValueString = Stackable ? "Yes" : "No"
-                }
-
-            };
+                };
         }
     }
 

@@ -14,7 +14,6 @@ namespace Model {
         [SerializeField]
         private Group<EnemyCharacter> enemyGroup;
         Character current;
-
         [SerializeField]
         private int roundNumber;
 
@@ -45,7 +44,7 @@ namespace Model {
             this.roundNumber = roundNumber;
         }
 
-        private void calculateOrder() {
+        private void CalculateOrder() {
             // First comes the playable characters then the enemies
             List<Character> characters = new List<Character>();
             characters.AddRange(playerGroup.Characters);
@@ -71,7 +70,7 @@ namespace Model {
         public void InitRound()
         {
             roundNumber = 1;
-            calculateOrder();
+            CalculateOrder();
             InitEvents();
             SetNext();
         }
@@ -81,13 +80,11 @@ namespace Model {
             foreach (PlayerCharacter c in playerGroup.Characters)
             {
                 c.CharacterActionDone += CharacterActionDone;
-
                 c.CharacterDieEvent += OnCharacterDied;
             }
             foreach (EnemyCharacter c in enemyGroup.Characters)
             {
                 c.CharacterActionDone += CharacterActionDone;
-
                 c.CharacterDieEvent += OnCharacterDied;
             }
         }
@@ -129,7 +126,7 @@ namespace Model {
 
         public void ResetRound()
         {
-            calculateOrder();
+            CalculateOrder();
             SetNext();
         }
 
@@ -141,14 +138,14 @@ namespace Model {
             {
                 // Players died its a lose
                 FightTextManager.Instance.ShowDefeatText();
-                // TODO: Scene váltás a main képernyóre
+                MainStateManager.Instance.OnRoundLose();
                 return;
             }
             if(enemyGroup.Characters.Count <= 0)
             {
                 // Enemies died its a win
                 FightTextManager.Instance.ShowWinText();
-                // TODO: scene váltás, reward valalami
+                MainStateManager.Instance.OnRoundWin();
                 return;
             }
 

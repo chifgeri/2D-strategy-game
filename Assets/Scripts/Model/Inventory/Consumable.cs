@@ -17,7 +17,7 @@ namespace Model {
         private ConsumableType type;
 
         
-        public Consumable(string _name, ConsumableType _type, int _amount, int _price): base(_name, _price, _amount, true) {
+        public Consumable(string _name, int _amount, int _price, ConsumableType _type) : base(_name, _price, _amount, true) {
             type = _type;
         }
 
@@ -48,7 +48,7 @@ namespace Model {
         }
 
         public override Item Clone(int amount){
-            return new Consumable(this.Name, this.type, amount, this.Price);
+            return new Consumable(this.Name, amount, this.Price, this.type);
         }
 
         public override ItemAttribute GetItemAttributes()

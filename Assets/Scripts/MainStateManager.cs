@@ -39,7 +39,7 @@ public class MainStateManager : Singleton<MainStateManager>
         gameState = new GameState(levels[0], new List<PlayableData>()
         { new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Axeman, 1, 100, 100, null, null),
           new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Paladin, 1, 100, 100, null, null),
-        }, null, false, true, new Vector3(0, 0, 0));
+        }, null, false, true, new Vector3(0, 0, 0), inventory: new Inventory(15));
     
         SceneManager.LoadSceneAsync("MapScene");
     }
@@ -133,6 +133,62 @@ public class MainStateManager : Singleton<MainStateManager>
         fs.Close();
 
         return;
+    }
+
+    public void OnRoundWin()
+    {
+        var room = GameState.CurrentLevel.Rooms.Find(room => room.RoomId == GameState.CurrentRoomId);
+        room.Cleared = true;
+
+        // TODO: Show loot items and money
+        // DisplayLootItems()
+        // DisplayLootMoney()
+        if (room.LootItems.Count > 0)
+        {
+            foreach (Item item in room.LootItems)
+            {
+                GameState.Inventory.AddItem(item);
+            }
+        }
+
+        UIOverlayManager.Instance.ShowLootItems(room.LootItems);
+        GameState.Money += room.LootMoney;
+        GameState.CurrentRoomId = 0;
+
+        if (GameState.CurrentLevel.Rooms.Any(room => !room.Cleared))
+        {
+            StartCoroutine(LoadLevelAfterDelay("MapScene", 5.0f));
+            GameState.IsInFight = false;
+            GameState.IsInMap = true;
+        } else
+        {
+            GameState.IsInFight = false;
+            GameState.IsInMap = false;
+            // Display Level cleared text
+            GameState.CurrentLevel.Cleared = true;
+            var level = levels.Find(level => level.LevelName == GameState.CurrentLevel.LevelName);
+            level.Cleared = true;
+            GameState.CurrentLevel = null;
+            // LoadLevelAfterDelay("TownScene", 5.0f);
+        }
+       
+    }
+
+    public void OnRoundLose()
+    {
+        GameState.PlayableCharacters = new List<PlayableData>();
+        GameState.CurrentLevel = null;
+        GameState.CurrentRoomId = 0;
+        GameState.FightData = null;
+        GameState.IsInFight = false;
+        GameState.IsInMap = false;
+        // LoadLevelAfterDelay("TownScene", 5.0f);
+    }
+
+    IEnumerator LoadLevelAfterDelay(string sceneName, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        SceneManager.LoadScene(sceneName);
     }
 
     private void Update()

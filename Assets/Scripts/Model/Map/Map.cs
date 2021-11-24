@@ -25,6 +25,8 @@ namespace Model
         private List<string> mapModel;
         [SerializeField]
         private List<Room> rooms;
+        [SerializeField]
+        private bool cleared = false;
 
         public Map(string name, List<string> model, Vector2 position, int width, int height, int levelRequirement, List<Room> rooms = null, int levelOrder = 0)
         {
@@ -46,5 +48,6 @@ namespace Model
         public List<Room> Rooms { get => rooms; set => rooms = value; }
         public int LevelRequirement { get => levelRequirement; set => levelRequirement = value; }
         public int LevelOrder { get => levelOrder; set => levelOrder = value; }
+        public bool Cleared { get => cleared; set => cleared = value; }
     }
 }

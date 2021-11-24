@@ -50,15 +50,7 @@ public class InventoryController : Singleton<InventoryController>
 
         inventoryPanel.ItemDraggedOutside += armorSlot.HandleMouseDrag;
 
-        // For testing, this section should be deleted in production
-        inventory.AddItem(new Weapon("Éles hosszú kard", WeaponType.LongSword, 1000));
-        inventory.AddItem(new Weapon("Szablya", WeaponType.Saber, 14000));
-        inventory.AddItem(new Weapon("Lovagi kard", WeaponType.KnightSword, 14000));
-        inventory.AddItem(new Weapon("Görbe kard", WeaponType.CurvedSword, 14000));
-        inventory.AddItem(new Armor("Kis páncél", 12000, 20, ArmorType.KnightArmor));
-        inventory.AddItem(new Armor("Isteni páncél", 12000, 20, ArmorType.KnightArmor2));
-        inventory.AddItem(new Consumable("Kis életerő ital", ConsumableType.HealthPotion, 2, 30));
-        inventory.AddItem(new Consumable("Kis életerő ital", ConsumableType.HealthPotion, 2, 30));        
+        inventory = MainStateManager.Instance.GameState.Inventory;
     }
 
     public void CharacterChanged(Character c){

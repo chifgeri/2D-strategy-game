@@ -4,7 +4,8 @@ using System.Collections.Generic;
 
 public class UIOverlayManager : Singleton<UIOverlayManager>
 {
-
+    [SerializeField]
+    ItemContainer itemContainerPrefab;
     GameObject UIOverlay;
     public SkillSlot slotPrefab;
 
@@ -33,6 +34,17 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
             }
         } else {
             Debug.LogError("[UIPanel]: Inconsistent Skill count on character!");
+        }
+    }
+
+    public void ShowLootItems(List<Item> items)
+    {
+        float posOffset = 1.5f;
+        for(int i = 0; i < items.Count; i++)
+        {
+            var itemContainer = Instantiate(itemContainerPrefab, new Vector3(i % 2 == 0 ? i* -posOffset : i*posOffset, 0, 1), Quaternion.identity, UIOverlay.transform);
+            itemContainer.GetComponent<RectTransform>().anchoredPosition = new Vector3(i % 2 == 0 ? i * -posOffset : i * posOffset, 0, 1);
+            itemContainer.SetItem(items[i]);
         }
     }
 

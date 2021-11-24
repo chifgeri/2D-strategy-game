@@ -26,9 +26,9 @@ namespace Model {
             }
             // Buffs
 
-            public Weapon(string _name, WeaponType _type, int _price): base(_name, _price, 1, false){
+            public Weapon(string _name, int damage, WeaponType _type, int _price): base(_name, _price, 1, false){
                 this.type = _type;
-                this.damage = (int)Mathf.Round(UnityEngine.Random.Range(5.0f, 15.0f));
+                this.damage = damage;
             }
 
             override public void Use(){
@@ -61,7 +61,7 @@ namespace Model {
         }
 
         public override Item Clone(int amount = 1){
-                return new Weapon(this.Name, this.type, this.Price);
+                return new Weapon(this.Name,this.damage, this.type, this.Price);
             }
 
         public override ItemAttribute GetItemAttributes()

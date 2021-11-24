@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using TMPro;
 using System;
+using Utils;
 
 public class TilemapGridController : Singleton<TilemapGridController>
 {
@@ -111,7 +112,25 @@ public class TilemapGridController : Singleton<TilemapGridController>
             {
                 enemies.Add(new EnemyData(System.Guid.NewGuid().ToString(), enemyTypes[UnityEngine.Random.Range(0, enemyTypes.Count - 1)], UnityEngine.Random.Range(minLvl, maxLvl+1), 100));
             }
-            rooms.Add(new Room(id, enemies, new List<Item>(), UnityEngine.Random.Range(100, map.LevelRequirement * 1000), pos, false));
+
+            int lootCount = UnityEngine.Random.Range(1, 4);
+            var items = new List<Item>();
+
+            for(int i = 0; i < lootCount; i++)
+            {
+                float random = UnityEngine.Random.Range(0.0f, 1.0f);
+                if(random < 0.33f)
+                {
+                    items.Add(ItemDictionary.weapons[(i+1) * map.LevelRequirement]);
+                } else if(random > 0.33f && random < 0.66f)
+                {
+                    items.Add(ItemDictionary.armors[(i+1) * map.LevelRequirement]);
+                } else if (random > 0.66f)
+                {
+                   // items.Add(ItemDictionary.consumables[i * map.LevelRequirement]);
+                }
+            }
+            rooms.Add(new Room(id, enemies, items, UnityEngine.Random.Range(100, map.LevelRequirement * 1000), pos, false));
 
             id++;
         }

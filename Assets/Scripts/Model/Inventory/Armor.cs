@@ -20,13 +20,13 @@ public class Armor : Item
 
         public int ArmorValue { get => armor; }
 
-        public Armor(string _name, int _price, int _armor, ArmorType _type): base(_name, _price, 1, false) {
+        public Armor(string _name, int _armor, ArmorType _type, int _price) : base(_name, _price, 1, false) {
             armor = _armor;
             type = _type;
         }
 
           public override Item Clone(int amount){
-            return new Armor(this.Name, this.Price, this.armor, this.type);
+            return new Armor(this.Name, this.armor, this.type, this.Price);
         }
         
         public override Enum GetItemType()

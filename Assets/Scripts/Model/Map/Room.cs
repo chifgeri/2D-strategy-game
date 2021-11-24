@@ -14,7 +14,7 @@ namespace Model
         private int roomId;
         [SerializeField]
         private List<EnemyData> enemies;
-        [SerializeField]
+        [SerializeReference]
         private List<Item> lootItems;
         [SerializeField]
         private int lootMoney;

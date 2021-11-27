@@ -159,6 +159,7 @@ namespace UI
                 MainStateManager.Instance.GameState.Money += selectedItemSlot.GetItem().Price;
                 MainStateManager.Instance.GameState.Inventory.RemoveItem(selectedItemSlot.GetItem(), false);
                 selectedItemSlot.SetItem(null);
+                sellButton.gameObject.SetActive(false);
             }
         }
     }

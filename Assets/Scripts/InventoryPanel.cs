@@ -51,7 +51,14 @@ public class InventoryPanel : MonoBehaviour
     }
   }
 
-  public void RefreshItems(Inventory inventory){
+    private void Update()
+    {
+        if (MainStateManager.Instance?.GameState?.Inventory != null) {
+            RefreshItems(MainStateManager.Instance.GameState.Inventory);
+        }
+    }
+
+    public void RefreshItems(Inventory inventory){
     var items = inventory.GetItems();
     int i = 0;
     foreach(var item in items){

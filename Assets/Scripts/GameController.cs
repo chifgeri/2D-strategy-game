@@ -150,7 +150,6 @@ public class GameController : Singleton<GameController>
          }
 
         CharacterChanged += UIOverlayManager.Instance.RefreshSkills;
-        CharacterChanged += UIOverlayManager.Instance.ShowCharacterInfo;
         CharacterChanged += InventoryController.Instance.CharacterChanged;
     }
 

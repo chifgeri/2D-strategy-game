@@ -40,7 +40,7 @@ public class MainStateManager : Singleton<MainStateManager>
         gameState = new GameState(null, new List<PlayableData>()
         { new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Axeman, 1, 100, 100, null, null),
           new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Paladin, 1, 100, 100, null, null),
-        }, null, false, true, new Vector3(0, 0, 0), inventory: new Inventory(15));
+        }, null, false, true, new Vector3(0, 0, 0), money: 10000, inventory: new Inventory(15));
         SceneManager.LoadSceneAsync("TownScene");
 
     }

@@ -23,7 +23,7 @@ public class LevelChooserController : MonoBehaviour
         {
             markers.Add(marker);
         }
-        markers.OrderBy(m => m.order);
+        markers = markers.OrderBy(m => m.order).ToList();
     }
 
     public void MoveForwardLevelChooserPage()
@@ -36,11 +36,6 @@ public class LevelChooserController : MonoBehaviour
                             transform.position.y + sceneSizeInWorldCoordinate,
                             transform.position.z), Quaternion.identity);
             levelPage++;
-            SetCurrentLevelValues();
-            cameraTarget.gameObject.transform.SetPositionAndRotation(
-                new Vector3(transform.position.x,
-                            transform.position.y + sceneSizeInWorldCoordinate,
-                            transform.position.z), Quaternion.identity);
         } else
         {
             cameraTarget.gameObject.transform.SetPositionAndRotation(
@@ -70,8 +65,6 @@ public class LevelChooserController : MonoBehaviour
             cameraTarget.gameObject.transform.SetPositionAndRotation(
                 new Vector3(0,0,0), Quaternion.identity);
             levelPage--;
-
-            SetCurrentLevelValues();
         }
     }
 
@@ -82,7 +75,7 @@ public class LevelChooserController : MonoBehaviour
         foreach(var marker in markers)
         {
             if (levels.Count > index) {
-                marker.SetLevelNumber(index);
+                marker.SetLevelNumber(index, levels[index].Cleared);
                 marker.Enable();
             }
             else

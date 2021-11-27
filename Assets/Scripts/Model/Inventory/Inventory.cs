@@ -48,8 +48,6 @@ namespace Model {
                 } else {
                     items[idx] = i;
                 }
-
-            UIOverlayManager.Instance.RefreshInventory(this);
         }
 
         public void MoveItem(Item item, int from, int to, bool preventUnstack){
@@ -85,7 +83,6 @@ namespace Model {
                 }
 
             }
-            UIOverlayManager.Instance.RefreshInventory(this);
         }
 
         public void RemoveItem(Item item, bool preventUnstack){
@@ -103,8 +100,6 @@ namespace Model {
             } else {
                 items[indx] = null;
             }
-
-            UIOverlayManager.Instance.RefreshInventory(this);
         }
 
         public bool isFull(){

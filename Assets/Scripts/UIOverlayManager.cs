@@ -65,15 +65,19 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
         }
     }
 
-    public void ShowCharacterInfo(Character c){
-        
-    }
-
     public void RefreshInventory(Inventory inventory){
         InventoryPanel panel = UIOverlay.GetComponentInChildren<InventoryPanel>();
     
         if(panel != null){
             panel.RefreshItems(inventory);
+        }
+    }
+
+    private void Update()
+    {
+        if (MainStateManager.Instance?.GameState?.Inventory != null)
+        {
+            RefreshInventory(MainStateManager.Instance?.GameState?.Inventory);
         }
     }
 }

@@ -13,10 +13,17 @@ public class LevelMarker : MonoBehaviour
 
     public int CurrentLevel { get => currentLevel; set => currentLevel = value; }
 
-    public void SetLevelNumber(int levelNumber)
+    public void SetLevelNumber(int levelNumber, bool cleared)
     {
         currentLevel = levelNumber;
         tmpro.text = $"Level {currentLevel}";
+        if (cleared)
+        {
+            GetComponent<SpriteRenderer>().color = new Color(142 / 256, 142 / 256, 142 / 256);
+        } else
+        {
+            GetComponent<SpriteRenderer>().color = new Color(1, 1, 1);
+        }
     }
 
     public void Disable()

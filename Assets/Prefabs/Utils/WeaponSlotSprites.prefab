@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6961842686667620604
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6961842686667620606}
+  - component: {fileID: 6961842686667620605}
+  m_Layer: 0
+  m_Name: WeaponSlotSprites
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6961842686667620606
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6961842686667620604}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -2.2424736, y: -0.17728889, z: -0.018515587}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6961842686667620605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6961842686667620604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 466d6c32f3600c446928fdc7eb651d8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  longSword: {fileID: 21300000, guid: 76c31cec44969dd4f8b50a992cd5f42d, type: 3}
+  curvedSword: {fileID: 21300000, guid: f3be20781c87b1d499dd8317ce6ffaa9, type: 3}
+  Saber: {fileID: 21300000, guid: b645dcf97211e0443aec1b82869964a7, type: 3}
+  KnightSword: {fileID: 21300000, guid: 0e30df14a886ca4439edfb2cba5895dc, type: 3}

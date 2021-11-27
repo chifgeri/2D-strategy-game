@@ -17,6 +17,7 @@ public class MainStateManager : Singleton<MainStateManager>
 
     public GameState GameState { get => gameState; set => gameState = value; }
     public Round CurrentRound { get => currentRound; set => currentRound = value; }
+    public List<Map> Levels { get => levels; set => levels = value; }
 
     // Start is called before the first frame update
     protected override void Awake()
@@ -36,11 +37,17 @@ public class MainStateManager : Singleton<MainStateManager>
         {
             await LoadLevels();
         }
-        gameState = new GameState(levels[0], new List<PlayableData>()
+        gameState = new GameState(null, new List<PlayableData>()
         { new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Axeman, 1, 100, 100, null, null),
           new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Paladin, 1, 100, 100, null, null),
         }, null, false, true, new Vector3(0, 0, 0), inventory: new Inventory(15));
-    
+        SceneManager.LoadSceneAsync("TownScene");
+
+    }
+
+    public void LoadCurrentLevel()
+    {
+        gameState.LastPosition = gameState.CurrentLevel.GroupPosition;
         SceneManager.LoadSceneAsync("MapScene");
     }
 

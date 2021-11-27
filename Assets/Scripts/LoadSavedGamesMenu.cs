@@ -115,6 +115,5 @@ public class LoadSavedGamesMenu : MonoBehaviour
         {
            await MainStateManager.Instance.LoadGameState(name + ".json");
         }
-
-    }
+     }
 }

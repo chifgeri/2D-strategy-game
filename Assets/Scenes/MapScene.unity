@@ -57175,3 +57175,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input: {fileID: 26662245}
   minLvlInput: {fileID: 1334637626}
+  character: {fileID: 1412617472}

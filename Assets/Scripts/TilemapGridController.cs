@@ -13,6 +13,8 @@ public class TilemapGridController : Singleton<TilemapGridController>
     Tilemap[] tilemaps;
     public TMP_InputField input;
     public TMP_InputField minLvlInput;
+    [SerializeField]
+    private IsometricCharacterRenderer character;
 
     public Map Level { get => level; }
 
@@ -30,7 +32,8 @@ public class TilemapGridController : Singleton<TilemapGridController>
             BuildTilemaps.SetUpTileMaps(tilemaps, MainStateManager.Instance.GameState.CurrentLevel);
             MainStateManager.Instance.GameState.IsInMap = true;
             MainStateManager.Instance.GameState.IsInFight = false;
-
+            var position = MainStateManager.Instance.GameState.LastPosition;
+            character.gameObject.transform.SetPositionAndRotation(new Vector3(position.x, position.y, 2.5f), Quaternion.identity);
         }
     }
 

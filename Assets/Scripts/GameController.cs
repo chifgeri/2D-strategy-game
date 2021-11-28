@@ -123,6 +123,7 @@ public class GameController : Singleton<GameController>
         hero.Experience = data.Experience;
         hero.EquipWeapon(data.Weapon);
         hero.EquipArmor(data.Armor);
+        hero.Price = data.Price;
 
         return hero;
     }

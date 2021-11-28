@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UI;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class TownUiController : MonoBehaviour
 {
@@ -11,25 +12,36 @@ public class TownUiController : MonoBehaviour
     [SerializeField]
     private InventoryTownPanel inv;
     [SerializeField]
-    private TMP_Text moneyText; 
+    private GameObject heroShop;
+    [SerializeField]
+    private TMP_Text moneyText;
+
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !EventSystem.current.IsPointerOverGameObject())
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction, LayerMask.GetMask("Shop"));
             if (hit.collider != null)
             {
-                var shop = hit.collider.gameObject.GetComponent<ShopObject>();
+
+                var shop = hit.collider.gameObject.GetComponent<HeroShop>();
                 if (shop != null)
                 {
-                    shopController.ShowItems(shop.ShopName, shop.ShopType);
+                    heroShop.SetActive(true);
+                    return;
+                }
+               
+                var shop2 = hit.collider.gameObject.GetComponent<ShopObject>();
+                if (shop2 != null)
+                {
+                    shopController.ShowItems(shop2.ShopName, shop2.ShopType);
                     inv.gameObject.SetActive(true);
                 }
             }
         }
 
-        if(MainStateManager.Instance?.GameState?.Money != null)
+        if (MainStateManager.Instance?.GameState?.Money != null)
         {
             moneyText.text = MainStateManager.Instance?.GameState?.Money.ToString();
         }

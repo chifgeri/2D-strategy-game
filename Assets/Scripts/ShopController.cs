@@ -15,6 +15,7 @@ namespace UI
     {
         WeaponShop,
         ArmorShop,
+        HeroShop,
     }
 
     public class ShopController : MonoBehaviour
@@ -141,7 +142,7 @@ namespace UI
             {
                 var money = MainStateManager.Instance.GameState.Money;
 
-                if(money >= selectedItemSlot.GetItem().Price)
+                if(money >= selectedItemSlot.GetItem().Price && !MainStateManager.Instance.GameState.Inventory.isFull())
                 {
                     MainStateManager.Instance.GameState.Money -= selectedItemSlot.GetItem().Price;
                     MainStateManager.Instance.GameState.Inventory.AddItem(selectedItemSlot.GetItem().Clone(1));

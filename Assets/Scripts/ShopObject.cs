@@ -14,4 +14,5 @@ public class ShopObject : MonoBehaviour
 
     public ShopType ShopType { get => shopType; set => shopType = value; }
     public string ShopName { get => shopName; set => shopName = value; }
+
 }

@@ -27,6 +27,8 @@ namespace Model
 
         public SkillBase SelectedSkill { get; set; }
 
+        private int price;
+
         public void EquipWeapon(Item i)
         {
             if (i is Weapon)
@@ -68,6 +70,7 @@ namespace Model
         public Armor Armor { get => armor; }
         public Weapon Weapon { get => weapon; }
         public PlayableTypes Type { get => type; set => type = value; }
+        public int Price { get => price; set => price = value; }
 
         protected override void Awake()
         {

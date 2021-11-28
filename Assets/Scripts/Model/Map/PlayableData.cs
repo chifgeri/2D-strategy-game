@@ -34,8 +34,10 @@ namespace Model
         private Weapon weapon;
         [SerializeField]
         private Armor armor;
+        [SerializeField]
+        private int price;
 
-        public PlayableData(string id, PlayableTypes playableType, int level, int health, int experience, Weapon weapon, Armor armor)
+        public PlayableData(string id, PlayableTypes playableType, int level, int health, int experience, Weapon weapon, Armor armor, int price)
         {
             this.id = id;
             this.playableType = playableType;
@@ -44,6 +46,7 @@ namespace Model
             this.experience = experience;
             this.weapon = weapon;
             this.armor = armor;
+            this.price = price;
         }
 
         public PlayableTypes PlayableType { get => playableType; set => playableType = value; }
@@ -53,5 +56,6 @@ namespace Model
         public Weapon Weapon { get => weapon; set => weapon = value; }
         public Armor Armor { get => armor; set => armor = value; }
         public string Id { get => id; set => id = value; }
+        public int Price { get => price; set => price = value; }
     }
 }

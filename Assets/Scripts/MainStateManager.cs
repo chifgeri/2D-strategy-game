@@ -38,8 +38,8 @@ public class MainStateManager : Singleton<MainStateManager>
             await LoadLevels();
         }
         gameState = new GameState(null, new List<PlayableData>()
-        { new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Axeman, 1, 100, 100, null, null),
-          new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Paladin, 1, 100, 100, null, null),
+        { new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Axeman, 1, 100, 100, null, null, 1500),
+          new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Paladin, 1, 100, 100, null, null, 2000),
         }, null, false, true, new Vector3(0, 0, 0), money: 10000, inventory: new Inventory(15));
         SceneManager.LoadSceneAsync("TownScene");
 
@@ -74,7 +74,7 @@ public class MainStateManager : Singleton<MainStateManager>
             foreach (var player in CurrentRound.PlayerGroup.Characters)
             {
                 var guid = System.Guid.NewGuid().ToString();
-                playables.Add(new PlayableData(guid, player.Type, player.Level, player.Health, player.Experience, player.Weapon, player.Armor));
+                playables.Add(new PlayableData(guid, player.Type, player.Level, player.Health, player.Experience, player.Weapon, player.Armor, player.Price));
                 dict[guid] = player;
                 if (player.IsNext)
                 {

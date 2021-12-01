@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace Model
     {
         public event CharacterNewSpellDelegate CharacterNewSpellEvent;
 
-        private int experience;
+        private int experience = 0;
 
         private Armor armor;
 
@@ -28,6 +29,77 @@ namespace Model
         public SkillBase SelectedSkill { get; set; }
 
         private int price;
+
+        [SerializeField]
+        private ExperienceController XPPrefab;
+
+        protected ExperienceController XPBar;
+
+        public int Experience
+        {
+            get { return experience; }
+            set
+            {
+                if (value >= 0 && value < 1000)
+                {
+                    experience = value;
+                }
+                if (value >= 1000)
+                {
+                    experience = 0;
+                    LevelUp();
+                }
+            }
+        }
+
+        public Armor Armor { get => armor; }
+        public Weapon Weapon { get => weapon; }
+        public PlayableTypes Type { get => type; set => type = value; }
+        public int Price { get => price; set => price = value; }
+
+
+        protected override void Awake()
+        {
+            base.Awake();
+            skills = new List<SkillBase>(4);
+            foreach (SkillBase skillPref in skillPrefabs)
+            {
+                if (skillPref != null)
+                {
+                    SkillBase skill = Instantiate(skillPref);
+                    skills.Add(skill);
+                    // Notify the character when the skill selected
+                    skill.SkillSelected += this.SelectSkill;
+                }
+                else
+                {
+                    skills.Add(null);
+                }
+            }
+
+            if (XPPrefab != null)
+            {
+                XPBar = Instantiate(
+                        XPPrefab,
+                        new Vector3(
+                            transform.position.x,
+                            -(0.15f+Math.Abs(XPPrefab.GetComponent<RectTransform>().rect.height/2)
+                            +Math.Abs(HBPrefab.GetComponent<RectTransform>().rect.height/2)),
+                            3),
+                         Quaternion.identity);
+            }
+            else
+            {
+                Debug.Log($"XPBar is NULL on {gameObject.name}");
+            }
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            XPBar.SetValue(Experience / 1000.0f);
+        }
 
         public void EquipWeapon(Item i)
         {
@@ -55,41 +127,12 @@ namespace Model
             armor = null;
         }
 
-        public int Experience
+   
+        private void LevelUp()
         {
-            get { return experience; }
-            set
-            {
-                if (value >= 0 && value <= 1000)
-                {
-                    experience = value;
-                }
-            }
-        }
 
-        public Armor Armor { get => armor; }
-        public Weapon Weapon { get => weapon; }
-        public PlayableTypes Type { get => type; set => type = value; }
-        public int Price { get => price; set => price = value; }
-
-        protected override void Awake()
-        {
-            base.Awake();
-            skills = new List<SkillBase>(4);
-            foreach (SkillBase skillPref in skillPrefabs)
-            {
-                if (skillPref != null)
-                {
-                    SkillBase skill = Instantiate(skillPref);
-                    skills.Add(skill);
-                    // Notify the character when the skill selected
-                    skill.SkillSelected += this.SelectSkill;
-                }
-                else
-                {
-                    skills.Add(null);
-                }
-            }
+            // TODO: Animation, effect, text
+            throw new NotImplementedException();
         }
 
         public override void AttackAction(Character[] targets)

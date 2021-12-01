@@ -54,8 +54,6 @@ public class FightTextManager : Singleton<FightTextManager>
          "TextAnimationLeft", "TextAnimationRight"
         };
         animator.Play(animations[UnityEngine.Random.Range(0, 2)]);
-
-        var color = text.color;
     }
 
     public void ShowDetailToCharacter(Character c)

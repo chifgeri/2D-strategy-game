@@ -10,6 +10,9 @@ namespace Model {
 
         public EnemyTypes Type { get => type; set => type = value; }
 
+        [SerializeField]
+        private int ExperienceValue;
+
         public override void AttackAction(Character [] targets)
         {
             if (MainStateManager.Instance.CurrentRound != null) {
@@ -43,6 +46,17 @@ namespace Model {
             {
                 this.AttackAction(null);
             }
+        }
+
+        public override void Die(Character caster)
+        {
+            if(caster is PlayerCharacter)
+            {
+                var player = (PlayerCharacter)caster;
+                Debug.Log("Gained XP");
+                player.Experience += ExperienceValue;
+            }
+            base.Die(caster);
         }
     }
 }

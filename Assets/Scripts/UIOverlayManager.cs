@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Model;
 using System.Collections.Generic;
+using TMPro;
 
 public class UIOverlayManager : Singleton<UIOverlayManager>
 {
@@ -8,6 +9,10 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
     ItemContainer itemContainerPrefab;
     GameObject UIOverlay;
     public SkillSlot slotPrefab;
+    [SerializeField]
+    private GameObject moneyPanel;
+    [SerializeField]
+    public TMP_Text moneyValue;
 
     public List<SkillSlot> skillSlots;
 
@@ -37,13 +42,15 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
         }
     }
 
-    public void ShowLootItems(List<Item> items)
+    public void ShowLootItemsAndMoney(List<Item> items, int money)
     {
+        moneyPanel.SetActive(true);
+        moneyValue.text = money.ToString();
         float posOffset = 1.5f;
         for(int i = 0; i < items.Count; i++)
         {
             var itemContainer = Instantiate(itemContainerPrefab, new Vector3(i % 2 == 0 ? i* -posOffset : i*posOffset, 0, 1), Quaternion.identity, UIOverlay.transform);
-            itemContainer.GetComponent<RectTransform>().anchoredPosition = new Vector3(i % 2 == 0 ? i * -posOffset : i * posOffset, 0, 1);
+            itemContainer.GetComponent<RectTransform>().anchoredPosition = new Vector3(i % 2 == 0 ? i * -posOffset : i * posOffset, 0, 2);
             itemContainer.SetItem(items[i]);
         }
     }

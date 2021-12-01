@@ -260,6 +260,10 @@ public class GameController : Singleton<GameController>
     {
         if (selected != null)
         {
+            if (selected.Equals(target))
+            {
+                return;
+            }
             selected.UnSelect();
         }
         selected = target;
@@ -294,5 +298,16 @@ public class GameController : Singleton<GameController>
     private void characterChangedSpell(Character c)
     {
         RemoveTargetMarkers();
+    }
+
+    public void SetPlaybeDataState()
+    {
+        List <PlayableData> playableDatas= new List<PlayableData>();
+        foreach(var player in playableHeroes.Characters)
+        {
+            playableDatas.Add(new PlayableData(System.Guid.NewGuid().ToString(), player.Type, player.Level, player.Health, player.Experience, player.Weapon, player.Armor, player.Price));
+        }
+
+        MainStateManager.Instance.GameState.PlayableCharacters = playableDatas;
     }
 }

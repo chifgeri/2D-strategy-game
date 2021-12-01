@@ -59,19 +59,19 @@ public class InventoryPanel : MonoBehaviour
     }
 
     public void RefreshItems(Inventory inventory){
-    var items = inventory.GetItems();
-    int i = 0;
-    foreach(var item in items){
-        if(i>=15){
-          break;
+        var items = inventory.GetItems();
+        int i = 0;
+        foreach(var item in items){
+            if(i>=15){
+              break;
+            }
+            slots[i].SetItem(item);
+            if(item != null){
+              slots[i].SetImage(item.GetSprite());
+              slots[i].SetAmount(item.Amount);
+            }
+            i++;
         }
-        slots[i].SetItem(item);
-        if(item != null){
-          slots[i].SetImage(item.GetSprite());
-          slots[i].SetAmount(item.Amount);
-        }
-        i++;
-    }
   }
 
 

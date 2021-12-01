@@ -38,8 +38,8 @@ public class MainStateManager : Singleton<MainStateManager>
             await LoadLevels();
         }
         gameState = new GameState(null, new List<PlayableData>()
-        { new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Axeman, 1, 100, 100, null, null, 1500),
-          new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Paladin, 1, 100, 100, null, null, 2000),
+        { new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Axeman, 1, 100, 0, null, null, 1500),
+          new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Paladin, 1, 100, 0, null, null, 2000),
         }, null, false, true, new Vector3(0, 0, 0), money: 10000, inventory: new Inventory(15));
         SceneManager.LoadSceneAsync("TownScene");
 
@@ -147,9 +147,6 @@ public class MainStateManager : Singleton<MainStateManager>
         var room = GameState.CurrentLevel.Rooms.Find(room => room.RoomId == GameState.CurrentRoomId);
         room.Cleared = true;
 
-        // TODO: Show loot items and money
-        // DisplayLootItems()
-        // DisplayLootMoney()
         if (room.LootItems.Count > 0)
         {
             foreach (Item item in room.LootItems)
@@ -158,7 +155,7 @@ public class MainStateManager : Singleton<MainStateManager>
             }
         }
 
-        UIOverlayManager.Instance.ShowLootItems(room.LootItems);
+        UIOverlayManager.Instance.ShowLootItemsAndMoney(room.LootItems, room.LootMoney);
         GameState.Money += room.LootMoney;
         GameState.CurrentRoomId = 0;
 
@@ -176,7 +173,7 @@ public class MainStateManager : Singleton<MainStateManager>
             var level = levels.Find(level => level.LevelName == GameState.CurrentLevel.LevelName);
             level.Cleared = true;
             GameState.CurrentLevel = null;
-            // LoadLevelAfterDelay("TownScene", 5.0f);
+            LoadLevelAfterDelay("TownScene", 5.0f);
         }
        
     }
@@ -189,7 +186,7 @@ public class MainStateManager : Singleton<MainStateManager>
         GameState.FightData = null;
         GameState.IsInFight = false;
         GameState.IsInMap = false;
-        // LoadLevelAfterDelay("TownScene", 5.0f);
+        LoadLevelAfterDelay("TownScene", 5.0f);
     }
 
     IEnumerator LoadLevelAfterDelay(string sceneName, float delay)

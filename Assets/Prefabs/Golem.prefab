@@ -129,6 +129,7 @@ MonoBehaviour:
   baseStunResist: 0
   baseDodgeChance: 0
   baseAccuracy: 0
+  ExperienceValue: 400
 --- !u!61 &217177824379661383
 BoxCollider2D:
   m_ObjectHideFlags: 0

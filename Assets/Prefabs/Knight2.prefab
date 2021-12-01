@@ -155,6 +155,7 @@ MonoBehaviour:
   baseStunResist: 0
   baseDodgeChance: 0
   baseAccuracy: 0
+  ExperienceValue: 200
 --- !u!114 &4683236508910859222
 MonoBehaviour:
   m_ObjectHideFlags: 0

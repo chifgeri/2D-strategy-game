@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 namespace Model {
@@ -39,8 +40,9 @@ namespace Model {
 
         public bool IsSelected {
             get { return isSelected; }
-        } 
-        
+        }
+        public string Name { get; set; }
+
         public bool IsNext
         {
             get;
@@ -123,14 +125,14 @@ namespace Model {
             healthBar.SetValue(Health / 100.0f);
         }
 
-        public void Hit(int damage)
+        public void Hit(int damage, Character caster)
         {
             // TODO: Show information to user
             FightTextManager.Instance.ShowText(damage.ToString(), gameObject.transform.position, TextType.Damage);
             Health -= damage;
             if(Health <= 0)
             {
-                Die();
+                Die(caster);
             }
         }
 
@@ -145,8 +147,14 @@ namespace Model {
         {
             this.CharacterActionDone(this);
         }
-        public virtual void Die()
+        public virtual void Die(Character caster)
         {
+
+            if(MessagePanel.Instance != null)
+            {
+                MessagePanel.Instance.ShowMessage($"{caster.Name} killed {this.Name}");
+            }
+
             CharacterDieEvent(this);
 
             if (isNextMarker != null)

@@ -146,7 +146,7 @@ MonoBehaviour:
   IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}
   animator: {fileID: 0}
   speed: 3
-  defaultLevel: 1
+  level: 0
   baseDamage: 20
   baseArmor: 10
   baseCrit: 0.1
@@ -158,3 +158,4 @@ MonoBehaviour:
   - {fileID: 4738607029244005308, guid: a6df0fd9fdf04a74fbf5868e908bb87b, type: 3}
   - {fileID: 5031127043677339938, guid: 90847b928f35a334c84e43cf3ddcb395, type: 3}
   - {fileID: 4147555713690438608, guid: 5b602eaa8ba69e04094d0b45f0fcb010, type: 3}
+  XPPrefab: {fileID: 3033371483380849977, guid: 34b0ba2996338bb44af8d96e41197e4c, type: 3}

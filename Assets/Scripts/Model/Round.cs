@@ -139,6 +139,7 @@ namespace Model {
                 // Players died its a lose
                 FightTextManager.Instance.ShowDefeatText();
                 MainStateManager.Instance.OnRoundLose();
+                GameController.Instance.SetPlaybeDataState();
                 return;
             }
             if(enemyGroup.Characters.Count <= 0)
@@ -146,6 +147,7 @@ namespace Model {
                 // Enemies died its a win
                 FightTextManager.Instance.ShowWinText();
                 MainStateManager.Instance.OnRoundWin();
+                GameController.Instance.SetPlaybeDataState();
                 return;
             }
 

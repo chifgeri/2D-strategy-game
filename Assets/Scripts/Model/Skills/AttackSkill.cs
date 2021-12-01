@@ -30,7 +30,7 @@ namespace Model
             // caster.animator.SpearAttack1(targets[0]);
 
             // Hit enemy
-            targets[0].Hit(dmg);
+            targets[0].Hit(dmg, caster);
             return;
         }
     }

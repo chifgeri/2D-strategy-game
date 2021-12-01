@@ -19,11 +19,11 @@ public class ItemContainer : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        FightTextManager.Instance.ShowItemDetails(item);
+        ItemTextManager.Instance.ShowItemDetails(item);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        FightTextManager.Instance.DisableItemDetails();
+        ItemTextManager.Instance.DisableItemDetails();
     }
 }

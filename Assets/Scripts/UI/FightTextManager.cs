@@ -25,8 +25,6 @@ public class FightTextManager : Singleton<FightTextManager>
     [SerializeField]
     private GameObject defeatText;
     [SerializeField]
-    private ItemDetails itemDetails;
-    [SerializeField]
     private SkillDetails skillDetails;
 
     public void ShowText(string value, Vector3 position, TextType textType)
@@ -78,23 +76,7 @@ public class FightTextManager : Singleton<FightTextManager>
         }
     }
 
-    public void ShowItemDetails(Item i)
-    {
-        if (!itemDetails.gameObject.activeInHierarchy)
-        {
-            itemDetails.gameObject.SetActive(true);
-            itemDetails.SetValues(i);
-        }
-    }
-
-
-    public void DisableItemDetails()
-    {
-        if (itemDetails.gameObject.activeInHierarchy)
-        {
-            itemDetails.gameObject.SetActive(false);
-        }
-    }
+   
 
     public void ShowSkillDetails(SkillBase s)
     {

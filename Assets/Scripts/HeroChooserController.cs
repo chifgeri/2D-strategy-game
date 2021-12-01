@@ -6,6 +6,7 @@ using UnityEngine;
 using TMPro;
 using Utils;
 using UnityEngine.EventSystems;
+using UI;
 
 public class HeroChooserController : MonoBehaviour
 {
@@ -44,6 +45,10 @@ public class HeroChooserController : MonoBehaviour
 
     void SetSelectedSlot(HeroSlot slot)
     {
+        if (slot.Equals(selectedSlot))
+        {
+            return;
+        }
         if (selectedSlot != null)
         {
             selectedSlot.IsSelected = false;
@@ -62,15 +67,19 @@ public class HeroChooserController : MonoBehaviour
         {
             if (selectedSlot.PlayableData != null)
             {
-                if (playables.Count < 4 && MainStateManager.Instance.GameState.Money >= selectedSlot.PlayableData.Price)
+                if(MainStateManager.Instance.GameState.Money < selectedSlot.PlayableData.Price)
                 {
-                    playables.Add(selectedSlot.PlayableData);
-                    MainStateManager.Instance.GameState.Money -= selectedSlot.PlayableData.Price;
+                    MessagePanel.Instance.ShowMessage("Not enough money to buy the hero");
+                    return;
                 }
-                else
+                
+                if (playables.Count >= 4)
                 {
-                    // TODO: üzenet
+                    MessagePanel.Instance.ShowMessage("No more space in the team");
+                    return;
                 }
+                playables.Add(selectedSlot.PlayableData);
+                MainStateManager.Instance.GameState.Money -= selectedSlot.PlayableData.Price;
             }
         }
     }

@@ -60,17 +60,17 @@ namespace Model {
 
         public void OnPointerEnter(PointerEventData eventData)
         {
-            if (item != null && SceneManager.GetActiveScene().name == "RoomScene")
+            if (item != null && ItemTextManager.Instance != null)
             {
-                FightTextManager.Instance.ShowItemDetails(item);
+                ItemTextManager.Instance.ShowItemDetails(item);
             }
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
-            if (SceneManager.GetActiveScene().name == "RoomScene")
+            if (ItemTextManager.Instance != null)
             {
-                FightTextManager.Instance.DisableItemDetails();
+                ItemTextManager.Instance.DisableItemDetails();
             }
         }
     }

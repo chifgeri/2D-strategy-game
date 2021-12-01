@@ -142,13 +142,19 @@ namespace UI
             {
                 var money = MainStateManager.Instance.GameState.Money;
 
-                if(money >= selectedItemSlot.GetItem().Price && !MainStateManager.Instance.GameState.Inventory.isFull())
+                if(money >= selectedItemSlot.GetItem().Price)
                 {
-                    MainStateManager.Instance.GameState.Money -= selectedItemSlot.GetItem().Price;
-                    MainStateManager.Instance.GameState.Inventory.AddItem(selectedItemSlot.GetItem().Clone(1));
+                    if (!MainStateManager.Instance.GameState.Inventory.isFull())
+                    {
+                        MainStateManager.Instance.GameState.Money -= selectedItemSlot.GetItem().Price;
+                        MainStateManager.Instance.GameState.Inventory.AddItem(selectedItemSlot.GetItem().Clone(1));
+                    } else
+                    {
+                        MessagePanel.Instance.ShowMessage("Inventory is full!");
+                    }
                 } else
                 {
-                    // TODO: Message not enough money
+                    MessagePanel.Instance.ShowMessage("Not enough money to buy item!");
                 }
             }
         }

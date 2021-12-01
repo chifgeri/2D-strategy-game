@@ -32,9 +32,16 @@ public class ItemDetails : MonoBehaviour
         var attributes = item.GetItemAttributes();
         if(attributes != null)
         {
-            Debug.Log(attributes.AttributeName);
             attributeName.text = attributes.AttributeName;
             attributeValue.text = attributes.ValueString;
         }
+    }
+
+    public void Clear()
+    {
+        itemName.text = "";
+        itemPrice.text = "";
+        attributeName.text = "";
+        attributeValue.text = "";
     }
 }

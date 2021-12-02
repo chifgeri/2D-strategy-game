@@ -46,11 +46,11 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
     {
         moneyPanel.SetActive(true);
         moneyValue.text = money.ToString();
-        float posOffset = 1.5f;
+        float posOffset = itemContainerPrefab.GetComponent<RectTransform>().rect.width + 24f;
         for(int i = 0; i < items.Count; i++)
         {
-            var itemContainer = Instantiate(itemContainerPrefab, new Vector3(i % 2 == 0 ? i* -posOffset : i*posOffset, 0, 1), Quaternion.identity, UIOverlay.transform);
-            itemContainer.GetComponent<RectTransform>().anchoredPosition = new Vector3(i % 2 == 0 ? i * -posOffset : i * posOffset, 0, 2);
+            var itemContainer = Instantiate(itemContainerPrefab, new Vector3(i % 2 == 0 ? i* -posOffset : i*posOffset, 0, 3), Quaternion.identity, UIOverlay.transform);
+            itemContainer.GetComponent<RectTransform>().anchoredPosition = new Vector3(i % 2 == 0 ? i * -posOffset : i * posOffset, 0, 3);
             itemContainer.SetItem(items[i]);
         }
     }

@@ -103,8 +103,14 @@ namespace Model
 
         public void EquipWeapon(Item i)
         {
+         
             if (i is Weapon)
             {
+                if (weapon != null)
+                {
+                    MainStateManager.Instance.GameState.Inventory.RemoveItem(i, true);
+                    MainStateManager.Instance.GameState.Inventory.AddItem(weapon);
+                }
                 weapon = (Weapon)i;
             }
         }
@@ -113,18 +119,37 @@ namespace Model
         {
             if (i is Armor)
             {
+                if (armor != null)
+                {
+                    MainStateManager.Instance.GameState.Inventory.RemoveItem(i, true);
+                    MainStateManager.Instance.GameState.Inventory.AddItem(armor);
+                }
                 armor = (Armor)i;
             }
         }
 
         public void UnequipWeapon()
         {
-            weapon = null;
+            if (weapon != null)
+            {
+                if (!MainStateManager.Instance.GameState.Inventory.isFull())
+                { 
+                    MainStateManager.Instance.GameState.Inventory.AddItem(weapon);
+                    weapon = null;
+                }
+            }
         }
 
         public void UnequipArmor()
         {
-            armor = null;
+            if (armor != null)
+            {
+                if (!MainStateManager.Instance.GameState.Inventory.isFull())
+                {
+                    MainStateManager.Instance.GameState.Inventory.AddItem(armor);
+                    armor = null;
+                }
+            }
         }
 
    
@@ -188,6 +213,16 @@ namespace Model
                 skill.Disabled = true;
             }
 
+        }
+
+        public override int GetCurrentDamage()
+        {
+            return base.GetCurrentDamage() + (weapon?.Damage ?? 0);
+        }
+
+        public override int GetCurrentArmor()
+        {
+            return base.GetCurrentDamage() + (armor?.ArmorValue ?? 0);
         }
 
         public override void SetNext()

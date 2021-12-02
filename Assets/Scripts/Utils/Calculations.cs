@@ -40,7 +40,7 @@ namespace Assets.Scripts.Utils
 
         public static int CalculateDamage(Character caster, Character target, int plusDamage = 0, float damageModifier = 1.0f)
         {
-            var dmg = (caster.BaseDamage * caster.Level + plusDamage - target.BaseArmor) * damageModifier;
+            var dmg = (caster.GetCurrentDamage() + plusDamage - target.GetCurrentArmor()) * damageModifier;
             if (dmg < 0)
             {
                 dmg = 0;

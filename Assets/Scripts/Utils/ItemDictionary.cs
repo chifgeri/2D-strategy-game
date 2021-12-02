@@ -47,6 +47,20 @@ namespace Utils
             { 15, new Armor("Leather armor", 100, ArmorType.KnightArmor2, 100) },
         };
 
+        public static Dictionary<int, Item> artifacts = new Dictionary<int, Item>()
+        {
+            { 1, new Artifact("Latern", 1, 50, ArtifactType.Latern ) },
+            { 2, new Artifact("Necklace", 1, 150, ArtifactType.Necklace ) },
+            { 3, new Artifact("Key", 1, 200, ArtifactType.Key ) },
+            { 4, new Artifact("Skull", 1, 350, ArtifactType.Skull ) },
+            { 5, new Artifact("Mirror", 1, 150, ArtifactType.Mirror ) },
+            { 6, new Artifact("Piramid", 1, 150, ArtifactType.Piramid ) },
+            { 7, new Artifact("Ruby", 1, 1500, ArtifactType.Ruby ) },
+            { 8, new Artifact("Trophy", 1, 1000, ArtifactType.Trophy ) },
+            { 9, new Artifact("Crystal", 1, 500, ArtifactType.Crystal ) },
+            { 10,new Artifact("Diamond", 1, 2000, ArtifactType.Diamond ) },
+        };
+
         //public static Dictionary<int, Item> potions = new Dictionary<int, Item>()
         //{
         //    { 1, new Weapon("Small practice sword", 5, ArmorType.LongSword, 100) },

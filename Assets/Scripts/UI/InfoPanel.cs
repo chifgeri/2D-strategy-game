@@ -27,7 +27,7 @@ public class InfoPanel : MonoBehaviour
     
     public void SetValues(Character c)
     {
-        characterName.text = c.name;
+        characterName.text = c.Name;
         level.text = c.Level.ToString();
         speed.text = c.Speed.ToString();
         damage.text = c.BaseDamage.ToString();

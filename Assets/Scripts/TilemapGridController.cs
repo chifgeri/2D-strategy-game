@@ -113,7 +113,8 @@ public class TilemapGridController : Singleton<TilemapGridController>
             List<EnemyData> enemies = new List<EnemyData>();
             for (int i = 0; i < enemyCount; i++)
             {
-                enemies.Add(new EnemyData(System.Guid.NewGuid().ToString(), enemyTypes[UnityEngine.Random.Range(0, enemyTypes.Count - 1)], UnityEngine.Random.Range(minLvl, maxLvl+1), 100));
+                var type = enemyTypes[UnityEngine.Random.Range(0, enemyTypes.Count - 1)];
+                enemies.Add(new EnemyData(type.ToString(), System.Guid.NewGuid().ToString(), type , UnityEngine.Random.Range(minLvl, maxLvl+1), 100));
             }
 
             int lootCount = UnityEngine.Random.Range(1, 4);
@@ -122,15 +123,15 @@ public class TilemapGridController : Singleton<TilemapGridController>
             for(int i = 0; i < lootCount; i++)
             {
                 float random = UnityEngine.Random.Range(0.0f, 1.0f);
-                if(random < 0.33f)
+                if(random < 0.15f)
                 {
                     items.Add(ItemDictionary.weapons[(i+1) * map.LevelRequirement]);
-                } else if(random > 0.33f && random < 0.66f)
+                } else if(random > 0.15f && random < 0.30f)
                 {
                     items.Add(ItemDictionary.armors[(i+1) * map.LevelRequirement]);
-                } else if (random > 0.66f)
+                } else if (random > 0.30f)
                 {
-                   // items.Add(ItemDictionary.consumables[i * map.LevelRequirement]);
+                   items.Add(ItemDictionary.artifacts[(i+1) * map.LevelRequirement % ItemDictionary.artifacts.Count]);
                 }
             }
             rooms.Add(new Room(id, enemies, items, UnityEngine.Random.Range(100, map.LevelRequirement * 1000), pos, false));

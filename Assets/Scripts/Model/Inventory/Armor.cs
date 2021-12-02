@@ -44,15 +44,6 @@ public class Armor : Item
                     return ArmorSprites.Instance.knightArmor;
             }
         }
-        public override void Use()
-        {
-        throw new NotImplementedException();
-        }
-
-        public override void Equip()
-        {
-        throw new NotImplementedException();
-        }
 
         public override ItemAttribute GetItemAttributes()
         {
@@ -61,6 +52,11 @@ public class Armor : Item
                     AttributeName = "Armor",
                     ValueString = armor.ToString()
                 };
+        }
+
+        public override void Use(PlayerCharacter target)
+        {
+            target.EquipArmor(this);
         }
     }
 }

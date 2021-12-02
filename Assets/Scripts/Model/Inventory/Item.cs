@@ -43,13 +43,12 @@ namespace Model {
                 stackable = _stackable;
             }
         
-            public abstract void Use();
-            public abstract void Equip();
-
             public abstract Sprite GetSprite();
 
-            // Attributes to display in item hint
-            public abstract ItemAttribute GetItemAttributes();
+        public abstract void  Use(PlayerCharacter target);
+
+        // Attributes to display in item hint
+        public abstract ItemAttribute GetItemAttributes();
 
             public abstract System.Enum GetItemType();
 

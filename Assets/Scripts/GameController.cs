@@ -117,6 +117,7 @@ public class GameController : Singleton<GameController>
     {
         var prefab = PlayerCharacters.Instance.PlayerTypeToPrefab(data.PlayableType);
         var hero = Instantiate<HeroController>(prefab, new Vector3(xPos, 0, 0), Quaternion.identity);
+        hero.Name = data.Name;
         hero.Type = data.PlayableType;
         hero.Health = data.Health;
         hero.Level = data.Level;
@@ -131,12 +132,13 @@ public class GameController : Singleton<GameController>
     private EnemyCharacter CreateEnemyHero(EnemyData data, float xPos)
     {
         var prefab = EnemyCharacters.Instance.EnemyTypeToPrefab(data.EnemyType);
-        var hero = Instantiate<EnemyController>(prefab, new Vector3(xPos, 0, 0), Quaternion.identity);
-        hero.Health = data.Health;
-        hero.Level = data.Level;
-        hero.Type = data.EnemyType;
+        var enemy = Instantiate(prefab, new Vector3(xPos, 0, 0), Quaternion.identity);
+        enemy.Name = data.Name;
+        enemy.Health = data.Health;
+        enemy.Level = data.Level;
+        enemy.Type = data.EnemyType;
 
-        return hero;
+        return enemy;
     }
 
     // Start is called before the first frame update
@@ -305,7 +307,7 @@ public class GameController : Singleton<GameController>
         List <PlayableData> playableDatas= new List<PlayableData>();
         foreach(var player in playableHeroes.Characters)
         {
-            playableDatas.Add(new PlayableData(System.Guid.NewGuid().ToString(), player.Type, player.Level, player.Health, player.Experience, player.Weapon, player.Armor, player.Price));
+            playableDatas.Add(new PlayableData(player.Name, System.Guid.NewGuid().ToString(), player.Type, player.Level, player.Health, player.Experience, player.Weapon, player.Armor, player.Price));
         }
 
         MainStateManager.Instance.GameState.PlayableCharacters = playableDatas;

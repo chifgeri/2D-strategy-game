@@ -83,6 +83,16 @@ namespace Model {
         public float BaseDodgeChance { get => baseDodgeChance; set => baseDodgeChance = value; }
         public float BaseAccuracy { get => baseAccuracy; set => baseAccuracy = value; }
 
+        public virtual int GetCurrentDamage()
+        {
+            return Level * BaseDamage;
+        }
+
+        public virtual int GetCurrentArmor()
+        {
+            return Level * BaseArmor;
+        }
+
         protected virtual void Awake() { 
             var transform = this.GetComponent<Transform>();
 

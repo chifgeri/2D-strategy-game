@@ -38,9 +38,13 @@ public class MainStateManager : Singleton<MainStateManager>
             await LoadLevels();
         }
         gameState = new GameState(null, new List<PlayableData>()
-        { new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Axeman, 1, 100, 0, null, null, 1500),
-          new PlayableData(System.Guid.NewGuid().ToString(), PlayableTypes.Paladin, 1, 100, 0, null, null, 2000),
+        { new PlayableData("Geralt", System.Guid.NewGuid().ToString(), PlayableTypes.Axeman, 1, 100, 0, null, null, 1500),
+          new PlayableData("Lehnard", System.Guid.NewGuid().ToString(), PlayableTypes.Paladin, 1, 100, 0, null, null, 2000),
         }, null, false, true, new Vector3(0, 0, 0), money: 10000, inventory: new Inventory(15));
+
+        gameState.Inventory.AddItem(new Artifact("Egyedi", 2, 2000, ArtifactType.Necklace));
+        gameState.Inventory.AddItem(new Consumable("Little heal potion", 3, 150, ConsumableType.HealthPotion));
+
         SceneManager.LoadSceneAsync("TownScene");
 
     }
@@ -74,7 +78,7 @@ public class MainStateManager : Singleton<MainStateManager>
             foreach (var player in CurrentRound.PlayerGroup.Characters)
             {
                 var guid = System.Guid.NewGuid().ToString();
-                playables.Add(new PlayableData(guid, player.Type, player.Level, player.Health, player.Experience, player.Weapon, player.Armor, player.Price));
+                playables.Add(new PlayableData(player.Name, guid, player.Type, player.Level, player.Health, player.Experience, player.Weapon, player.Armor, player.Price));
                 dict[guid] = player;
                 if (player.IsNext)
                 {
@@ -85,7 +89,7 @@ public class MainStateManager : Singleton<MainStateManager>
             foreach (var enemy in CurrentRound.EnemyGroup.Characters)
             {
                 var guid = System.Guid.NewGuid().ToString();
-                enemies.Add(new EnemyData(guid, enemy.Type, enemy.Level, enemy.Health));
+                enemies.Add(new EnemyData(enemy.Name, guid, enemy.Type, enemy.Level, enemy.Health));
                 dict[guid] = enemy;
                 if (enemy.IsNext)
                 {
@@ -161,11 +165,14 @@ public class MainStateManager : Singleton<MainStateManager>
 
         if (GameState.CurrentLevel.Rooms.Any(room => !room.Cleared))
         {
-            StartCoroutine(LoadLevelAfterDelay("MapScene", 5.0f));
             GameState.IsInFight = false;
             GameState.IsInMap = true;
-        } else
+            GameState.CurrentRoomId = -1;
+            StartCoroutine(LoadLevelAfterDelay("MapScene", 5.0f));
+        }
+        else
         {
+            GameState.CurrentRoomId = -1;
             GameState.IsInFight = false;
             GameState.IsInMap = false;
             // Display Level cleared text
@@ -182,7 +189,7 @@ public class MainStateManager : Singleton<MainStateManager>
     {
         GameState.PlayableCharacters = new List<PlayableData>();
         GameState.CurrentLevel = null;
-        GameState.CurrentRoomId = 0;
+        GameState.CurrentRoomId = -1;
         GameState.FightData = null;
         GameState.IsInFight = false;
         GameState.IsInMap = false;

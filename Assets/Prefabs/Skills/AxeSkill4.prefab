@@ -50,5 +50,5 @@ MonoBehaviour:
   damageModifier: 1
   description: Self healing
   disabled: 1
-  validTargetsInTeam: 00000000
+  validTargetsInTeam: 01000000
   validTargetsInEnemy: 

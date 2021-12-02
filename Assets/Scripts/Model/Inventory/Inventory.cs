@@ -10,7 +10,7 @@ namespace Model {
     {
         [SerializeField]
         private int size;
-        [SerializeField]
+        [SerializeReference]
         private List<Item> items;
 
         public Inventory(int _size){

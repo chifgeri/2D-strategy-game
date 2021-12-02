@@ -78,7 +78,15 @@ public class HeroChooserController : MonoBehaviour
                     MessagePanel.Instance.ShowMessage("No more space in the team");
                     return;
                 }
-                playables.Add(selectedSlot.PlayableData);
+
+                if(input.text == null || input.text == "")
+                {
+                    MessagePanel.Instance.ShowMessage("Name is required to add a Hero");
+                    return;
+                }
+                var hero = selectedSlot.PlayableData;
+                hero.Name = input.text;
+                playables.Add(hero);
                 MainStateManager.Instance.GameState.Money -= selectedSlot.PlayableData.Price;
             }
         }

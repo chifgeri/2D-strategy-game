@@ -9,6 +9,8 @@ namespace UI {
         [SerializeField]
         private TMP_Text message;
 
+        private int timeToDismiss = 3;
+
         private float counter = 0;
 
         protected override void Awake()
@@ -22,12 +24,13 @@ namespace UI {
             gameObject.SetActive(false);
         }
 
-        public void ShowMessage(string text)
+        public void ShowMessage(string text, int seconds = 3)
         {
             if (!gameObject.activeInHierarchy)
             {
                 gameObject.SetActive(true);
                 message.text = text;
+                timeToDismiss = seconds;
             }
         }
 
@@ -43,8 +46,8 @@ namespace UI {
             if (gameObject.activeInHierarchy)
             {
                 counter += Time.deltaTime;
-                // Dismiss after 5 sec
-                if(counter >= 5)
+                // Dismiss after dismiss time
+                if(counter >= timeToDismiss)
                 {
                     Dismiss();
                 }

@@ -49,8 +49,17 @@ public class InventoryController : Singleton<InventoryController>
         ArmorUnequipped += armorSlot.UnequipArmor;
 
         inventoryPanel.ItemDraggedOutside += armorSlot.HandleMouseDrag;
+        inventoryPanel.ItemDoubleClick += this.HandleItemClick;
 
         inventory = MainStateManager.Instance.GameState.Inventory;
+    }
+
+    public void HandleItemClick(Item item)
+    {
+        if(item != null && selectedCharacter != null)
+        {
+            item.Use(selectedCharacter);
+        }
     }
 
     public void CharacterChanged(Character c){
@@ -67,44 +76,31 @@ public class InventoryController : Singleton<InventoryController>
         }
     }
 
-    public bool UnequipWeapon(){
-        if(selectedCharacter.Weapon != null && !inventory.isFull()){
-            Weapon temp = selectedCharacter.Weapon;
+    public bool UnequipWeapon()
+    {
+        if (selectedCharacter != null)
+        {
             selectedCharacter.UnequipWeapon();
-            inventory.AddItem(temp);
-        } else {
+        }
+        else
+        {
             return false;
         }
         WeaponUnequipped();
         return true;
     }
 
-     public void EquipWeapon(Weapon weapon){
+        public void EquipWeapon(Weapon weapon){
          if(selectedCharacter == null){
              Debug.Log("Nincs karakter kijelölve.");
          } else {
-            if(selectedCharacter.Weapon != null){
-                bool success = UnequipWeapon();
-                if(success){
-                    inventory.RemoveItem(weapon, false);
-                    WeaponEquipped(weapon);
-                } else {
-                    inventory.RemoveItem(weapon, false);
-                    inventory.AddItem(selectedCharacter.Weapon);
-                    WeaponEquipped(weapon);
-                }
-            } else {
-                inventory.RemoveItem(weapon, false);
-                WeaponEquipped(weapon);
-            }
+            selectedCharacter.EquipWeapon(weapon);
          }
     }
 
      public bool UnequipArmor(){
-        if(selectedCharacter.Armor != null && !inventory.isFull()){
-            Armor temp = selectedCharacter.Armor;
+        if(selectedCharacter != null ){
             selectedCharacter.UnequipArmor();
-            inventory.AddItem(temp);
         } else {
             return false;
         }
@@ -113,23 +109,13 @@ public class InventoryController : Singleton<InventoryController>
     }
 
      public void EquipArmor(Armor armor){
-         if(selectedCharacter == null){
-             Debug.Log("Nincs karakter kijelölve.");
-         } else {
-            if(selectedCharacter.Armor != null){
-                bool success = UnequipArmor();
-                if(success){
-                    inventory.RemoveItem(armor, false);
-                    ArmorEquipped(armor);
-                } else {
-                    inventory.RemoveItem(armor, false);
-                    inventory.AddItem(selectedCharacter.Armor);
-                    ArmorEquipped(armor);
-                }
-            } else {
-                inventory.RemoveItem(armor, false);
-                ArmorEquipped(armor);
-            }
-         }
+        if (selectedCharacter == null)
+        {
+            Debug.Log("Nincs karakter kijelölve.");
+        }
+        else
+        {
+            selectedCharacter.EquipArmor(armor);
+        }
     }
 }

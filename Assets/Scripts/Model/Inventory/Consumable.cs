@@ -21,15 +21,6 @@ namespace Model {
             type = _type;
         }
 
-        public override void Use()
-        {
-            throw new System.NotImplementedException();
-        }
-
-         public override void Equip()
-        {
-            return;
-        }
         public override Sprite GetSprite()
         {
             switch(type){
@@ -54,6 +45,19 @@ namespace Model {
         public override ItemAttribute GetItemAttributes()
         {
             return null;
+        }
+
+        public override void Use(PlayerCharacter target)
+        {
+            switch (type)
+            {
+                case ConsumableType.HealthPotion:
+                    target.Heal(20);
+                    MainStateManager.Instance.GameState.Inventory.RemoveItem(this, false);
+                    break;
+                case ConsumableType.DodgeBuff:
+                    break;
+            }
         }
     }
 

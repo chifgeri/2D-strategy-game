@@ -31,14 +31,6 @@ namespace Model {
                 this.damage = damage;
             }
 
-            override public void Use(){
-                return;
-            }
-
-            override public void Equip(){
-                return;
-            }
-
             public override Sprite GetSprite()
             {
                 switch(type){
@@ -71,6 +63,11 @@ namespace Model {
                     AttributeName = "Damage",
                     ValueString = Damage.ToString()
                 };
+        }
+
+        public override void Use(PlayerCharacter target)
+        {
+            target.EquipWeapon(this);
         }
     }
 

@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &781319142114801699
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3838678871435230596}
+  - component: {fileID: 6826953946900216741}
+  m_Layer: 0
+  m_Name: ArtifactSprites
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3838678871435230596
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781319142114801699}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 107.77506, y: 12.22654, z: -4294.064}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6826953946900216741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 781319142114801699}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8b56ecc8b6b59640b7b63b6ba0587d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  crystal: {fileID: 21300000, guid: 822c4b607c7b3e4418ab63ff750d1ec0, type: 3}
+  diamond: {fileID: 21300000, guid: d3538f791ecb81147b23abc7b550e4cb, type: 3}
+  key: {fileID: 21300000, guid: 8121da2e0f45c4548ae92f5f4bf15b0a, type: 3}
+  skull: {fileID: 21300000, guid: 00e8bd411a04e614ba74fe1d5d923ea0, type: 3}
+  mirror: {fileID: 21300000, guid: 28b13fbca69645e42b505033c8360e89, type: 3}
+  necklace: {fileID: 21300000, guid: 3b723c4c53de9b24484c28fc26b0df00, type: 3}
+  piramid: {fileID: 21300000, guid: 2621414fd754f4c41b0bb1dddabcb6e0, type: 3}
+  trophy: {fileID: 21300000, guid: ba1c5e4b85ae5d24b97ddc605a6dab64, type: 3}
+  latern: {fileID: 21300000, guid: 87c246edadca8ba4292557f7326681cd, type: 3}
+  ruby: {fileID: 21300000, guid: 1b1103b48575b4a4397ade27a2660633, type: 3}

@@ -39,7 +39,7 @@ public class LoadSavedGamesMenu : MonoBehaviour
         {
             var UI = savedGame1.GetComponent<SavedGameUI>();
             UI.Name.text = save1.Name.Split('.')[0]; ;
-            UI.LastModDate.text = save1.CreationTime.ToString("yyyy.MM.dd HH:mm");
+            UI.LastModDate.text = save1.LastWriteTime.ToString("yyyy.MM.dd HH:mm");
         } 
         else
         {
@@ -54,7 +54,7 @@ public class LoadSavedGamesMenu : MonoBehaviour
         {
             var UI = savedGame2.GetComponent<SavedGameUI>();
             UI.Name.text = save2.Name.Split('.')[0];
-            UI.LastModDate.text = save2.CreationTime.ToString("yyyy.MM.dd HH:mm");
+            UI.LastModDate.text = save2.LastWriteTime.ToString("yyyy.MM.dd HH:mm");
         }
         else
         {
@@ -68,7 +68,7 @@ public class LoadSavedGamesMenu : MonoBehaviour
         {
             var UI = savedGame3.GetComponent<SavedGameUI>();
             UI.Name.text = save3.Name.Split('.')[0]; ;
-            UI.LastModDate.text = save3.CreationTime.ToString("yyyy.MM.dd HH:mm");
+            UI.LastModDate.text = save3.LastWriteTime.ToString("yyyy.MM.dd HH:mm");
         }
         else
         {
@@ -86,34 +86,35 @@ public class LoadSavedGamesMenu : MonoBehaviour
         if (loadSaveType.Equals(LoadSaveType.Load)){
             title.text = "Load Saved Game";
             savedGame1.onClick.RemoveAllListeners();
-            savedGame1.onClick.AddListener(async () => { await SaveOrLoadGameHandler(savedGame1.GetComponent<SavedGameUI>().Name.text); });
+            savedGame1.onClick.AddListener(() => { SaveOrLoadGameHandler(savedGame1.GetComponent<SavedGameUI>().Name.text); });
             savedGame2.onClick.RemoveAllListeners();
-            savedGame2.onClick.AddListener(async () => { await SaveOrLoadGameHandler(savedGame2.GetComponent<SavedGameUI>().Name.text); });
+            savedGame2.onClick.AddListener(() => { SaveOrLoadGameHandler(savedGame2.GetComponent<SavedGameUI>().Name.text); });
             savedGame3.onClick.RemoveAllListeners();
-            savedGame3.onClick.AddListener(async () => { await SaveOrLoadGameHandler(savedGame3.GetComponent<SavedGameUI>().Name.text); });
+            savedGame3.onClick.AddListener(() => { SaveOrLoadGameHandler(savedGame3.GetComponent<SavedGameUI>().Name.text); });
         }
         if (loadSaveType.Equals(LoadSaveType.Save))
         {
             title.text = "Save Game";
             savedGame1.onClick.RemoveAllListeners();
-            savedGame1.onClick.AddListener(async () => { await SaveOrLoadGameHandler("save1"); });
+            savedGame1.onClick.AddListener(() => { SaveOrLoadGameHandler("save1"); });
             savedGame2.onClick.RemoveAllListeners();
-            savedGame2.onClick.AddListener(async () => { await SaveOrLoadGameHandler("save2"); });
+            savedGame2.onClick.AddListener(() => { SaveOrLoadGameHandler("save2"); });
             savedGame3.onClick.RemoveAllListeners();
-            savedGame3.onClick.AddListener(async () => { await SaveOrLoadGameHandler("save3"); });
+            savedGame3.onClick.AddListener(() => { SaveOrLoadGameHandler("save3"); });
         }
     }
 
 
-    public async Task SaveOrLoadGameHandler(string name)
+    public void SaveOrLoadGameHandler(string name)
     {
         if (interactionType.Equals(LoadSaveType.Save))
         {
-            await MainStateManager.Instance.SaveGameState(name + ".json");
+            MainStateManager.Instance.SaveGameState(name + ".json");
+            ListSavedGames();
         }
         if (interactionType.Equals(LoadSaveType.Load) && !name.Equals("Empty"))
         {
-           await MainStateManager.Instance.LoadGameState(name + ".json");
+           MainStateManager.Instance.LoadGameState(name + ".json");
         }
      }
 }

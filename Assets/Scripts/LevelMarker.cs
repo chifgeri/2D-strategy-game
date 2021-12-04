@@ -39,7 +39,7 @@ public class LevelMarker : MonoBehaviour
         gameObject.SetActive(true);
     }
 
-    public void OnClick()
+    private void OnMouseDown()
     {
         if(MainStateManager.Instance != null)
         {

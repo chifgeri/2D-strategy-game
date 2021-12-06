@@ -157,14 +157,17 @@ public class MainStateManager : Singleton<MainStateManager>
 
         if (gameState.IsInFight)
         {
-            LoadScene("RoomScene", 5);
+            LoadScene("RoomScene");
         }
 
         if (gameState.IsInMap)
         {
-            LoadScene("MapScene", 5);
+            LoadScene("MapScene");
         }
-
+        else
+        {
+            LoadScene("TownScene");
+        }
         sr.Close();
         fs.Close();
     }

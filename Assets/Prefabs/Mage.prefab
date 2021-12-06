@@ -125,7 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HBPrefab: {fileID: 6249955110512657900, guid: ab635689d2b4056418d352f17767d457, type: 3}
   IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}
-  animator: {fileID: 0}
+  healEffect: {fileID: 4638175459271050484, guid: ba98eea06543d2544a4d0468b1c050a9, type: 3}
   speed: 2
   level: 1
   baseDamage: 25
@@ -140,6 +140,7 @@ MonoBehaviour:
   - {fileID: 7081066724988697216, guid: 132a1cc51b72f8d49b0cf9b08010863f, type: 3}
   - {fileID: -1865025287589211731, guid: 9520de260765ddd4089fee6e5f6407ee, type: 3}
   XPPrefab: {fileID: 3033371483380849977, guid: 34b0ba2996338bb44af8d96e41197e4c, type: 3}
+  levelUpEffect: {fileID: 29631812770749741, guid: dbe7607a42b9f88418ba0b7c150aa6c6, type: 3}
 --- !u!95 &2925316910339992678
 Animator:
   serializedVersion: 3

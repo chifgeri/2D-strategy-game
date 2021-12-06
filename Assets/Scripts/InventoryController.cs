@@ -13,11 +13,9 @@ public delegate void ArmorUnequippedHandler();
 
 public class InventoryController : Singleton<InventoryController>
 {
-    public event WeaponEquippedHandler WeaponEquipped;
+
 
     public event WeaponUnequippedHandler WeaponUnequipped;
-
-    public event ArmorEquippedHandler ArmorEquipped;
 
     public event ArmorUnequippedHandler ArmorUnequipped;
 
@@ -40,12 +38,9 @@ public class InventoryController : Singleton<InventoryController>
     // Start is called before the first frame update
     void Start()
     {
-        WeaponEquipped += weaponSlot.EquipWeapon;
         WeaponUnequipped += weaponSlot.UnequipWeapon;
 
         inventoryPanel.ItemDraggedOutside += weaponSlot.HandleMouseDrag;
-
-        ArmorEquipped += armorSlot.EquipArmor;
         ArmorUnequipped += armorSlot.UnequipArmor;
 
         inventoryPanel.ItemDraggedOutside += armorSlot.HandleMouseDrag;
@@ -64,13 +59,7 @@ public class InventoryController : Singleton<InventoryController>
 
     public void CharacterChanged(Character c){
         if(c is PlayerCharacter){
-            if(selectedCharacter != null){
-                WeaponEquipped -= selectedCharacter.EquipWeapon;
-                ArmorEquipped -= selectedCharacter.EquipArmor;
-            }
             selectedCharacter = (PlayerCharacter)c;
-            WeaponEquipped += selectedCharacter.EquipWeapon;
-            ArmorEquipped += selectedCharacter.EquipArmor;
             weaponSlot.RefreshSlot(selectedCharacter);
             armorSlot.RefreshSlot(selectedCharacter);
         }

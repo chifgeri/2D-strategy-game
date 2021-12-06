@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7540630032688189130}
   - component: {fileID: 3356245373180132866}
   - component: {fileID: 4218535636531250570}
+  - component: {fileID: 6268951186184976739}
   m_Layer: 0
   m_Name: Archer
   m_TagString: Untagged
@@ -99,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HBPrefab: {fileID: 6249955110512657900, guid: ab635689d2b4056418d352f17767d457, type: 3}
   IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}
-  animator: {fileID: 0}
+  healEffect: {fileID: 4638175459271050484, guid: ba98eea06543d2544a4d0468b1c050a9, type: 3}
   speed: 4
   level: 1
   baseDamage: 25
@@ -114,6 +115,7 @@ MonoBehaviour:
   - {fileID: 7081066724988697216, guid: 132a1cc51b72f8d49b0cf9b08010863f, type: 3}
   - {fileID: -1865025287589211731, guid: 9520de260765ddd4089fee6e5f6407ee, type: 3}
   XPPrefab: {fileID: 3033371483380849977, guid: 34b0ba2996338bb44af8d96e41197e4c, type: 3}
+  levelUpEffect: {fileID: 29631812770749741, guid: dbe7607a42b9f88418ba0b7c150aa6c6, type: 3}
 --- !u!61 &3356245373180132866
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -130,7 +132,7 @@ BoxCollider2D:
   m_Offset: {x: 0.051709533, y: 1.6409717}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0.445377, y: 0.1814112}
+    pivot: {x: 0.43605113, y: 0.20809387}
     oldSize: {x: 5.37, y: 4.29}
     newSize: {x: 5.37, y: 4.29}
     adaptiveTilingThreshold: 0.5
@@ -159,3 +161,20 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &6268951186184976739
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 992766177945018530}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 967c27aa842691940a8cabc21dd853fa, type: 2}
+  - {fileID: 7400000, guid: 728e389213bb1ba41947b0435fe8a34c, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0

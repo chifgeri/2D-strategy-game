@@ -35,6 +35,9 @@ namespace Model
 
         protected ExperienceController XPBar;
 
+        [SerializeField]
+        private ParticleSystem levelUpEffect;
+
         public int Experience
         {
             get { return experience; }
@@ -56,6 +59,8 @@ namespace Model
         public Weapon Weapon { get => weapon; }
         public PlayableTypes Type { get => type; set => type = value; }
         public int Price { get => price; set => price = value; }
+
+      
 
 
         protected override void Awake()
@@ -156,18 +161,23 @@ namespace Model
         private void LevelUp()
         {
 
-            // TODO: Animation, effect, text
-            throw new NotImplementedException();
+            Level += 1;
+            levelUpEffect.transform.position = gameObject.transform.position;
+            levelUpEffect.Play();
         }
 
         public override void AttackAction(Character[] targets)
         {
             if (SelectedSkill)
             {
-                SelectedSkill.CastSkill(this, targets);
-                SelectedSkill = null;
-                CharacterActionDoneInvoke();
-                DisableSkills();
+                // animator.P(SelectedSkill.AniamtionClip.name);
+                StartCoroutine(PlayAnimationWithCallback("Attack", () =>
+                {
+                    SelectedSkill.CastSkill(this, targets);
+                    SelectedSkill = null;
+                    CharacterActionDoneInvoke();
+                    DisableSkills();
+                }));
             }
             else
             {

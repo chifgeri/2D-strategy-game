@@ -8,6 +8,8 @@ namespace Model {
 
     public abstract class SkillBase : MonoBehaviour {
         [SerializeField]
+        private Animation aniamtionClip;
+        [SerializeField]
         private Sprite icon;
         [SerializeField]
         private string name;
@@ -34,6 +36,7 @@ namespace Model {
         public List<int> ValidTargetsInTeam { get => validTargetsInTeam; }
         public List<int> ValidTargetsInEnemy { get => validTargetsInEnemy; }
         public string Name { get => name; set => name = value; }
+        public Animation AniamtionClip { get => aniamtionClip; set => aniamtionClip = value; }
 
         // This event notifies the Character Which Skill is casted currently
         public event SkillSelectedDelegate SkillSelected;

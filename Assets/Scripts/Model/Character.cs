@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UI;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine;
 namespace Model {
 
     public delegate void CharacterActionDoneDelegate(Character c);
+    public delegate void AnimationCallback();
+
 
     public abstract class Character : MonoBehaviour
     {
@@ -17,7 +20,10 @@ namespace Model {
 
         protected HealthBarController healthBar;
         protected NextMarker isNextMarker;
-        public Animator animator;
+        protected Animator animator;
+
+        [SerializeField]
+        protected ParticleSystem healEffect;
 
         private bool isSelected = false;
         private int health = 100;
@@ -37,6 +43,11 @@ namespace Model {
         private float baseDodgeChance;
         [SerializeField]
         private float baseAccuracy;
+
+
+        const string animBaseLayer = "Base Layer";
+        int attackAnimHash = Animator.StringToHash(animBaseLayer + ".Attack");
+        int dieAnimHash = Animator.StringToHash(animBaseLayer + ".Die");
 
         public bool IsSelected {
             get { return isSelected; }
@@ -83,6 +94,7 @@ namespace Model {
         public float BaseDodgeChance { get => baseDodgeChance; set => baseDodgeChance = value; }
         public float BaseAccuracy { get => baseAccuracy; set => baseAccuracy = value; }
 
+
         public virtual int GetCurrentDamage()
         {
             return Level * BaseDamage;
@@ -95,7 +107,7 @@ namespace Model {
 
         protected virtual void Awake() { 
             var transform = this.GetComponent<Transform>();
-
+            animator = this.GetComponent<Animator>();
             if (HBPrefab != null)
             {
                 healthBar = Instantiate<HealthBarController>(
@@ -137,7 +149,7 @@ namespace Model {
 
         public void Hit(int damage, Character caster)
         {
-            // TODO: Show information to user
+            animator.SetTrigger("Hit");
             FightTextManager.Instance.ShowText(damage.ToString(), gameObject.transform.position, TextType.Damage);
             Health -= damage;
             if(Health <= 0)
@@ -148,7 +160,8 @@ namespace Model {
 
         public void Heal(int amount)
         {
-            // TODO: Show information to user
+            healEffect.transform.position = gameObject.transform.position;
+            healEffect.Play();
             FightTextManager.Instance.ShowText(amount.ToString(), gameObject.transform.position, TextType.Heal);
             Health += amount;
         }
@@ -157,24 +170,61 @@ namespace Model {
         {
             this.CharacterActionDone(this);
         }
+
         public virtual void Die(Character caster)
         {
-
-            if(MessagePanel.Instance != null)
+            StartCoroutine(PlayAnimationWithCallback("Die", () =>
             {
-                MessagePanel.Instance.ShowMessage($"{caster.Name} killed {this.Name}");
-            }
+                if (MessagePanel.Instance != null)
+                {
+                    MessagePanel.Instance.ShowMessage($"{caster.Name} killed {this.Name}");
+                }
 
-            CharacterDieEvent(this);
+                CharacterDieEvent(this);
 
-            if (isNextMarker != null)
+                if (isNextMarker != null)
+                {
+                    Destroy(isNextMarker.gameObject);
+                }
+                if (healthBar != null)
+                {
+                    Destroy(healthBar.gameObject);
+                }
+                Destroy(this.gameObject);
+            }));
+        }
+
+        public IEnumerator PlayAnimationWithCallback(string stateName, AnimationCallback callback)
+        {
+            //Get hash of animation
+            int animHash = 0;
+            if (stateName == "Attack")
+                animHash = attackAnimHash;
+            else if (stateName == "Die")
+                animHash = dieAnimHash;
+
+            //targetAnim.Play(stateName);
+            animator.CrossFadeInFixedTime(stateName, 0.6f);
+
+            //Wait until we enter the current state
+            while (animator.GetCurrentAnimatorStateInfo(0).fullPathHash != animHash)
             {
-                Destroy(isNextMarker.gameObject);
+                yield return null;
             }
-            if (healthBar != null) {
-                Destroy(healthBar.gameObject);
+
+            float counter = 0;
+            float waitTime = animator.GetCurrentAnimatorStateInfo(0).length;
+
+            //Now, Wait until the current state is done playing
+            while (counter < (waitTime))
+            {
+                counter += Time.deltaTime;
+                yield return null;
             }
-            Destroy(this.gameObject);
+
+            //Done playing. Do something below!
+            Debug.Log("Done Playing");
+            callback();
         }
 
         public virtual void Select(){

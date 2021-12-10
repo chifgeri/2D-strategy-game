@@ -109,10 +109,13 @@ namespace Model {
             {
                 enemyGroup.RemoveCharacter(character1);
             }
+
+            CheckForWinOrLose();
+
             if (characterOrder.Contains(c))
             {
                 var queue = new Queue<Character>();
-                while (characterOrder.Count < 1)
+                while (characterOrder.Count > 0)
                 {
                     var temp = characterOrder.Dequeue();
                     if (!temp.Equals(c))
@@ -121,6 +124,17 @@ namespace Model {
                     }
                 }
                 characterOrder = queue;
+            }
+            if (current.Equals(c))
+            {
+                current = null;
+                if (characterOrder.Count > 0)
+                {
+                    SetNext();
+                } else
+                {
+                    CalculateOrder();
+                }
             }
         }
 
@@ -134,22 +148,7 @@ namespace Model {
         {
             c.IsNext = false;
 
-            if(playerGroup.Characters.Count <= 0)
-            {
-                // Players died its a lose
-                FightTextManager.Instance.ShowDefeatText();
-                MainStateManager.Instance.OnRoundLose();
-                GameController.Instance.SetPlaybeDataState();
-                return;
-            }
-            if(enemyGroup.Characters.Count <= 0)
-            {
-                // Enemies died its a win
-                FightTextManager.Instance.ShowWinText();
-                MainStateManager.Instance.OnRoundWin();
-                GameController.Instance.SetPlaybeDataState();
-                return;
-            }
+            CheckForWinOrLose();
 
             if (characterOrder.Count > 0)
             {
@@ -159,6 +158,26 @@ namespace Model {
             {
                 roundNumber++;
                 ResetRound();
+            }
+        }
+
+        public void CheckForWinOrLose()
+        {
+            if (playerGroup.Characters.Count <= 0)
+            {
+                // Players died its a lose
+                FightTextManager.Instance.ShowDefeatText();
+                MainStateManager.Instance.OnRoundLose();
+                GameController.Instance.SetPlaybeDataState();
+                return;
+            }
+            if (enemyGroup.Characters.Count <= 0)
+            {
+                // Enemies died its a win
+                FightTextManager.Instance.ShowWinText();
+                MainStateManager.Instance.OnRoundWin();
+                GameController.Instance.SetPlaybeDataState();
+                return;
             }
         }
     }

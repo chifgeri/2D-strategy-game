@@ -10,6 +10,11 @@ public class Singleton<T> : MonoBehaviour where T : Singleton<T>
         get { return instance; }
     }
 
+    public static void SetInstance(T inst)
+    {
+         instance = inst;
+    }
+
     public static bool IsInitialized {
         get { return instance != null; }
     }

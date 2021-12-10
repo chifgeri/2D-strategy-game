@@ -25,7 +25,6 @@ namespace Model {
                 get => damage;
             }
             // Buffs
-
             public Weapon(string _name, int damage, WeaponType _type, int _price): base(_name, _price, 1, false){
                 this.type = _type;
                 this.damage = damage;

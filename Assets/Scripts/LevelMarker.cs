@@ -16,7 +16,7 @@ public class LevelMarker : MonoBehaviour
     public void SetLevelNumber(int levelNumber, bool cleared)
     {
         currentLevel = levelNumber;
-        tmpro.text = $"Level {currentLevel}";
+        tmpro.text = $"Level {currentLevel+1}";
         if (cleared)
         {
             GetComponent<SpriteRenderer>().color = new Color(142 / 256, 142 / 256, 142 / 256);

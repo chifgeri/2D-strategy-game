@@ -13,8 +13,15 @@ public class ItemContainer : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     // Start is called before the first frame update
     public void SetItem(Item i)
     {
+        if(i == null)
+        {
+            item = i;
+            image.color = new Color(1, 1, 1, 0);
+            return;
+        }
         item = i;
         image.sprite = item.GetSprite();
+        image.color = new Color(1, 1, 1, 1);
     }
 
     public void OnPointerEnter(PointerEventData eventData)

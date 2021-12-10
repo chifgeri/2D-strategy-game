@@ -14,6 +14,7 @@ namespace Model {
         private int ExperienceValue;
 
         private bool InAttack = false;
+        private bool IsDieing = false;
 
         public override void AttackAction(Character [] targets)
         {
@@ -25,6 +26,7 @@ namespace Model {
                 if (behaviours != null && behaviours.Length != 0) {
                     InAttack = true;
                     StartCoroutine(PlayAnimationWithCallback("Attack", () => {
+                        IsInAction = true;
                         var index = UnityEngine.Random.Range(0, behaviours.Length);
                         var behaviour = behaviours[index];
                         behaviour.Action(this, playerCharacters.ToArray(), enemyCharacters.ToArray());
@@ -48,7 +50,7 @@ namespace Model {
         protected override void Update()
         {
             base.Update();
-            if (base.IsNext && !InAttack)
+            if (base.IsNext && !InAttack && !IsDieing)
             {
                 this.AttackAction(null);
             }
@@ -56,6 +58,7 @@ namespace Model {
 
         public override void Die(Character caster)
         {
+            IsDieing = true;
             if(caster is PlayerCharacter)
             {
                 var player = (PlayerCharacter)caster;

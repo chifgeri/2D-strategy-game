@@ -123,7 +123,7 @@ MonoBehaviour:
   healEffect: {fileID: 4638175459271050484, guid: ba98eea06543d2544a4d0468b1c050a9, type: 3}
   speed: 0
   level: 0
-  baseDamage: 25
+  baseDamage: 5
   baseArmor: 0
   baseCrit: 0
   baseStunResist: 0

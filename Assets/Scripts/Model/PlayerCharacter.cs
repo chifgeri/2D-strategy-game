@@ -106,7 +106,7 @@ namespace Model
             XPBar.SetValue(Experience / 1000.0f);
         }
 
-        public void EquipWeapon(Item i)
+        public bool EquipWeapon(Item i)
         {
          
             if (i is Weapon)
@@ -117,20 +117,24 @@ namespace Model
                     MainStateManager.Instance.GameState.Inventory.AddItem(weapon);
                 }
                 weapon = (Weapon)i;
+                return true;
             }
+            return false;
         }
 
-        public void EquipArmor(Item i)
+        public bool EquipArmor(Item i)
         {
-            if (i is Armor)
+            if (i is Armor armor1)
             {
                 if (armor != null)
                 {
                     MainStateManager.Instance.GameState.Inventory.RemoveItem(i, true);
                     MainStateManager.Instance.GameState.Inventory.AddItem(armor);
                 }
-                armor = (Armor)i;
+                armor = armor1;
+                return true;
             }
+            return false;
         }
 
         public void UnequipWeapon()
@@ -162,8 +166,9 @@ namespace Model
         {
 
             Level += 1;
-            levelUpEffect.transform.position = gameObject.transform.position;
-            levelUpEffect.Play();
+            var levelUp = Instantiate(levelUpEffect);
+            levelUp.transform.position = gameObject.transform.position;
+            levelUp.Play();
         }
 
         public override void AttackAction(Character[] targets)
@@ -173,6 +178,7 @@ namespace Model
                 // animator.P(SelectedSkill.AniamtionClip.name);
                 StartCoroutine(PlayAnimationWithCallback("Attack", () =>
                 {
+                    IsInAction = true;
                     SelectedSkill.CastSkill(this, targets);
                     SelectedSkill = null;
                     CharacterActionDoneInvoke();

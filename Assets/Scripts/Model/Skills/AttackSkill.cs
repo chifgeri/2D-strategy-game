@@ -13,23 +13,16 @@ namespace Model
         {
             if (Calculations.CalculateMiss(caster))
             {
-                // Display miss animation, effect
-                // caster.Miss()
                 return;
             }
 
             if (Calculations.CalculateDodge(caster, targets[0]))
             {
-                // Display dodge animation, effect
-                // target[0].Dodge()
                 return;
             }
 
             int dmg = Calculations.CalculateDamage(caster, targets[0], this.Damage, this.DamageModifier);
-            // Call attack animation
-            // caster.animator.SpearAttack1(targets[0]);
 
-            // Hit enemy
             targets[0].Hit(dmg, caster);
             return;
         }

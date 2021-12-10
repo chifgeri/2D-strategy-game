@@ -44,6 +44,8 @@ namespace Model {
         [SerializeField]
         private float baseAccuracy;
 
+        protected bool IsInAction = false;
+
 
         const string animBaseLayer = "Base Layer";
         int attackAnimHash = Animator.StringToHash(animBaseLayer + ".Attack");
@@ -160,8 +162,9 @@ namespace Model {
 
         public void Heal(int amount)
         {
-            healEffect.transform.position = gameObject.transform.position;
-            healEffect.Play();
+            var healEff = Instantiate(healEffect);
+            healEff.transform.position = gameObject.transform.position;
+            healEff.Play();
             FightTextManager.Instance.ShowText(amount.ToString(), gameObject.transform.position, TextType.Heal);
             Health += amount;
         }
@@ -169,44 +172,47 @@ namespace Model {
         protected void CharacterActionDoneInvoke()
         {
             this.CharacterActionDone(this);
+            this.IsInAction = false;
         }
 
         public virtual void Die(Character caster)
         {
             StartCoroutine(PlayAnimationWithCallback("Die", () =>
             {
-                if (MessagePanel.Instance != null)
-                {
-                    MessagePanel.Instance.ShowMessage($"{caster.Name} killed {this.Name}");
-                }
-
-                CharacterDieEvent(this);
-
-                if (isNextMarker != null)
-                {
-                    Destroy(isNextMarker.gameObject);
-                }
-                if (healthBar != null)
-                {
-                    Destroy(healthBar.gameObject);
-                }
-                Destroy(this.gameObject);
+                StartCoroutine(DieRoutine(caster));
             }));
+        }
+
+        private IEnumerator DieRoutine(Character caster)
+        {
+            if (MessagePanel.Instance != null)
+            {
+                MessagePanel.Instance.ShowMessage($"{caster.Name} killed {this.Name}");
+            }
+
+            yield return new WaitUntil(() => this.IsInAction == false);
+
+            CharacterDieEvent(this);
+
+            if (isNextMarker != null)
+            {
+                Destroy(isNextMarker.gameObject);
+            }
+            if (healthBar != null)
+            {
+                Destroy(healthBar.gameObject);
+            }
+            Destroy(this.gameObject);
         }
 
         public IEnumerator PlayAnimationWithCallback(string stateName, AnimationCallback callback)
         {
-            //Get hash of animation
             int animHash = 0;
             if (stateName == "Attack")
                 animHash = attackAnimHash;
             else if (stateName == "Die")
                 animHash = dieAnimHash;
-
-            //targetAnim.Play(stateName);
             animator.CrossFadeInFixedTime(stateName, 0.6f);
-
-            //Wait until we enter the current state
             while (animator.GetCurrentAnimatorStateInfo(0).fullPathHash != animHash)
             {
                 yield return null;
@@ -214,8 +220,6 @@ namespace Model {
 
             float counter = 0;
             float waitTime = animator.GetCurrentAnimatorStateInfo(0).length;
-
-            //Now, Wait until the current state is done playing
             while (counter < (waitTime))
             {
                 counter += Time.deltaTime;
@@ -223,7 +227,6 @@ namespace Model {
             }
 
             //Done playing. Do something below!
-            Debug.Log("Done Playing");
             callback();
         }
 

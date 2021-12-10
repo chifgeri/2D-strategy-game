@@ -20,6 +20,7 @@ namespace Model
         Trophy,
         Skull
     }
+    [Serializable]
     public class Artifact: Item
     {
         [SerializeField]

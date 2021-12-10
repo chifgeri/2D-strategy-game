@@ -19,6 +19,10 @@ public class InventoryController : Singleton<InventoryController>
 
     public event ArmorUnequippedHandler ArmorUnequipped;
 
+    public event WeaponEquippedHandler WeaponEquipped;
+
+    public event ArmorEquippedHandler ArmorEquipped;
+
     private PlayerCharacter selectedCharacter;
     
     public WeaponSlot weaponSlot;
@@ -33,6 +37,13 @@ public class InventoryController : Singleton<InventoryController>
             get {
                 return inventory;
             }
+    }
+
+    private void Awake()
+    {
+        var rectTrans = GetComponent<RectTransform>();
+        rectTrans.sizeDelta = new Vector2(1452, 612);
+
     }
 
     // Start is called before the first frame update
@@ -83,7 +94,11 @@ public class InventoryController : Singleton<InventoryController>
          if(selectedCharacter == null){
              Debug.Log("Nincs karakter kijelölve.");
          } else {
-            selectedCharacter.EquipWeapon(weapon);
+            bool success = selectedCharacter.EquipWeapon(weapon);
+            if (success)
+            {
+                WeaponEquipped(weapon);
+            }
          }
     }
 
@@ -104,7 +119,11 @@ public class InventoryController : Singleton<InventoryController>
         }
         else
         {
-            selectedCharacter.EquipArmor(armor);
+            bool success = selectedCharacter.EquipArmor(armor);
+            if (success)
+            {
+                ArmorEquipped(armor);
+            }
         }
     }
 }

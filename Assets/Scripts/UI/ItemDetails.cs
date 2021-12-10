@@ -26,6 +26,11 @@ public class ItemDetails : MonoBehaviour
 
     public void SetValues(Item item)
     {
+        if(item == null)
+        {
+            Clear();
+            return;
+        }
         itemName.text = item.Name;
         itemPrice.text = item.Price.ToString();
 

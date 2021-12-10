@@ -32,7 +32,9 @@ public class Doors : MonoBehaviour
         var tilemap = this.GetComponent<Tilemap>();
         var cell = tilemap.WorldToCell(new Vector3(position.x, position.y, position.z));
 
-        var room = TilemapGridController.Instance.Level.Rooms.Find(room => room.DoorPosition.Equals(new Vector2Int(cell.x, cell.y)));
+        var room = TilemapGridController.Instance.Level.Rooms.Find(
+            room => room.DoorPosition.Equals(new Vector2Int(cell.x, cell.y))
+        );
         if (room != null)
         {
             if (!room.Cleared)

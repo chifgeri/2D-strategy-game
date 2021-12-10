@@ -17,6 +17,7 @@ namespace Model {
             get;
             set;
         }
+        [SerializeField]
         private Image image;
 
         public void SetItem(Item i){
@@ -30,10 +31,6 @@ namespace Model {
             }
         }
 
-        private void Awake(){
-            image = GetComponent<Image>();
-        }
-
         public Item GetItem(){
             return item;
         }
@@ -41,8 +38,10 @@ namespace Model {
         public void SetImage(Sprite sprite){
             if(sprite != null){
                 image.sprite = sprite;
+                image.color = new Color(1, 1, 1, 1);
             }else {
                 image.sprite = null;
+                image.color = new Color(1, 1, 1, 0);
             }
         }
 

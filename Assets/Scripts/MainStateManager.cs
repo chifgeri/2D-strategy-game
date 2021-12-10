@@ -206,7 +206,10 @@ public class MainStateManager : Singleton<MainStateManager>
             GameState.CurrentRoomId = -1;
             GameState.IsInFight = false;
             GameState.IsInMap = false;
-            MessagePanel.Instance.ShowMessage("Congratulations! Level Cleared!");
+            if (MessagePanel.Instance != null)
+            {
+                MessagePanel.Instance.ShowMessage("Congratulations! Level Cleared!");
+            }
             GameState.CurrentLevel.Cleared = true;
             var level = levels.Find(level => level.LevelName == GameState.CurrentLevel.LevelName);
             level.Cleared = true;

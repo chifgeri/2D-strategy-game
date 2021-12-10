@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 4b2fbb97a38b9bf4a9ace69160b1665b, type: 3}
+  name: Bleeding Cut
   damage: 20
+  heal: 0
   damageModifier: 1.2
-  healModifier: 1
-  dodgeModifier: 1
   description: Bleeding attack
   disabled: 1
   validTargetsInTeam: 

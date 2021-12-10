@@ -1,10 +1,14 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using UI;
 using UnityEngine;
 
 namespace Model {
 
     public delegate void CharacterActionDoneDelegate(Character c);
+    public delegate void AnimationCallback();
+
 
     public abstract class Character : MonoBehaviour
     {
@@ -16,14 +20,17 @@ namespace Model {
 
         protected HealthBarController healthBar;
         protected NextMarker isNextMarker;
-        public Animator animator;
+        protected Animator animator;
+
+        [SerializeField]
+        protected ParticleSystem healEffect;
 
         private bool isSelected = false;
         private int health = 100;
         [SerializeField]
         private int speed;
         [SerializeField]
-        private int defaultLevel;
+        private int level;
         [SerializeField]
         private int baseDamage;
         [SerializeField]
@@ -37,10 +44,18 @@ namespace Model {
         [SerializeField]
         private float baseAccuracy;
 
+        protected bool IsInAction = false;
+
+
+        const string animBaseLayer = "Base Layer";
+        int attackAnimHash = Animator.StringToHash(animBaseLayer + ".Attack");
+        int dieAnimHash = Animator.StringToHash(animBaseLayer + ".Die");
+
         public bool IsSelected {
             get { return isSelected; }
-        } 
-        
+        }
+        public string Name { get; set; }
+
         public bool IsNext
         {
             get;
@@ -65,16 +80,15 @@ namespace Model {
         }
 
         public int Level{
-            get { return defaultLevel; }
+            get { return level; }
             set {
                 if(value >= 0 && value <= 10){
-                    defaultLevel = value;
+                    level = value;
                 }
             }
         }
 
         public int Speed { get => speed; set => speed = value; }
-        public int DefaultLevel { get => defaultLevel; set => defaultLevel = value; }
         public int BaseDamage { get => baseDamage; set => baseDamage = value; }
         public int BaseArmor { get => baseArmor; set => baseArmor = value; }
         public float BaseCrit { get => baseCrit; set => baseCrit = value; }
@@ -82,9 +96,20 @@ namespace Model {
         public float BaseDodgeChance { get => baseDodgeChance; set => baseDodgeChance = value; }
         public float BaseAccuracy { get => baseAccuracy; set => baseAccuracy = value; }
 
+
+        public virtual int GetCurrentDamage()
+        {
+            return Level * BaseDamage;
+        }
+
+        public virtual int GetCurrentArmor()
+        {
+            return Level * BaseArmor;
+        }
+
         protected virtual void Awake() { 
             var transform = this.GetComponent<Transform>();
-
+            animator = this.GetComponent<Animator>();
             if (HBPrefab != null)
             {
                 healthBar = Instantiate<HealthBarController>(
@@ -124,38 +149,85 @@ namespace Model {
             healthBar.SetValue(Health / 100.0f);
         }
 
-        public void Hit(int damage)
+        public void Hit(int damage, Character caster)
         {
-            // TODO: Show information to user
+            animator.SetTrigger("Hit");
+            FightTextManager.Instance.ShowText(damage.ToString(), gameObject.transform.position, TextType.Damage);
             Health -= damage;
             if(Health <= 0)
             {
-                Die();
+                Die(caster);
             }
         }
 
         public void Heal(int amount)
         {
-            // TODO: Show information to user
+            var healEff = Instantiate(healEffect);
+            healEff.transform.position = gameObject.transform.position;
+            healEff.Play();
+            FightTextManager.Instance.ShowText(amount.ToString(), gameObject.transform.position, TextType.Heal);
             Health += amount;
         }
         
         protected void CharacterActionDoneInvoke()
         {
             this.CharacterActionDone(this);
+            this.IsInAction = false;
         }
-        public virtual void Die()
+
+        public virtual void Die(Character caster)
         {
+            StartCoroutine(PlayAnimationWithCallback("Die", () =>
+            {
+                StartCoroutine(DieRoutine(caster));
+            }));
+        }
+
+        private IEnumerator DieRoutine(Character caster)
+        {
+            if (MessagePanel.Instance != null)
+            {
+                MessagePanel.Instance.ShowMessage($"{caster.Name} killed {this.Name}");
+            }
+
+            yield return new WaitUntil(() => this.IsInAction == false);
+
             CharacterDieEvent(this);
 
             if (isNextMarker != null)
             {
                 Destroy(isNextMarker.gameObject);
             }
-            if (healthBar != null) {
+            if (healthBar != null)
+            {
                 Destroy(healthBar.gameObject);
             }
             Destroy(this.gameObject);
+        }
+
+        public IEnumerator PlayAnimationWithCallback(string stateName, AnimationCallback callback)
+        {
+            int animHash = 0;
+            if (stateName == "Attack")
+                animHash = attackAnimHash;
+            else if (stateName == "Die")
+                animHash = dieAnimHash;
+            animator.CrossFadeInFixedTime(stateName, 0.6f);
+            while (animator.GetCurrentAnimatorStateInfo(0).fullPathHash != animHash)
+            {
+                yield return null;
+            }
+
+            float counter = 0;
+            float waitTime = animator.GetCurrentAnimatorStateInfo(0).length;
+            while (counter < (waitTime))
+            {
+                counter += Time.deltaTime;
+                yield return null;
+            }
+
+            //Done playing. Do something below!
+            callback();
         }
 
         public virtual void Select(){
@@ -178,5 +250,14 @@ namespace Model {
 
         public abstract void AttackAction(Character[] targets);
 
+
+        private void OnMouseOver()
+        {
+            FightTextManager.Instance.ShowDetailToCharacter(this);
+        }
+
+        private void OnMouseExit() {
+            FightTextManager.Instance.DisableDetail();
+        }
     }
 }

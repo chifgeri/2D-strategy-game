@@ -44,10 +44,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: c0c1cd73054937643aeb25fc5b06d54a, type: 3}
+  name: Axe swing
   damage: 10
+  heal: 0
   damageModifier: 1.1
-  healModifier: 1
-  dodgeModifier: 1
   description: Swinging attack for multiple targets
   disabled: 1
   validTargetsInTeam: 

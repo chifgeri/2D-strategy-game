@@ -118,15 +118,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HBPrefab: {fileID: 6249955110512657900, guid: ab635689d2b4056418d352f17767d457, type: 3}
   IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}
-  animator: {fileID: 0}
+  healEffect: {fileID: 4638175459271050484, guid: ba98eea06543d2544a4d0468b1c050a9, type: 3}
   speed: 0
-  defaultLevel: 0
+  level: 0
   baseDamage: 10
   baseArmor: 0
   baseCrit: 0
   baseStunResist: 0
   baseDodgeChance: 0
   baseAccuracy: 0
+  ExperienceValue: 100
 --- !u!61 &-4885016183497746811
 BoxCollider2D:
   m_ObjectHideFlags: 0

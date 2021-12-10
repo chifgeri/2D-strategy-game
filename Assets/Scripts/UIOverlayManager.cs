@@ -1,12 +1,18 @@
 ﻿using UnityEngine;
 using Model;
 using System.Collections.Generic;
+using TMPro;
 
 public class UIOverlayManager : Singleton<UIOverlayManager>
 {
-
+    [SerializeField]
+    ItemContainer itemContainerPrefab;
     GameObject UIOverlay;
     public SkillSlot slotPrefab;
+    [SerializeField]
+    private GameObject moneyPanel;
+    [SerializeField]
+    public TMP_Text moneyValue;
 
     public List<SkillSlot> skillSlots;
 
@@ -36,6 +42,19 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
         }
     }
 
+    public void ShowLootItemsAndMoney(List<Item> items, int money)
+    {
+        moneyPanel.SetActive(true);
+        moneyValue.text = money.ToString();
+        float posOffset = itemContainerPrefab.GetComponent<RectTransform>().rect.width + 24f;
+        for(int i = 0; i < items.Count; i++)
+        {
+            var itemContainer = Instantiate(itemContainerPrefab, new Vector3(i % 2 == 0 ? i* -posOffset : i*posOffset, 0, 3), Quaternion.identity, UIOverlay.transform);
+            itemContainer.GetComponent<RectTransform>().anchoredPosition = new Vector3(i % 2 == 0 ? i * -posOffset : i * posOffset, 0, 3);
+            itemContainer.SetItem(items[i]);
+        }
+    }
+
     public void CreateSkillSlots(){
         SkillPanel panel = UIOverlay.GetComponentInChildren<SkillPanel>();
         float skillCellSize = 130f;
@@ -53,15 +72,19 @@ public class UIOverlayManager : Singleton<UIOverlayManager>
         }
     }
 
-    public void ShowCharacterInfo(Character c){
-        
-    }
-
     public void RefreshInventory(Inventory inventory){
         InventoryPanel panel = UIOverlay.GetComponentInChildren<InventoryPanel>();
     
         if(panel != null){
             panel.RefreshItems(inventory);
+        }
+    }
+
+    private void Update()
+    {
+        if (MainStateManager.Instance?.GameState?.Inventory != null)
+        {
+            RefreshInventory(MainStateManager.Instance?.GameState?.Inventory);
         }
     }
 }

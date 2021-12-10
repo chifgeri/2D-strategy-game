@@ -21,19 +21,19 @@ namespace Assets.Scripts.Behaviours
                     if (!Calculations.CalculateMiss(caster) && !Calculations.CalculateDodge(caster, players[players.Length - 1]))
                     {
                         var dmg = Calculations.CalculateDamage(caster, players[players.Length - 1]);
-                        players[players.Length - 1].Hit(dmg);
+                        players[players.Length - 1].Hit(dmg, caster);
                     }
                     if (!Calculations.CalculateMiss(caster) && !Calculations.CalculateDodge(caster, players[players.Length - 2]))
                     {
                         var dmg = Calculations.CalculateDamage(caster, players[players.Length - 2]);
-                        players[players.Length - 2].Hit(dmg);
+                        players[players.Length - 2].Hit(dmg, caster);
                     }
 
                     // Call effects, hit animation etc.
                 }
                 else
                 {
-                    players[0].Hit(caster.BaseDamage * caster.Level);
+                    players[0].Hit(caster.BaseDamage * caster.Level, caster);
                 }
             }
         }

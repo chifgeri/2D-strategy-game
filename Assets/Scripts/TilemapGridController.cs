@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using TMPro;
 using System;
+using Utils;
 
 public class TilemapGridController : Singleton<TilemapGridController>
 {
@@ -12,6 +13,8 @@ public class TilemapGridController : Singleton<TilemapGridController>
     Tilemap[] tilemaps;
     public TMP_InputField input;
     public TMP_InputField minLvlInput;
+    [SerializeField]
+    private IsometricCharacterRenderer character;
 
     public Map Level { get => level; }
 
@@ -29,7 +32,8 @@ public class TilemapGridController : Singleton<TilemapGridController>
             BuildTilemaps.SetUpTileMaps(tilemaps, MainStateManager.Instance.GameState.CurrentLevel);
             MainStateManager.Instance.GameState.IsInMap = true;
             MainStateManager.Instance.GameState.IsInFight = false;
-
+            var position = MainStateManager.Instance.GameState.LastPosition;
+            character.gameObject.transform.SetPositionAndRotation(new Vector3(position.x, position.y, 2.5f), Quaternion.identity);
         }
     }
 
@@ -109,9 +113,28 @@ public class TilemapGridController : Singleton<TilemapGridController>
             List<EnemyData> enemies = new List<EnemyData>();
             for (int i = 0; i < enemyCount; i++)
             {
-                enemies.Add(new EnemyData(System.Guid.NewGuid().ToString(), enemyTypes[UnityEngine.Random.Range(0, enemyTypes.Count - 1)], UnityEngine.Random.Range(minLvl, maxLvl+1), 100));
+                var type = enemyTypes[UnityEngine.Random.Range(0, enemyTypes.Count - 1)];
+                enemies.Add(new EnemyData(type.ToString(), System.Guid.NewGuid().ToString(), type , UnityEngine.Random.Range(minLvl, maxLvl+1), 100));
             }
-            rooms.Add(new Room(id, enemies, new List<Item>(), UnityEngine.Random.Range(100, map.LevelRequirement * 1000), pos, false));
+
+            int lootCount = UnityEngine.Random.Range(1, 4);
+            var items = new List<Item>();
+
+            for(int i = 0; i < lootCount; i++)
+            {
+                float random = UnityEngine.Random.Range(0.0f, 1.0f);
+                if(random < 0.15f)
+                {
+                    items.Add(ItemDictionary.weapons[(i+1) * map.LevelRequirement]);
+                } else if(random > 0.15f && random < 0.30f)
+                {
+                    items.Add(ItemDictionary.armors[(i+1) * map.LevelRequirement]);
+                } else if (random > 0.30f)
+                {
+                   items.Add(ItemDictionary.artifacts[(i+1) * map.LevelRequirement % ItemDictionary.artifacts.Count]);
+                }
+            }
+            rooms.Add(new Room(id, enemies, items, UnityEngine.Random.Range(100, map.LevelRequirement * 1000), pos, false));
 
             id++;
         }

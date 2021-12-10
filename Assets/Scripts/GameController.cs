@@ -111,20 +111,20 @@ public class GameController : Singleton<GameController>
             hero.CharacterNewSpellEvent += this.characterChangedSpell;
         }
         MainStateManager.Instance.CurrentRound = round;
-        Debug.Log(MainStateManager.Instance.CurrentRound.RoundNumber);
-
     }
 
     private PlayerCharacter CreatePlayerHero(PlayableData data, float xPos)
     {
         var prefab = PlayerCharacters.Instance.PlayerTypeToPrefab(data.PlayableType);
         var hero = Instantiate<HeroController>(prefab, new Vector3(xPos, 0, 0), Quaternion.identity);
+        hero.Name = data.Name;
         hero.Type = data.PlayableType;
         hero.Health = data.Health;
         hero.Level = data.Level;
         hero.Experience = data.Experience;
         hero.EquipWeapon(data.Weapon);
         hero.EquipArmor(data.Armor);
+        hero.Price = data.Price;
 
         return hero;
     }
@@ -132,12 +132,13 @@ public class GameController : Singleton<GameController>
     private EnemyCharacter CreateEnemyHero(EnemyData data, float xPos)
     {
         var prefab = EnemyCharacters.Instance.EnemyTypeToPrefab(data.EnemyType);
-        var hero = Instantiate<EnemyController>(prefab, new Vector3(xPos, 0, 0), Quaternion.identity);
-        hero.Health = data.Health;
-        hero.Level = data.Level;
-        hero.Type = data.EnemyType;
+        var enemy = Instantiate(prefab, new Vector3(xPos, 0, 0), Quaternion.identity);
+        enemy.Name = data.Name;
+        enemy.Health = data.Health;
+        enemy.Level = data.Level;
+        enemy.Type = data.EnemyType;
 
-        return hero;
+        return enemy;
     }
 
     // Start is called before the first frame update
@@ -152,8 +153,10 @@ public class GameController : Singleton<GameController>
          }
 
         CharacterChanged += UIOverlayManager.Instance.RefreshSkills;
-        CharacterChanged += UIOverlayManager.Instance.ShowCharacterInfo;
-        CharacterChanged += InventoryController.Instance.CharacterChanged;
+        if (InventoryController.Instance != null)
+        {
+            CharacterChanged += InventoryController.Instance.CharacterChanged;
+        }
     }
 
     // Update is called once per frame
@@ -204,7 +207,7 @@ public class GameController : Singleton<GameController>
     public void DisplayTargetMarkers()
     {
          // Display marker under valid targets   
-          foreach (int target in selected.SelectedSkill.validTargetsInTeam)
+          foreach (int target in selected.SelectedSkill.ValidTargetsInTeam)
           {
               if (playableHeroes.Characters.Count >= target+1)
               {
@@ -224,7 +227,7 @@ public class GameController : Singleton<GameController>
               }
           }
     
-          foreach (int target in selected.SelectedSkill.validTargetsInEnemy)
+          foreach (int target in selected.SelectedSkill.ValidTargetsInEnemy)
           {
               if (enemyHeroes.Characters.Count >= target+1)
               {
@@ -262,6 +265,10 @@ public class GameController : Singleton<GameController>
     {
         if (selected != null)
         {
+            if (selected.Equals(target))
+            {
+                return;
+            }
             selected.UnSelect();
         }
         selected = target;
@@ -296,5 +303,16 @@ public class GameController : Singleton<GameController>
     private void characterChangedSpell(Character c)
     {
         RemoveTargetMarkers();
+    }
+
+    public void SetPlaybeDataState()
+    {
+        List <PlayableData> playableDatas= new List<PlayableData>();
+        foreach(var player in playableHeroes.Characters)
+        {
+            playableDatas.Add(new PlayableData(player.Name, System.Guid.NewGuid().ToString(), player.Type, player.Level, player.Health, player.Experience, player.Weapon, player.Armor, player.Price));
+        }
+
+        MainStateManager.Instance.GameState.PlayableCharacters = playableDatas;
     }
 }

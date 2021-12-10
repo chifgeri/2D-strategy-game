@@ -14,7 +14,6 @@ namespace Model {
         [SerializeField]
         private Group<EnemyCharacter> enemyGroup;
         Character current;
-
         [SerializeField]
         private int roundNumber;
 
@@ -45,7 +44,7 @@ namespace Model {
             this.roundNumber = roundNumber;
         }
 
-        private void calculateOrder() {
+        private void CalculateOrder() {
             // First comes the playable characters then the enemies
             List<Character> characters = new List<Character>();
             characters.AddRange(playerGroup.Characters);
@@ -70,7 +69,8 @@ namespace Model {
 
         public void InitRound()
         {
-            calculateOrder();
+            roundNumber = 1;
+            CalculateOrder();
             InitEvents();
             SetNext();
         }
@@ -80,13 +80,11 @@ namespace Model {
             foreach (PlayerCharacter c in playerGroup.Characters)
             {
                 c.CharacterActionDone += CharacterActionDone;
-
                 c.CharacterDieEvent += OnCharacterDied;
             }
             foreach (EnemyCharacter c in enemyGroup.Characters)
             {
                 c.CharacterActionDone += CharacterActionDone;
-
                 c.CharacterDieEvent += OnCharacterDied;
             }
         }
@@ -111,10 +109,13 @@ namespace Model {
             {
                 enemyGroup.RemoveCharacter(character1);
             }
+
+            CheckForWinOrLose();
+
             if (characterOrder.Contains(c))
             {
                 var queue = new Queue<Character>();
-                while (characterOrder.Count < 1)
+                while (characterOrder.Count > 0)
                 {
                     var temp = characterOrder.Dequeue();
                     if (!temp.Equals(c))
@@ -124,11 +125,22 @@ namespace Model {
                 }
                 characterOrder = queue;
             }
+            if (current.Equals(c))
+            {
+                current = null;
+                if (characterOrder.Count > 0)
+                {
+                    SetNext();
+                } else
+                {
+                    CalculateOrder();
+                }
+            }
         }
 
         public void ResetRound()
         {
-            calculateOrder();
+            CalculateOrder();
             SetNext();
         }
 
@@ -136,19 +148,7 @@ namespace Model {
         {
             c.IsNext = false;
 
-            if(playerGroup.Characters.Count <= 0)
-            {
-                // Players died its a lose
-                // TODO: Scene váltás a main képernyóre
-                return;
-            }
-            if(enemyGroup.Characters.Count <= 0)
-            {
-                // Enemies died its a win
-                Debug.Log("Win");
-                // TODO: scene váltás, reward valalami
-                return;
-            }
+            CheckForWinOrLose();
 
             if (characterOrder.Count > 0)
             {
@@ -158,6 +158,26 @@ namespace Model {
             {
                 roundNumber++;
                 ResetRound();
+            }
+        }
+
+        public void CheckForWinOrLose()
+        {
+            if (playerGroup.Characters.Count <= 0)
+            {
+                // Players died its a lose
+                FightTextManager.Instance.ShowDefeatText();
+                MainStateManager.Instance.OnRoundLose();
+                GameController.Instance.SetPlaybeDataState();
+                return;
+            }
+            if (enemyGroup.Characters.Count <= 0)
+            {
+                // Enemies died its a win
+                FightTextManager.Instance.ShowWinText();
+                MainStateManager.Instance.OnRoundWin();
+                GameController.Instance.SetPlaybeDataState();
+                return;
             }
         }
     }

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 217177824379661383}
   - component: {fileID: 2621990817906060974}
   - component: {fileID: 4885020392018778162}
+  - component: {fileID: -936196667254087701}
   m_Layer: 0
   m_Name: Golem
   m_TagString: Untagged
@@ -120,15 +121,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HBPrefab: {fileID: 6249955110512657900, guid: ab635689d2b4056418d352f17767d457, type: 3}
   IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}
-  animator: {fileID: 0}
+  healEffect: {fileID: 4638175459271050484, guid: ba98eea06543d2544a4d0468b1c050a9, type: 3}
   speed: 0
-  defaultLevel: 1
-  baseDamage: 50
+  level: 0
+  baseDamage: 0
   baseArmor: 0
   baseCrit: 0
   baseStunResist: 0
   baseDodgeChance: 0
   baseAccuracy: 0
+  ExperienceValue: 400
 --- !u!61 &217177824379661383
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -179,3 +181,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a32e49ac2d543b3419a877fc5ed0993a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!111 &-936196667254087701
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3464356119396580958}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 90d367dd5d5af0b46b3948fc19e9bdd4, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 6286f22c14c847047aac24ff1e71e57f, type: 2}
+  - {fileID: 7400000, guid: 90d367dd5d5af0b46b3948fc19e9bdd4, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0

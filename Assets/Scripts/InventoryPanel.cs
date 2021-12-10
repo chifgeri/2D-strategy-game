@@ -7,6 +7,8 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public delegate bool ItemDraggedOutsideHandler(Vector2 mousePosition, Item item);
+public delegate void ItemDoubleClickHandler(Item item);
+
 
 public class InventoryPanel : MonoBehaviour
 {
@@ -22,9 +24,11 @@ public class InventoryPanel : MonoBehaviour
 
   static int SLOT_WIDTH = 80;
 
-  public event ItemDraggedOutsideHandler ItemDraggedOutside;
+    public event ItemDraggedOutsideHandler ItemDraggedOutside;
+    public event ItemDoubleClickHandler ItemDoubleClick;
 
-  private void Awake() {
+
+    private void Awake() {
     slots = new Dictionary<int, InventorySlot>();
 
     var rectTrans = this.gameObject.GetComponent<RectTransform>();
@@ -48,23 +52,31 @@ public class InventoryPanel : MonoBehaviour
         AddEvent(slot, EventTriggerType.BeginDrag, delegate { OnDragStart(slot); });
         AddEvent(slot, EventTriggerType.EndDrag, delegate { OnDragEnd(slot, InventoryController.Instance.Inventory); });
         AddEvent(slot, EventTriggerType.Drag, delegate { OnDrag(slot); });
+        AddEvent(slot, EventTriggerType.PointerClick, delegate (BaseEventData eventData) { OnPointerClick((PointerEventData)eventData, slot); });
     }
   }
 
-  public void RefreshItems(Inventory inventory){
-    var items = inventory.GetItems();
-    int i = 0;
-    foreach(var item in items){
-        if(i>=15){
-          break;
+    private void Update()
+    {
+        if (MainStateManager.Instance?.GameState?.Inventory != null) {
+            RefreshItems(MainStateManager.Instance.GameState.Inventory);
         }
-        slots[i].SetItem(item);
-        if(item != null){
-          slots[i].SetImage(item.GetSprite());
-          slots[i].SetAmount(item.Amount);
-        }
-        i++;
     }
+
+    public void RefreshItems(Inventory inventory){
+        var items = inventory.GetItems();
+        int i = 0;
+        foreach(var item in items){
+            if(i>=15){
+              break;
+            }
+            slots[i].SetItem(item);
+            if(item != null){
+              slots[i].SetImage(item.GetSprite());
+              slots[i].SetAmount(item.Amount);
+            }
+            i++;
+        }
   }
 
 
@@ -128,5 +140,13 @@ public class InventoryPanel : MonoBehaviour
       mouseObject.gameObject.GetComponent<RectTransform>().position = Input.mousePosition;
     }
   }
+
+    private void OnPointerClick(PointerEventData eventData, InventorySlot slot)
+    {
+        if(eventData.clickCount == 2)
+        {
+            ItemDoubleClick(slot.GetItem());
+        }
+    }
 
 }

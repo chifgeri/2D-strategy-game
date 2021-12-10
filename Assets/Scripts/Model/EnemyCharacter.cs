@@ -10,6 +10,12 @@ namespace Model {
 
         public EnemyTypes Type { get => type; set => type = value; }
 
+        [SerializeField]
+        private int ExperienceValue;
+
+        private bool InAttack = false;
+        private bool IsDieing = false;
+
         public override void AttackAction(Character [] targets)
         {
             if (MainStateManager.Instance.CurrentRound != null) {
@@ -18,31 +24,47 @@ namespace Model {
 
                 var behaviours = this.GetComponents<IBaseBehaviour>();
                 if (behaviours != null && behaviours.Length != 0) {
-                    // Randomly selected behaviour in each round
-                    var index = UnityEngine.Random.Range(0, behaviours.Length);
-                    Debug.Log(behaviours.Length);
-                    Debug.Log(index);
-                    var behaviour = behaviours[index];
-                    behaviour.Action(this, playerCharacters.ToArray(), enemyCharacters.ToArray()); 
+                    InAttack = true;
+                    StartCoroutine(PlayAnimationWithCallback("Attack", () => {
+                        IsInAction = true;
+                        var index = UnityEngine.Random.Range(0, behaviours.Length);
+                        var behaviour = behaviours[index];
+                        behaviour.Action(this, playerCharacters.ToArray(), enemyCharacters.ToArray());
+                        InAttack = false;
+                        CharacterActionDoneInvoke();
+                    }));
+                   
                 } else
                 {
                     Debug.LogError("No behaviour on Enemy");
+                    CharacterActionDoneInvoke();
                 }
             } else
             {
                 Debug.LogError("Not in a fight (current round is null)");
             }
 
-            CharacterActionDoneInvoke();
+            
         }
 
         protected override void Update()
         {
             base.Update();
-            if (base.IsNext)
+            if (base.IsNext && !InAttack && !IsDieing)
             {
                 this.AttackAction(null);
             }
+        }
+
+        public override void Die(Character caster)
+        {
+            IsDieing = true;
+            if(caster is PlayerCharacter)
+            {
+                var player = (PlayerCharacter)caster;
+                player.Experience += ExperienceValue;
+            }
+            base.Die(caster);
         }
     }
 }

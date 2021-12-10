@@ -19,7 +19,7 @@ namespace Assets.Scripts.Behaviours
                 if (!Calculations.CalculateMiss(caster) && !Calculations.CalculateDodge(caster, target))
                 {
                     var dmg = Calculations.CalculateDamage(caster, target);
-                    target.Hit(dmg);
+                    target.Hit(dmg, caster);
                 }
             }
         }

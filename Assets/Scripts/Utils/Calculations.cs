@@ -14,16 +14,16 @@ namespace Assets.Scripts.Utils
         {
             if (UnityEngine.Random.value <= 0.2 - (0.1 * caster.Level / 10.0f))
             {
-                Debug.Log("Missed");
+                FightTextManager.Instance.ShowText("Missed", caster.transform.position, TextType.Miss);
                 return true;
             }
             return false;
         }
 
-        public static bool CalculateDodge(Character caster, Character target, float dodgeModifier = 1.0f)
+        public static bool CalculateDodge(Character caster, Character target)
         {
             float dodgeChance = target.BaseDodgeChance * 0.5f * target.Level / 10.0f;
-            float casterAccuracy = caster.BaseAccuracy + 0.5f * caster.Level / 10.0f * dodgeModifier;
+            float casterAccuracy = caster.BaseAccuracy + 0.5f * caster.Level / 10.0f;
 
             var possibility = dodgeChance * (1 - casterAccuracy);
             float rand = UnityEngine.Random.value;
@@ -31,6 +31,7 @@ namespace Assets.Scripts.Utils
             Debug.Log($"Possibility: {possibility}");
             if (rand <= possibility)
             {
+                FightTextManager.Instance.ShowText("Dodge", target.transform.position, TextType.Dodge);
                 return true;
             }
 
@@ -39,7 +40,7 @@ namespace Assets.Scripts.Utils
 
         public static int CalculateDamage(Character caster, Character target, int plusDamage = 0, float damageModifier = 1.0f)
         {
-            var dmg = (caster.BaseDamage * caster.Level + plusDamage - target.BaseArmor) * damageModifier;
+            var dmg = (caster.GetCurrentDamage() + plusDamage - target.GetCurrentArmor()) * damageModifier;
             if (dmg < 0)
             {
                 dmg = 0;

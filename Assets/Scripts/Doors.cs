@@ -13,23 +13,7 @@ public class Doors : MonoBehaviour
     {
         if (!sceneIsLoading)
         {
-            var position = collision.gameObject.transform.position;
-
-            var tilemap = this.GetComponent<Tilemap>();
-            var cell = tilemap.WorldToCell(new Vector3(position.x, position.y, position.z));
-
-            var room = TilemapGridController.Instance.Level.Rooms.Find(room => room.DoorPosition.Equals(new Vector2Int(cell.x, cell.y)));
-            if (room != null)
-            {
-                if (!room.Cleared)
-                {
-                    sceneIsLoading = true;
-                    MainStateManager.Instance.GameState.CurrentRoomId = room.RoomId;
-                    MainStateManager.Instance.GameState.IsInMap = false;
-                    MainStateManager.Instance.GameState.IsInFight = true;
-                    SceneManager.LoadSceneAsync("RoomScene");
-                }
-            }
+            LoadRoom(collision);
         }
     }
 
@@ -37,22 +21,29 @@ public class Doors : MonoBehaviour
     {
         if (!sceneIsLoading)
         {
-            var position = collision.gameObject.transform.position;
+            LoadRoom(collision);
+        }
+    }
 
-            var tilemap = this.GetComponent<Tilemap>();
-            var cell = tilemap.WorldToCell(new Vector3(position.x, position.y, position.z));
+    private void LoadRoom(Collider2D collision)
+    {
+        var position = collision.gameObject.transform.position;
 
-            var room = TilemapGridController.Instance.Level.Rooms.Find(room => room.DoorPosition.Equals(new Vector2Int(cell.x, cell.y)));
-            if (room != null)
+        var tilemap = this.GetComponent<Tilemap>();
+        var cell = tilemap.WorldToCell(new Vector3(position.x, position.y, position.z));
+
+        var room = TilemapGridController.Instance.Level.Rooms.Find(
+            room => room.DoorPosition.Equals(new Vector2Int(cell.x, cell.y))
+        );
+        if (room != null)
+        {
+            if (!room.Cleared)
             {
-                if (!room.Cleared)
-                {
-                    sceneIsLoading = true;
-                    MainStateManager.Instance.GameState.CurrentRoomId = room.RoomId;
-                    MainStateManager.Instance.GameState.IsInMap = false;
-                    MainStateManager.Instance.GameState.IsInFight = true;
-                    SceneManager.LoadSceneAsync("RoomScene");
-                }
+                sceneIsLoading = true;
+                MainStateManager.Instance.GameState.CurrentRoomId = room.RoomId;
+                MainStateManager.Instance.GameState.IsInMap = false;
+                MainStateManager.Instance.GameState.IsInFight = true;
+                MainStateManager.Instance.LoadScene("RoomScene");
             }
         }
     }

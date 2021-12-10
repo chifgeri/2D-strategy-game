@@ -18,13 +18,15 @@ public class Armor : Item
         [SerializeField]
         private ArmorType type;
 
-        public Armor(string _name, int _price, int _armor, ArmorType _type): base(_name, _price, 1, false) {
+        public int ArmorValue { get => armor; }
+
+        public Armor(string _name, int _armor, ArmorType _type, int _price) : base(_name, _price, 1, false) {
             armor = _armor;
             type = _type;
         }
 
           public override Item Clone(int amount){
-            return new Armor(this.Name, this.Price, this.armor, this.type);
+            return new Armor(this.Name, this.armor, this.type, this.Price);
         }
         
         public override Enum GetItemType()
@@ -42,14 +44,19 @@ public class Armor : Item
                     return ArmorSprites.Instance.knightArmor;
             }
         }
-        public override void Use()
+
+        public override ItemAttribute GetItemAttributes()
         {
-        throw new NotImplementedException();
+            return new ItemAttribute()
+                {
+                    AttributeName = "Armor",
+                    ValueString = armor.ToString()
+                };
         }
 
-        public override void Equip()
+        public override void Use(PlayerCharacter target)
         {
-        throw new NotImplementedException();
+            target.EquipArmor(this);
         }
     }
 }

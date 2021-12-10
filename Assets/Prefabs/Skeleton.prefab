@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 1005761156266516495}
   - component: {fileID: 764079956949681435}
   - component: {fileID: 3364271241313323764}
+  - component: {fileID: 7915281772667294555}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Untagged
@@ -120,15 +121,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HBPrefab: {fileID: 6249955110512657900, guid: ab635689d2b4056418d352f17767d457, type: 3}
   IsNextPrefab: {fileID: -5174178159671518606, guid: 0e1f0f53185de6f43a944c53c11bc091, type: 3}
-  animator: {fileID: 0}
+  healEffect: {fileID: 4638175459271050484, guid: ba98eea06543d2544a4d0468b1c050a9, type: 3}
   speed: 0
-  defaultLevel: 0
-  baseDamage: 15
+  level: 0
+  baseDamage: 5
   baseArmor: 0
   baseCrit: 0
   baseStunResist: 0
   baseDodgeChance: 0
   baseAccuracy: 0
+  ExperienceValue: 100
 --- !u!61 &1005761156266516495
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -179,3 +181,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7fc9221c6e905d499f86889db68c75e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!111 &7915281772667294555
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138666218989398587}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 2caa2adf407f9824492ff88922010388, type: 2}
+  - {fileID: 7400000, guid: bdaa9fb18975f2c4aa0d1c0a2b2e97d3, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0

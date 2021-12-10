@@ -10,14 +10,14 @@ namespace Model {
     {
         [SerializeField]
         private int size;
-        [SerializeField]
+        [SerializeReference]
         private List<Item> items;
 
         public Inventory(int _size){
             size = _size;
             items = new List<Item>(_size);
             // Prefill with nulls
-            for(int i = 0; i<=size; i++){
+            for(int i = 0; i<size; i++){
                 items.Add(null);
             }
         }
@@ -26,30 +26,32 @@ namespace Model {
             return items;
         }
         public void AddItem(Item i){
-                if(i.Stackable){
-                    int index = items.FindIndex(0, items.Count, delegate (Item item) {
-                        if( item != null){
-                            return item.GetItemType().Equals(i.GetItemType());
-                        } else {
-                            return false;
-                        }
-                    });
-                    if(index >= 0){
-                        items[index].Amount+=i.Amount;
-                        return;
+            if(i == null)
+            {
+                return;
+            }
+            if(i.Stackable){
+                int index = items.FindIndex(0, items.Count, delegate (Item item) {
+                    if( item != null){
+                        return item.GetItemType().Equals(i.GetItemType());
+                    } else {
+                        return false;
                     }
-                }
-                int idx = items.FindIndex(delegate (Item it){
-                    return it == null;
                 });
-
-                if(idx > size-1 || idx < 0){
-                    Debug.Log("[Inventory]: Size limit reached!");
-                } else {
-                    items[idx] = i;
+                if(index >= 0){
+                    items[index].Amount+=i.Amount;
+                    return;
                 }
-
-            UIOverlayManager.Instance.RefreshInventory(this);
+            }
+            int idx = items.FindIndex(delegate (Item it){
+                return it == null;
+            });
+         
+            if(idx > size-1 || idx < 0){
+                Debug.Log("[Inventory]: Size limit reached!");
+            } else {
+                items[idx] = i;
+            }
         }
 
         public void MoveItem(Item item, int from, int to, bool preventUnstack){
@@ -85,7 +87,6 @@ namespace Model {
                 }
 
             }
-            UIOverlayManager.Instance.RefreshInventory(this);
         }
 
         public void RemoveItem(Item item, bool preventUnstack){
@@ -103,8 +104,6 @@ namespace Model {
             } else {
                 items[indx] = null;
             }
-
-            UIOverlayManager.Instance.RefreshInventory(this);
         }
 
         public bool isFull(){

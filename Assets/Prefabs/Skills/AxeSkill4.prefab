@@ -44,11 +44,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   icon: {fileID: 21300000, guid: 3b2e3a2be9258f2479b4b654b78e4af2, type: 3}
+  name: Heroic strike
   damage: 20
+  heal: 0
   damageModifier: 1
-  healModifier: 1.15
-  dodgeModifier: 1
   description: Self healing
   disabled: 1
-  validTargetsInTeam: 00000000
+  validTargetsInTeam: 01000000
   validTargetsInEnemy: 

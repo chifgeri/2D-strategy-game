@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ namespace Model
     {
         public event CharacterNewSpellDelegate CharacterNewSpellEvent;
 
-        private int experience;
+        private int experience = 0;
 
         private Armor armor;
 
@@ -27,40 +28,29 @@ namespace Model
 
         public SkillBase SelectedSkill { get; set; }
 
-        public void EquipWeapon(Item i)
-        {
-            if (i is Weapon)
-            {
-                weapon = (Weapon)i;
-            }
-        }
+        private int price;
 
-        public void EquipArmor(Item i)
-        {
-            if (i is Armor)
-            {
-                armor = (Armor)i;
-            }
-        }
+        [SerializeField]
+        private ExperienceController XPPrefab;
 
-        public void UnequipWeapon()
-        {
-            weapon = null;
-        }
+        protected ExperienceController XPBar;
 
-        public void UnequipArmor()
-        {
-            armor = null;
-        }
+        [SerializeField]
+        private ParticleSystem levelUpEffect;
 
         public int Experience
         {
             get { return experience; }
             set
             {
-                if (value >= 0 && value <= 1000)
+                if (value >= 0 && value < 1000)
                 {
                     experience = value;
+                }
+                if (value >= 1000)
+                {
+                    experience = 0;
+                    LevelUp();
                 }
             }
         }
@@ -68,6 +58,10 @@ namespace Model
         public Armor Armor { get => armor; }
         public Weapon Weapon { get => weapon; }
         public PlayableTypes Type { get => type; set => type = value; }
+        public int Price { get => price; set => price = value; }
+
+      
+
 
         protected override void Awake()
         {
@@ -87,16 +81,109 @@ namespace Model
                     skills.Add(null);
                 }
             }
+
+            if (XPPrefab != null)
+            {
+                XPBar = Instantiate(
+                        XPPrefab,
+                        new Vector3(
+                            transform.position.x,
+                            -(0.15f+Math.Abs(XPPrefab.GetComponent<RectTransform>().rect.height/2)
+                            +Math.Abs(HBPrefab.GetComponent<RectTransform>().rect.height/2)),
+                            3),
+                         Quaternion.identity);
+            }
+            else
+            {
+                Debug.Log($"XPBar is NULL on {gameObject.name}");
+            }
+        }
+
+        protected override void Update()
+        {
+            base.Update();
+
+            XPBar.SetValue(Experience / 1000.0f);
+        }
+
+        public bool EquipWeapon(Item i)
+        {
+         
+            if (i is Weapon)
+            {
+                if (weapon != null)
+                {
+                    MainStateManager.Instance.GameState.Inventory.RemoveItem(i, true);
+                    MainStateManager.Instance.GameState.Inventory.AddItem(weapon);
+                }
+                weapon = (Weapon)i;
+                return true;
+            }
+            return false;
+        }
+
+        public bool EquipArmor(Item i)
+        {
+            if (i is Armor armor1)
+            {
+                if (armor != null)
+                {
+                    MainStateManager.Instance.GameState.Inventory.RemoveItem(i, true);
+                    MainStateManager.Instance.GameState.Inventory.AddItem(armor);
+                }
+                armor = armor1;
+                return true;
+            }
+            return false;
+        }
+
+        public void UnequipWeapon()
+        {
+            if (weapon != null)
+            {
+                if (!MainStateManager.Instance.GameState.Inventory.isFull())
+                { 
+                    MainStateManager.Instance.GameState.Inventory.AddItem(weapon);
+                    weapon = null;
+                }
+            }
+        }
+
+        public void UnequipArmor()
+        {
+            if (armor != null)
+            {
+                if (!MainStateManager.Instance.GameState.Inventory.isFull())
+                {
+                    MainStateManager.Instance.GameState.Inventory.AddItem(armor);
+                    armor = null;
+                }
+            }
+        }
+
+   
+        private void LevelUp()
+        {
+
+            Level += 1;
+            var levelUp = Instantiate(levelUpEffect);
+            levelUp.transform.position = gameObject.transform.position;
+            levelUp.Play();
         }
 
         public override void AttackAction(Character[] targets)
         {
             if (SelectedSkill)
             {
-                SelectedSkill.CastSkill(this, targets);
-                SelectedSkill = null;
-                CharacterActionDoneInvoke();
-                DisableSkills();
+                // animator.P(SelectedSkill.AniamtionClip.name);
+                StartCoroutine(PlayAnimationWithCallback("Attack", () =>
+                {
+                    IsInAction = true;
+                    SelectedSkill.CastSkill(this, targets);
+                    SelectedSkill = null;
+                    CharacterActionDoneInvoke();
+                    DisableSkills();
+                }));
             }
             else
             {
@@ -131,7 +218,7 @@ namespace Model
         {
             foreach (var skill in skills)
             {
-                skill.disabled = false;
+                skill.Disabled = false;
             }
         }
 
@@ -139,9 +226,19 @@ namespace Model
         {
             foreach (var skill in skills)
             {
-                skill.disabled = true;
+                skill.Disabled = true;
             }
 
+        }
+
+        public override int GetCurrentDamage()
+        {
+            return base.GetCurrentDamage() + (weapon?.Damage ?? 0);
+        }
+
+        public override int GetCurrentArmor()
+        {
+            return base.GetCurrentDamage() + (armor?.ArmorValue ?? 0);
         }
 
         public override void SetNext()

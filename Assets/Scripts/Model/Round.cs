@@ -27,6 +27,7 @@ namespace Model {
         public Group<PlayerCharacter> PlayerGroup { get => playerGroup; }
         public Group<EnemyCharacter> EnemyGroup { get => enemyGroup; }
         public Queue<Character> CharacterOrder { get => characterOrder; }
+        public Character Current { get => current; }
 
         public Round(Group<PlayerCharacter> players, Group<EnemyCharacter> enemies) {
             playerGroup = players;
@@ -89,7 +90,7 @@ namespace Model {
             }
         }
 
-        private void SetNext()
+        public void SetNext()
         {
             if(current != null)
             {
@@ -99,7 +100,7 @@ namespace Model {
             current.SetNext();
         }
 
-        private void OnCharacterDied(Character c)
+        public void OnCharacterDied(Character c)
         {
             if (c is PlayerCharacter character && playerGroup.Characters.Contains(character))
             {

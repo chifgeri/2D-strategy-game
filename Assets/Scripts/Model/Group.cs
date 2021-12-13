@@ -28,7 +28,10 @@ namespace Model {
         }
 
         public void AddCharacter(T character){
-            characters.Add(character);
+            if(characters.Count < 4 && character != null)
+            {
+                characters.Add(character);
+            }
         }
 
         public void RemoveCharacter(T character)

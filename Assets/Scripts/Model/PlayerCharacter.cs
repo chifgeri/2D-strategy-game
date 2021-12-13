@@ -166,9 +166,12 @@ namespace Model
         {
 
             Level += 1;
-            var levelUp = Instantiate(levelUpEffect);
-            levelUp.transform.position = gameObject.transform.position;
-            levelUp.Play();
+            if (levelUpEffect != null)
+            {
+                var levelUp = Instantiate(levelUpEffect);
+                levelUp.transform.position = gameObject.transform.position;
+                levelUp.Play();
+            }
         }
 
         public override void AttackAction(Character[] targets)
@@ -193,16 +196,29 @@ namespace Model
 
         public void SelectSkill(SkillBase skill)
         {
-            if (IsNext)
+            if (skills.Contains(skill))
             {
-                SelectedSkill = skill;
-                CharacterNewSpellEvent(this);
+                if (IsNext)
+                {
+                    SelectedSkill = skill;
+                    if (CharacterNewSpellEvent != null)
+                    {
+                        CharacterNewSpellEvent(this);
+                    }
+                }
+            } else
+            {
+                Debug.LogWarning("Wrong skill selected!");
             }
         }
 
         public void setSkill(SkillBase skill, int position)
         {
-            if (position < 0 && position > 3)
+            if(skill == null)
+            {
+                return;
+            }
+            if (position < 0 || position > 3)
             {
                 throw new System.Exception("Wrong position given!");
             }
@@ -238,7 +254,7 @@ namespace Model
 
         public override int GetCurrentArmor()
         {
-            return base.GetCurrentDamage() + (armor?.ArmorValue ?? 0);
+            return base.GetCurrentArmor() + (armor?.ArmorValue ?? 0);
         }
 
         public override void SetNext()

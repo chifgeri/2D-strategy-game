@@ -153,10 +153,8 @@ public class GameController : Singleton<GameController>
          }
 
         CharacterChanged += UIOverlayManager.Instance.RefreshSkills;
-        if (InventoryController.Instance != null)
-        {
-            CharacterChanged += InventoryController.Instance.CharacterChanged;
-        }
+        CharacterChanged += InventoryController.Instance.CharacterChanged;
+        
     }
 
     // Update is called once per frame

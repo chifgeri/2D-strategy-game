@@ -151,6 +151,11 @@ namespace Model {
 
         public void Hit(int damage, Character caster)
         {
+            if(damage < 0)
+            {
+                Debug.LogWarning("Negative damage");
+                return;
+            }
             animator.SetTrigger("Hit");
             FightTextManager.Instance.ShowText(damage.ToString(), gameObject.transform.position, TextType.Damage);
             Health -= damage;
@@ -162,9 +167,17 @@ namespace Model {
 
         public void Heal(int amount)
         {
-            var healEff = Instantiate(healEffect);
-            healEff.transform.position = gameObject.transform.position;
-            healEff.Play();
+            if (amount < 0)
+            {
+                Debug.LogWarning("Negative healing");
+                return;
+            }
+            if (healEffect != null)
+            {
+                var healEff = Instantiate(healEffect);
+                healEff.transform.position = gameObject.transform.position;
+                healEff.Play();
+            }
             FightTextManager.Instance.ShowText(amount.ToString(), gameObject.transform.position, TextType.Heal);
             Health += amount;
         }

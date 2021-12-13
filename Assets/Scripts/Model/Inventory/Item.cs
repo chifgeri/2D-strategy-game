@@ -45,13 +45,13 @@ namespace Model {
         
             public abstract Sprite GetSprite();
 
-        public abstract void  Use(PlayerCharacter target);
+         public abstract void  Use(PlayerCharacter target);
 
         // Attributes to display in item hint
-        public abstract ItemAttribute GetItemAttributes();
+         public abstract ItemAttribute GetItemAttributes();
 
-            public abstract System.Enum GetItemType();
+         public abstract System.Enum GetItemType();
 
-            public abstract Item Clone(int amount);
+         public abstract Item Clone(int amount);
     }
 }

@@ -135,10 +135,10 @@ MonoBehaviour:
   baseDodgeChance: 0.4
   baseAccuracy: 0.5
   skillPrefabs:
-  - {fileID: 2731825515746962063, guid: 9f809d84cef5d8f4fb2657b816986688, type: 3}
-  - {fileID: 4147555713690438608, guid: 5b602eaa8ba69e04094d0b45f0fcb010, type: 3}
-  - {fileID: 7081066724988697216, guid: 132a1cc51b72f8d49b0cf9b08010863f, type: 3}
-  - {fileID: -1865025287589211731, guid: 9520de260765ddd4089fee6e5f6407ee, type: 3}
+  - {fileID: 5024680130295098338, guid: ee9e6d1ba56497d4cbc96d32a27562f4, type: 3}
+  - {fileID: 2605376526510880330, guid: 0494d7c41f82aae4d9865ecb90acbcd4, type: 3}
+  - {fileID: 7209756785392842164, guid: 5fe5692117321fb4fae1cb0745c6d33a, type: 3}
+  - {fileID: 6369030045233686577, guid: 9ad3c0a3b56dbf245b9b29f50b80643a, type: 3}
   XPPrefab: {fileID: 3033371483380849977, guid: 34b0ba2996338bb44af8d96e41197e4c, type: 3}
   levelUpEffect: {fileID: 29631812770749741, guid: dbe7607a42b9f88418ba0b7c150aa6c6, type: 3}
 --- !u!95 &8129840279523670246

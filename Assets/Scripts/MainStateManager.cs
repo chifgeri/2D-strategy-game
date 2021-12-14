@@ -179,7 +179,14 @@ public class MainStateManager : Singleton<MainStateManager>
 
     public void OnRoundWin()
     {
-        var room = GameState.CurrentLevel.Rooms.Find(room => room.RoomId == GameState.CurrentRoomId);
+        var room = GameState.CurrentLevel.Rooms?.Find(room => room.RoomId == GameState.CurrentRoomId);
+
+        if(room == null)
+        {
+            StartCoroutine(LoadSceneAfterDelaySec("MapScene", 3.0f));
+            return;
+        }
+
         room.Cleared = true;
 
         if (room.LootItems.Count > 0)
